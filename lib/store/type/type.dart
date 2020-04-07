@@ -34,7 +34,6 @@ abstract class TypeMobx with Store {
     var req = HttpRequest(API.BASE_SK_URL);
     final res = await req.get(url);
     this.type = SkType.fromJson(res);
-    print(this.type);
     this.isLoading = false;
   }
 }

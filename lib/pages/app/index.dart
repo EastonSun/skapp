@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import './../../store/type/type.dart';
+import './../../utils/map.dart';
+import './../classify/index.dart';
 
 ///这个页面是作为整个APP的最外层的容器，以Tab为基础控制每个item的显示与隐藏
 class App extends StatefulWidget {
@@ -11,41 +13,36 @@ class App extends StatefulWidget {
   }
 }
 
-class _Item {
-  String name;
-  Icon activeIcon, normalIcon;
-  _Item(this.name, this.activeIcon, this.normalIcon);
-}
-
 class _App extends State<App> {
   final Type store = Type();
 
   List<Widget> _pageList;
-  final itemNames = [
-    _Item(
-      '热映',
-      Icon(Icons.flight_takeoff),
-      Icon(Icons.flight_land),
-    ),
-  ];
 
   List<BottomNavigationBarItem> itemList = [];
 
-  void requestAPI() async {
+  Future<dynamic> requestAPI() async {
     await store.fetchData();
     if (store.type != null && store.type.code == 200) {
       itemList = store.type.data
           .map((item) => BottomNavigationBarItem(
-              icon: Icon(Icons.flight_takeoff),
+              icon: typeMap[item.typeEn] != null
+                  ? typeMap[item.typeEn]['normalIcon']
+                  : typeMap['normal']['normalIcon'],
               title: Text(
                 item.typeName,
                 style: TextStyle(fontSize: 10),
               ),
-              activeIcon: Icon(Icons.flight_takeoff)
-              //Image.asset(item.activeIcon, width: 30.0, height: 30.0)))
-              ))
+              activeIcon: typeMap[item.typeEn] != null
+                  ? typeMap[item.typeEn]['activeIcon']
+                  : typeMap['normal']['activeIcon']))
           .toList();
-      print(itemList);
+      if (_pageList == null) {
+        _pageList = store.type.data
+            .map((item) => Classify(
+                  typeId: item.typeId,
+                ))
+            .toList();
+      }
     }
   }
 
@@ -53,13 +50,6 @@ class _App extends State<App> {
   void initState() {
     super.initState();
     requestAPI();
-    if (_pageList == null) {
-      _pageList = [
-        Text('热映', textDirection: TextDirection.ltr),
-        Text('找片', textDirection: TextDirection.ltr),
-        Text('我的', textDirection: TextDirection.ltr)
-      ];
-    }
   }
 
   int _selectIndex = 0;
@@ -85,9 +75,6 @@ class _App extends State<App> {
                   ///这里根据点击的index来显示，非index的page均隐藏
                   setState(() {
                     _selectIndex = index;
-                    //这个是用来控制比较特别的shopPage中WebView不能动态隐藏的问题
-                    //shopPageWidget.setShowState(
-                    //    _pageList.indexOf(shopPageWidget) == _selectIndex);
                   });
                 },
                 //图标大小

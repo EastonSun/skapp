@@ -12,6 +12,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import './../../dao/classify_type_dao.dart';
+import './../../dao/vod_list_dao.dart';
 import './../../http/API.dart';
 import './../../http/http_request.dart';
 
@@ -22,12 +23,31 @@ class ClassifyStore = ClassifyStoreMobx with _$ClassifyStore;
 
 abstract class ClassifyStoreMobx with Store {
   String typeUrl = API.CLASSIFY_TYPE_URL; // 子分类
+  String vodUrl = API.VOD_LIST_URL; // 列表
 
   @observable
   bool isLoading = true;
 
   @observable
+  bool isVodLoading = true;
+
+  @observable
   ClassifyTypeDao type; // 分类
+
+  @observable
+  VodListDao vodData; // 获取电影列表
+
+  @observable
+  var vodDataLists = []; // 获取电影列表
+
+  @observable
+  num qPage = 1;
+
+  @observable
+  num qLimit = 10;
+
+  @observable
+  String qType = 'hot';
 
   @action
   Future<dynamic> fetchTypeData({@required typeId}) async {
@@ -38,7 +58,36 @@ abstract class ClassifyStoreMobx with Store {
   }
 
   @action
+  Future<dynamic> fetchVodData({@required typeId}) async {
+    var req = HttpRequest(API.BASE_SK_URL);
+    String query = '?typeId=$typeId&page=$qPage&limit=$qLimit&type=$qType';
+    final res = await req.get(vodUrl + query);
+    this.vodData = VodListDao.fromJson(res);
+    vodDataLists.addAll(this.vodData.data);
+  }
+
+  @action
+  void changeQuery({page, limit = 10, type = 'hot'}) {
+    qPage = page;
+    qLimit = limit;
+    qType = type;
+  }
+
+  @action
   void changeLoading() {
     this.isLoading = false;
+  }
+
+  @action
+  void changeVodLoading() {
+    this.isVodLoading = false;
+  }
+
+  @action
+  void resetData() {
+    qPage = 1;
+    qLimit = 10;
+    qType = 'hot';
+    vodDataLists = [];
   }
 }

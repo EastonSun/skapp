@@ -9,18 +9,20 @@ class Classify extends StatefulWidget {
   Classify({Key key, @required this.typeId}) : super(key: key);
 
   @override
-  _ClassifyState createState() => _ClassifyState();
+  _ClassifyState createState() => _ClassifyState(typeId);
 }
 
 class _ClassifyState extends State<Classify>
     with SingleTickerProviderStateMixin {
+  num typeId;
+  _ClassifyState(this.typeId);
   TabController tabController;
   final ClassifyStore store = ClassifyStore();
   List<Tab> myTabs = <Tab>[];
   List<Widget> myTabsView = <Widget>[];
 
   Future<dynamic> requestAPI() async {
-    await store.fetchTypeData(typeId: widget.typeId);
+    await store.fetchTypeData(typeId: typeId);
 
     if (store.type != null && store.type.code == 200) {
       if (myTabs.length == 0) {
@@ -36,7 +38,7 @@ class _ClassifyState extends State<Classify>
         // 初始化
         myTabsView = store.type.data
             .map(
-              (item) => SKList(),
+              (item) => SKList(typeId: item.typeId),
             )
             .toList();
 
@@ -53,14 +55,7 @@ class _ClassifyState extends State<Classify>
 
   _onTabChanged() {
     if (this.tabController.index.toDouble() ==
-        this.tabController.animation.value) {
-      // if (this.tabController.index + 1 > store.myTabsViewTemp.length) {
-      //   store.changeCurrentIndex(this.tabController.index);
-      //   store.changeTabsView(SKList());
-      //   print(this.tabController.index);
-      //   print(store.myTabsView);
-      // }
-    }
+        this.tabController.animation.value) {}
   }
 
   @override

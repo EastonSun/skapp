@@ -35,6 +35,10 @@ abstract class ClassifyStoreMobx with Store {
     var req = HttpRequest(API.BASE_SK_URL);
     final res = await req.get(typeUrl + typeId.toString());
     this.type = ClassifyTypeDao.fromJson(res);
+  }
+
+  @action
+  void changeLoading() {
     this.isLoading = false;
   }
 }

@@ -51,6 +51,19 @@ mixin _$ClassifyStore on ClassifyStoreMobx, Store {
         .run(() => super.fetchTypeData(typeId: typeId));
   }
 
+  final _$ClassifyStoreMobxActionController =
+      ActionController(name: 'ClassifyStoreMobx');
+
+  @override
+  void changeLoading() {
+    final _$actionInfo = _$ClassifyStoreMobxActionController.startAction();
+    try {
+      return super.changeLoading();
+    } finally {
+      _$ClassifyStoreMobxActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     final string =

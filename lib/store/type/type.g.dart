@@ -50,6 +50,18 @@ mixin _$Type on TypeMobx, Store {
     return _$fetchDataAsyncAction.run(() => super.fetchData());
   }
 
+  final _$TypeMobxActionController = ActionController(name: 'TypeMobx');
+
+  @override
+  void changeLoading() {
+    final _$actionInfo = _$TypeMobxActionController.startAction();
+    try {
+      return super.changeLoading();
+    } finally {
+      _$TypeMobxActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     final string =

@@ -9,7 +9,6 @@
               3. 实时更新.g文件: flutter packages pub run build_runner watch
  */
 
-import 'package:flutter/cupertino.dart';
 import 'package:mobx/mobx.dart';
 import './../../dao/type_dao.dart';
 import './../../http/API.dart';
@@ -35,6 +34,10 @@ abstract class TypeMobx with Store {
     var req = HttpRequest(API.BASE_SK_URL);
     final res = await req.get(url);
     this.type = SkType.fromJson(res);
+  }
+
+  @action
+  void changeLoading() {
     this.isLoading = false;
   }
 }

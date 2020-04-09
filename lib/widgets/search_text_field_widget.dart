@@ -20,18 +20,19 @@ class SearchTextFieldWidget extends StatelessWidget {
       alignment: Alignment.center,
       height: ScreenUtils.screenH(context) * 0.04,
       decoration: BoxDecoration(
-          color: Color.fromARGB(255, 237, 236, 237),
-          borderRadius: BorderRadius.circular(4.0)),
+        color: Color.fromARGB(255, 237, 236, 237),
+        borderRadius: BorderRadius.circular(4.0),
+      ),
       child: TextField(
         onSubmitted: onSubmitted,
         onTap: onTab,
         cursorColor: Color.fromARGB(255, 0, 189, 96),
         decoration: InputDecoration(
-            contentPadding: EdgeInsets.only(top: 0.0),
+            // contentPadding: EdgeInsets.only(top: 0.0),
             border: InputBorder.none,
             hintText: hintText,
             hintStyle: TextStyle(
-                fontSize: 14, color: Color.fromARGB(255, 192, 191, 191)),
+                fontSize: 10, color: Color.fromARGB(255, 192, 191, 191)),
             prefixIcon: Icon(
               Icons.search,
               size: 20,

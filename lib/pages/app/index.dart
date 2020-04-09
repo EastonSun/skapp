@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import './../../store/type/type.dart';
 import './../../utils/map.dart';
 import './../classify/index.dart';
 import './../../widgets/search_text_field_widget.dart';
+import './../../widgets/smart_drawer.dart';
 import './../../utils/screen_utils.dart';
 
 ///这个页面是作为整个APP的最外层的容器，以Tab为基础控制每个item的显示与隐藏
@@ -71,6 +73,44 @@ class _App extends State<App> {
     return store.isLoading
         ? Container()
         : Scaffold(
+            drawer: SmartDrawer(
+              widthPercent: 0.6,
+
+              ///edit
+              child: ListView(
+                padding: EdgeInsets.zero,
+                children: <Widget>[
+                  DrawerHeader(
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    child: MaterialColorPicker(
+                      circleSize: 50,
+                      allowShades: false,
+                      spacing: 14,
+                      onColorChange: (Color color) {
+                        // Handle color changes
+                      },
+                      selectedColor: Theme.of(context).primaryColor,
+                      colors: [
+                        Theme.of(context).primaryColor,
+                        Colors.deepOrange,
+                        Colors.yellow,
+                        Colors.lightGreen,
+                        Theme.of(context).primaryColor,
+                        Colors.deepOrange,
+                        Colors.yellow,
+                        Colors.lightGreen
+                      ],
+                    ),
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.settings),
+                    title: Text('设置'),
+                  )
+                ],
+              ),
+            ),
             appBar: PreferredSize(
                 child: AppBar(
                   elevation: 1,
@@ -80,22 +120,10 @@ class _App extends State<App> {
                         Expanded(
                           child: SearchTextFieldWidget(
                             hintText: '搜索',
-                            margin: EdgeInsets.only(left: 0.0, right: 15.0),
+                            margin: EdgeInsets.only(left: 0.0, right: 0.0),
                             onTab: () {
                               // Router.push(context, Router.searchPage, '电影/电视剧/影人');
                             },
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            print(111);
-                          },
-                          child: Container(
-                            child: Icon(
-                              Icons.menu,
-                              size: 18,
-                              color: Theme.of(context).secondaryHeaderColor,
-                            ),
                           ),
                         ),
                       ],

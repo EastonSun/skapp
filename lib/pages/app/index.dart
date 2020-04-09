@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
+import 'package:provider/provider.dart';
 import './../../store/type/type.dart';
 import './../../utils/map.dart';
 import './../classify/index.dart';
 import './../../widgets/search_text_field_widget.dart';
 import './../../widgets/smart_drawer.dart';
 import './../../utils/screen_utils.dart';
+import './../../store/root.dart';
 
 ///这个页面是作为整个APP的最外层的容器，以Tab为基础控制每个item的显示与隐藏
 class App extends StatefulWidget {
@@ -70,13 +72,12 @@ class _App extends State<App> {
 
   @override
   Widget build(BuildContext context) {
+    final Global _global = Provider.of<Global>(context);
     return store.isLoading
         ? Container()
         : Scaffold(
             drawer: SmartDrawer(
               widthPercent: 0.6,
-
-              ///edit
               child: ListView(
                 padding: EdgeInsets.zero,
                 children: <Widget>[
@@ -84,30 +85,43 @@ class _App extends State<App> {
                     decoration: BoxDecoration(
                       color: Theme.of(context).primaryColor,
                     ),
-                    child: MaterialColorPicker(
-                      circleSize: 50,
-                      allowShades: false,
-                      spacing: 14,
-                      onColorChange: (Color color) {
-                        // Handle color changes
-                      },
-                      selectedColor: Theme.of(context).primaryColor,
-                      colors: [
-                        Theme.of(context).primaryColor,
-                        Colors.deepOrange,
-                        Colors.yellow,
-                        Colors.lightGreen,
-                        Theme.of(context).primaryColor,
-                        Colors.deepOrange,
-                        Colors.yellow,
-                        Colors.lightGreen
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(left: 16),
+                          child: Text('换肤',
+                              style: Theme.of(context).textTheme.subtitle),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: MaterialColorPicker(
+                            elevation: 1,
+                            iconSelected: Icons.color_lens,
+                            allowShades: false,
+                            spacing: 16,
+                            onMainColorChange: (Color color) {
+                              _global.changeTheme(color);
+                            },
+                            selectedColor: _global.theme,
+                            colors: _global.colorList,
+                          ),
+                        )
                       ],
                     ),
                   ),
-                  ListTile(
-                    leading: Icon(Icons.settings),
-                    title: Text('设置'),
-                  )
+                  SwitchListTile(
+                    value: _global.isDark,
+                    onChanged: (value) {
+                      _global.changeThemeMode(value);
+                    },
+                    title: Text('暗黑模式'),
+                    secondary: Icon(_global.isDark
+                        ? Icons.invert_colors
+                        : Icons.invert_colors_off),
+                    selected: _global.isDark,
+                  ),
                 ],
               ),
             ),

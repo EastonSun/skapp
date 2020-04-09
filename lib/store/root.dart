@@ -24,6 +24,21 @@ class Global = GlobalMobx with _$Global;
 
 /// Counter可观察对象
 abstract class GlobalMobx with Store {
+  var colorList = [
+    Colors.red,
+    Colors.pink,
+    Colors.purple,
+    Colors.lightBlue,
+    Colors.cyan,
+    Colors.teal,
+    Colors.green,
+    Colors.lime,
+    Colors.amber,
+    Colors.orange,
+    Colors.deepOrange,
+    Colors.blueGrey,
+  ];
+
   /// 可观察的值
   @observable
   bool showAd = false; // 是否显示loading
@@ -32,10 +47,13 @@ abstract class GlobalMobx with Store {
   String title = 'SK'; // 标题
 
   @observable
-  Color theme = Colors.blueAccent; //在主题色
+  Color theme = Colors.lightBlue; //在主题色
 
   @observable
   Brightness themeMode = Brightness.light; //夜间模式
+
+  @observable
+  bool isDark = false;
 
   @action
   void changeShowAd(bool showAd) {
@@ -44,6 +62,17 @@ abstract class GlobalMobx with Store {
 
   @action
   void changeTheme(Color color) {
-    this.theme = color;
+    theme = color;
+  }
+
+  @action
+  void changeThemeMode(value) {
+    if (value) {
+      themeMode = Brightness.dark;
+      isDark = true;
+    } else {
+      themeMode = Brightness.light;
+      isDark = false;
+    }
   }
 }

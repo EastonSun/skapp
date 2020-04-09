@@ -77,6 +77,23 @@ mixin _$Global on GlobalMobx, Store {
     }, _$themeModeAtom, name: '${_$themeModeAtom.name}_set');
   }
 
+  final _$isDarkAtom = Atom(name: 'GlobalMobx.isDark');
+
+  @override
+  bool get isDark {
+    _$isDarkAtom.context.enforceReadPolicy(_$isDarkAtom);
+    _$isDarkAtom.reportObserved();
+    return super.isDark;
+  }
+
+  @override
+  set isDark(bool value) {
+    _$isDarkAtom.context.conditionallyRunInAction(() {
+      super.isDark = value;
+      _$isDarkAtom.reportChanged();
+    }, _$isDarkAtom, name: '${_$isDarkAtom.name}_set');
+  }
+
   final _$GlobalMobxActionController = ActionController(name: 'GlobalMobx');
 
   @override
@@ -100,9 +117,19 @@ mixin _$Global on GlobalMobx, Store {
   }
 
   @override
+  void changeThemeMode(dynamic value) {
+    final _$actionInfo = _$GlobalMobxActionController.startAction();
+    try {
+      return super.changeThemeMode(value);
+    } finally {
+      _$GlobalMobxActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     final string =
-        'showAd: ${showAd.toString()},title: ${title.toString()},theme: ${theme.toString()},themeMode: ${themeMode.toString()}';
+        'showAd: ${showAd.toString()},title: ${title.toString()},theme: ${theme.toString()},themeMode: ${themeMode.toString()},isDark: ${isDark.toString()}';
     return '{$string}';
   }
 }

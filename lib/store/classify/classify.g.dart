@@ -77,6 +77,23 @@ mixin _$ClassifyStore on ClassifyStoreMobx, Store {
     }, _$vodDataAtom, name: '${_$vodDataAtom.name}_set');
   }
 
+  final _$hasNextPageAtom = Atom(name: 'ClassifyStoreMobx.hasNextPage');
+
+  @override
+  bool get hasNextPage {
+    _$hasNextPageAtom.context.enforceReadPolicy(_$hasNextPageAtom);
+    _$hasNextPageAtom.reportObserved();
+    return super.hasNextPage;
+  }
+
+  @override
+  set hasNextPage(bool value) {
+    _$hasNextPageAtom.context.conditionallyRunInAction(() {
+      super.hasNextPage = value;
+      _$hasNextPageAtom.reportChanged();
+    }, _$hasNextPageAtom, name: '${_$hasNextPageAtom.name}_set');
+  }
+
   final _$vodDataListsAtom = Atom(name: 'ClassifyStoreMobx.vodDataLists');
 
   @override
@@ -207,7 +224,7 @@ mixin _$ClassifyStore on ClassifyStoreMobx, Store {
   @override
   String toString() {
     final string =
-        'isLoading: ${isLoading.toString()},isVodLoading: ${isVodLoading.toString()},type: ${type.toString()},vodData: ${vodData.toString()},vodDataLists: ${vodDataLists.toString()},qPage: ${qPage.toString()},qLimit: ${qLimit.toString()},qType: ${qType.toString()}';
+        'isLoading: ${isLoading.toString()},isVodLoading: ${isVodLoading.toString()},type: ${type.toString()},vodData: ${vodData.toString()},hasNextPage: ${hasNextPage.toString()},vodDataLists: ${vodDataLists.toString()},qPage: ${qPage.toString()},qLimit: ${qLimit.toString()},qType: ${qType.toString()}';
     return '{$string}';
   }
 }

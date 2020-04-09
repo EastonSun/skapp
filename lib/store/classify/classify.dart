@@ -38,7 +38,10 @@ abstract class ClassifyStoreMobx with Store {
   VodListDao vodData; // 获取电影列表
 
   @observable
-  var vodDataLists = []; // 获取电影列表
+  bool hasNextPage = true;
+
+  @observable
+  ObservableList vodDataLists = ObservableList(); // 获取电影列表
 
   @observable
   num qPage = 1;
@@ -64,11 +67,16 @@ abstract class ClassifyStoreMobx with Store {
     final res = await req.get(vodUrl + query);
     this.vodData = VodListDao.fromJson(res);
     vodDataLists.addAll(this.vodData.data);
+    // 判断是否加载完成
+    if (this.vodData.data.length < qLimit) {
+      // 代表返回的数据不到要求的数据
+      hasNextPage = false;
+    }
   }
 
   @action
   void changeQuery({page, limit = 10, type = 'hot'}) {
-    qPage = page;
+    this.qPage = page;
     qLimit = limit;
     qType = type;
   }
@@ -88,6 +96,6 @@ abstract class ClassifyStoreMobx with Store {
     qPage = 1;
     qLimit = 10;
     qType = 'hot';
-    vodDataLists = [];
+    vodDataLists.clear();
   }
 }

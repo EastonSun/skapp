@@ -27,6 +27,11 @@ dependencies:
   flutter_mobx: ^1.1.0
   http: ^0.12.0+4
   transparent_image: ^1.0.0
+  shared_preferences: ^0.5.6+3
+  provider: ^4.0.4
+  flutter_statusbarcolor: ^0.2.3
+  incrementally_loading_listview: ^0.3.0
+  flutter_skeleton: ^0.1.0+1
 
 dev_dependencies:
   flutter_test:

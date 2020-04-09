@@ -77,6 +77,23 @@ mixin _$ClassifyStore on ClassifyStoreMobx, Store {
     }, _$vodDataAtom, name: '${_$vodDataAtom.name}_set');
   }
 
+  final _$vodDataListsAtom = Atom(name: 'ClassifyStoreMobx.vodDataLists');
+
+  @override
+  ObservableList<dynamic> get vodDataLists {
+    _$vodDataListsAtom.context.enforceReadPolicy(_$vodDataListsAtom);
+    _$vodDataListsAtom.reportObserved();
+    return super.vodDataLists;
+  }
+
+  @override
+  set vodDataLists(ObservableList<dynamic> value) {
+    _$vodDataListsAtom.context.conditionallyRunInAction(() {
+      super.vodDataLists = value;
+      _$vodDataListsAtom.reportChanged();
+    }, _$vodDataListsAtom, name: '${_$vodDataListsAtom.name}_set');
+  }
+
   final _$qPageAtom = Atom(name: 'ClassifyStoreMobx.qPage');
 
   @override
@@ -178,9 +195,19 @@ mixin _$ClassifyStore on ClassifyStoreMobx, Store {
   }
 
   @override
+  void resetData() {
+    final _$actionInfo = _$ClassifyStoreMobxActionController.startAction();
+    try {
+      return super.resetData();
+    } finally {
+      _$ClassifyStoreMobxActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     final string =
-        'isLoading: ${isLoading.toString()},isVodLoading: ${isVodLoading.toString()},type: ${type.toString()},vodData: ${vodData.toString()},qPage: ${qPage.toString()},qLimit: ${qLimit.toString()},qType: ${qType.toString()}';
+        'isLoading: ${isLoading.toString()},isVodLoading: ${isVodLoading.toString()},type: ${type.toString()},vodData: ${vodData.toString()},vodDataLists: ${vodDataLists.toString()},qPage: ${qPage.toString()},qLimit: ${qLimit.toString()},qType: ${qType.toString()}';
     return '{$string}';
   }
 }

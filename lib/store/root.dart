@@ -9,6 +9,7 @@
 import 'package:mobx/mobx.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
 /// 必须, 用于生成.g文件
 part 'root.g.dart';
@@ -68,6 +69,7 @@ abstract class GlobalMobx with Store {
   GlobalMobx(this.prefs) {
     theme = colorList[prefs.getInt('themeIndex') ?? 4];
     isDark = prefs.getBool('isDark') ?? false;
+    FlutterStatusbarcolor.setStatusBarColor(theme);
   }
 
   @action
@@ -81,6 +83,7 @@ abstract class GlobalMobx with Store {
     // 获取index存储
     int index = colorList.indexOf(color);
     prefs.setInt('themeIndex', index);
+    FlutterStatusbarcolor.setStatusBarColor(theme);
   }
 
   @action

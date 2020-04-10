@@ -33,6 +33,7 @@ dependencies:
   incrementally_loading_listview: ^0.3.0
   flutter_skeleton: ^0.1.0+1
   flutter_material_color_picker: ^1.0.5
+  fluro: ^1.6.3
 
 dev_dependencies:
   flutter_test:

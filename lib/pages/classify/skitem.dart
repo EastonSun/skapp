@@ -1,4 +1,6 @@
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import './../../routers/application.dart';
 import './../../widgets/network_img_widget.dart';
 import './../../widgets/rating_bar.dart';
 import './../../dao/vod_list_dao.dart';
@@ -35,7 +37,12 @@ class _SKItemState extends State<SKItem> {
           ),
           child: GestureDetector(
             onTap: () {
-              // Router.push(context, Router.detailPage, item.id);
+              Application.router.navigateTo(
+                context,
+                "/details?title=123",
+                transition: TransitionType.native,
+                // transitionDuration: const Duration(milliseconds: 300),
+              );
             },
             child: Row(
               children: <Widget>[

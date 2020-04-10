@@ -9,6 +9,13 @@ part of 'root.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$Global on GlobalMobx, Store {
+  Computed<Brightness> _$themeModeComputed;
+
+  @override
+  Brightness get themeMode =>
+      (_$themeModeComputed ??= Computed<Brightness>(() => super.themeMode))
+          .value;
+
   final _$showAdAtom = Atom(name: 'GlobalMobx.showAd');
 
   @override
@@ -60,23 +67,6 @@ mixin _$Global on GlobalMobx, Store {
     }, _$themeAtom, name: '${_$themeAtom.name}_set');
   }
 
-  final _$themeModeAtom = Atom(name: 'GlobalMobx.themeMode');
-
-  @override
-  Brightness get themeMode {
-    _$themeModeAtom.context.enforceReadPolicy(_$themeModeAtom);
-    _$themeModeAtom.reportObserved();
-    return super.themeMode;
-  }
-
-  @override
-  set themeMode(Brightness value) {
-    _$themeModeAtom.context.conditionallyRunInAction(() {
-      super.themeMode = value;
-      _$themeModeAtom.reportChanged();
-    }, _$themeModeAtom, name: '${_$themeModeAtom.name}_set');
-  }
-
   final _$isDarkAtom = Atom(name: 'GlobalMobx.isDark');
 
   @override
@@ -117,7 +107,7 @@ mixin _$Global on GlobalMobx, Store {
   }
 
   @override
-  void changeThemeMode(dynamic value) {
+  void changeThemeMode(bool value) {
     final _$actionInfo = _$GlobalMobxActionController.startAction();
     try {
       return super.changeThemeMode(value);
@@ -129,7 +119,7 @@ mixin _$Global on GlobalMobx, Store {
   @override
   String toString() {
     final string =
-        'showAd: ${showAd.toString()},title: ${title.toString()},theme: ${theme.toString()},themeMode: ${themeMode.toString()},isDark: ${isDark.toString()}';
+        'showAd: ${showAd.toString()},title: ${title.toString()},theme: ${theme.toString()},isDark: ${isDark.toString()},themeMode: ${themeMode.toString()}';
     return '{$string}';
   }
 }

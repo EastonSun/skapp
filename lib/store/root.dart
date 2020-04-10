@@ -8,6 +8,7 @@
 
 import 'package:mobx/mobx.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// 必须, 用于生成.g文件
 part 'root.g.dart';
@@ -24,6 +25,7 @@ class Global = GlobalMobx with _$Global;
 
 /// Counter可观察对象
 abstract class GlobalMobx with Store {
+  SharedPreferences prefs;
   var colorList = [
     Colors.red,
     Colors.pink,
@@ -39,6 +41,12 @@ abstract class GlobalMobx with Store {
     Colors.blueGrey,
   ];
 
+  Future getThemeIndex() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int themeIndex = prefs.getInt('themeIndex') ?? 0;
+    return themeIndex;
+  }
+
   /// 可观察的值
   @observable
   bool showAd = false; // 是否显示loading
@@ -47,13 +55,20 @@ abstract class GlobalMobx with Store {
   String title = 'SK'; // 标题
 
   @observable
-  Color theme = Colors.lightBlue; //在主题色
+  Color theme; //在主题色
+
+  @computed
+  Brightness get themeMode {
+    return isDark ? Brightness.dark : Brightness.light;
+  }
 
   @observable
-  Brightness themeMode = Brightness.light; //夜间模式
+  bool isDark;
 
-  @observable
-  bool isDark = false;
+  GlobalMobx(this.prefs) {
+    theme = colorList[prefs.getInt('themeIndex') ?? 4];
+    isDark = prefs.getBool('isDark') ?? false;
+  }
 
   @action
   void changeShowAd(bool showAd) {
@@ -63,16 +78,14 @@ abstract class GlobalMobx with Store {
   @action
   void changeTheme(Color color) {
     theme = color;
+    // 获取index存储
+    int index = colorList.indexOf(color);
+    prefs.setInt('themeIndex', index);
   }
 
   @action
-  void changeThemeMode(value) {
-    if (value) {
-      themeMode = Brightness.dark;
-      isDark = true;
-    } else {
-      themeMode = Brightness.light;
-      isDark = false;
-    }
+  void changeThemeMode(bool value) {
+    isDark = value;
+    prefs.setBool('isDark', value);
   }
 }

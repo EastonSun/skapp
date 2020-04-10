@@ -73,7 +73,7 @@ class _App extends State<App> {
   // 左侧抽屉
   renderDrawer(context, _global) {
     return SmartDrawer(
-      widthPercent: 0.6,
+      widthPercent: 0.65,
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
@@ -94,6 +94,7 @@ class _App extends State<App> {
                   flex: 1,
                   child: MaterialColorPicker(
                     elevation: 1,
+                    circleSize: 36,
                     iconSelected: Icons.color_lens,
                     allowShades: false,
                     spacing: 16,
@@ -143,7 +144,7 @@ class _App extends State<App> {
           alignment: Alignment(0.0, 0.0),
         ),
       ),
-      preferredSize: Size.fromHeight(ScreenUtils.screenH(context) * 0.07),
+      preferredSize: Size.fromHeight(ScreenUtils.screenH(context) * 0.08),
     );
   }
 

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import './../app/index.dart';
 import './../../utils/screen_utils.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -13,11 +14,9 @@ class SplashWidget extends StatefulWidget {
 }
 
 class _SplashWidgetState extends State<SplashWidget> {
-  /// 创建管理者
-  final Global _global = Global();
-
   @override
   Widget build(BuildContext context) {
+    final Global _global = Provider.of<Global>(context);
     return Stack(
       children: <Widget>[
         Observer(

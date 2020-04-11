@@ -37,7 +37,10 @@ class MyApp extends StatelessWidget {
     return Observer(
       builder: (_) => MaterialApp(
         theme: ThemeData(
-            brightness: _global.themeMode, primarySwatch: _global.theme),
+          brightness: _global.themeMode,
+          primarySwatch: _global.theme,
+          platform: TargetPlatform.iOS,
+        ),
         home: Scaffold(
           resizeToAvoidBottomPadding: false,
           body: SplashWidget(),

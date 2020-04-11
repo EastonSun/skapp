@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:incrementally_loading_listview/incrementally_loading_listview.dart';
-import 'package:flutter_skeleton/flutter_skeleton.dart';
+import 'package:pk_skeleton/pk_skeleton.dart';
 import './../../store/classify/classify.dart';
 import './skitem.dart';
 
@@ -65,12 +65,10 @@ class _SKListState extends State<SKList> with AutomaticKeepAliveClientMixin {
           onRefresh: this.onRefresh,
           child: store.isVodLoading
               ? // list skeleton
-              CardListSkeleton(
-                  style: SkeletonStyle(
-                    isShowAvatar: true,
-                    isCircleAvatar: false,
-                    barCount: 0,
-                  ),
+              PKCardListSkeleton(
+                  isCircularImage: true,
+                  isBottomLinesActive: true,
+                  length: 10,
                 )
               : IncrementallyLoadingListView(
                   loadMore: () async {

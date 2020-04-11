@@ -6,7 +6,6 @@ import './../../utils/map.dart';
 import './../classify/index.dart';
 import './../../widgets/search_text_field_widget.dart';
 import './../../widgets/smart_drawer.dart';
-import './../../utils/screen_utils.dart';
 import './../../store/root.dart';
 
 ///这个页面是作为整个APP的最外层的容器，以Tab为基础控制每个item的显示与隐藏
@@ -21,6 +20,10 @@ class App extends StatefulWidget {
 
 class _App extends State<App> {
   final Type store = Type();
+
+  //创建页面控制器
+  PageController _pageController;
+  int _selectIndex = 0;
 
   List<Widget> _pageList;
 
@@ -45,12 +48,11 @@ class _App extends State<App> {
                   : typeMap['normal']['activeIcon']))
           .toList();
       if (_pageList == null) {
-        // 初始化第一个页面
-        _pageList = [
-          Classify(
-            typeId: store.type.data[_selectIndex].typeId,
-          )
-        ];
+        _pageList = store.type.data
+            .map((f) => Classify(
+                  typeId: f.typeId,
+                ))
+            .toList();
       }
       store.changeLoading();
     }
@@ -59,10 +61,9 @@ class _App extends State<App> {
   @override
   void initState() {
     super.initState();
+    _pageController = new PageController(initialPage: _selectIndex);
     requestAPI();
   }
-
-  int _selectIndex = 0;
 
   @override
   void didUpdateWidget(App oldWidget) {
@@ -124,34 +125,34 @@ class _App extends State<App> {
   }
 
   renderAppBar() {
-    return PreferredSize(
-      child: AppBar(
-        elevation: 1,
-        title: Container(
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                child: SearchTextFieldWidget(
-                  hintText: '搜索',
-                  margin: EdgeInsets.only(left: 0.0, right: 0.0),
-                  onTab: () {
-                    // Router.push(context, Router.searchPage, '电影/电视剧/影人');
-                  },
-                ),
+    return AppBar(
+      elevation: 1,
+      title: Container(
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              child: SearchTextFieldWidget(
+                hintText: '搜索',
+                margin: EdgeInsets.only(left: 0.0, right: 0.0),
+                onTab: () {
+                  // Router.push(context, Router.searchPage, '电影/电视剧/影人');
+                },
               ),
-            ],
-          ),
-          alignment: Alignment(0.0, 0.0),
+            ),
+          ],
         ),
+        alignment: Alignment(0.0, 0.0),
       ),
-      preferredSize: Size.fromHeight(ScreenUtils.screenH(context) * 0.08),
     );
   }
 
   renderBody() {
-    return IndexedStack(
-      index: _selectIndex,
+    return PageView(
+      controller: _pageController,
       children: _pageList,
+      onPageChanged: (index) {
+        _selectIndex = index;
+      },
     );
   }
 
@@ -159,15 +160,13 @@ class _App extends State<App> {
     return BottomNavigationBar(
         items: itemList,
         onTap: (int index) {
-          ///这里根据点击的index来显示，非index的page均隐藏，这步需要判断长度做到延时加载数据
-          if (index + 1 > _pageList.length) {
-            _pageList.add(Classify(
-              typeId: store.type.data[index].typeId,
-            ));
-          }
           setState(() {
             _selectIndex = index;
           });
+          //点击下面tabbar的时候执行动画跳转方法
+          _pageController.animateToPage(index,
+              duration: new Duration(milliseconds: 500),
+              curve: new ElasticOutCurve(4));
         },
         //图标大小
         iconSize: 24,
@@ -188,7 +187,9 @@ class _App extends State<App> {
         : Scaffold(
             drawer: renderDrawer(context, _global),
             appBar: renderAppBar(),
-            body: renderBody(), // https://www.jianshu.com/p/86d29a939624
+            body: SafeArea(
+              child: renderBody(),
+            ), // https://www.jianshu.com/p/86d29a939624
             bottomNavigationBar: renderBottomNavigationBar(),
           );
   }

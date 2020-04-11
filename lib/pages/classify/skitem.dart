@@ -27,9 +27,8 @@ class _SKItemState extends State<SKItem> {
     return Container(
       child: Container(
           height: 140,
-          // color: ConstantSystem.colorBgWhite,
-          margin: const EdgeInsets.only(bottom: 10.0),
-          padding: const EdgeInsets.only(
+          margin: EdgeInsets.only(bottom: 10.0),
+          padding: EdgeInsets.only(
             left: 15,
             right: 15,
             top: 15,
@@ -39,9 +38,9 @@ class _SKItemState extends State<SKItem> {
             onTap: () {
               Application.router.navigateTo(
                 context,
-                "/details?title=123",
+                "/details?vodId=${vod.vodId}",
                 transition: TransitionType.native,
-                // transitionDuration: const Duration(milliseconds: 300),
+                transitionDuration: Duration(milliseconds: 300),
               );
             },
             child: Row(
@@ -55,7 +54,8 @@ class _SKItemState extends State<SKItem> {
                 Expanded(
                   flex: 2,
                   child: Padding(
-                    padding: EdgeInsets.all(8),
+                    padding:
+                        EdgeInsets.only(left: 0, right: 8, top: 8, bottom: 8),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,

@@ -6,7 +6,7 @@ import './sklist.dart';
 // ignore: must_be_immutable
 class Classify extends StatefulWidget {
   num typeId;
-  Classify({Key key, @required this.typeId}) : super(key: key);
+  Classify({Key key, this.typeId}) : super(key: key);
 
   @override
   _ClassifyState createState() => _ClassifyState(typeId);

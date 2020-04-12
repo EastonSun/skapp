@@ -55,7 +55,7 @@ class _SKItemState extends State<SKItem> {
                   flex: 2,
                   child: Padding(
                     padding:
-                        EdgeInsets.only(left: 0, right: 8, top: 8, bottom: 8),
+                        EdgeInsets.only(left: 6, right: 8, top: 8, bottom: 8),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,

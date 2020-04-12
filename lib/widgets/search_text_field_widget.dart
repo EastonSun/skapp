@@ -40,13 +40,13 @@ class SearchTextFieldWidget extends StatelessWidget {
             /*边角*/
             borderRadius: BorderRadius.circular(20),
             borderSide: BorderSide(
-              color: Colors.white, //边线颜色为白色
+              color: Color.fromARGB(255, 237, 236, 237), //边线颜色为白色
               width: 1, //边线宽度为2
             ),
           ),
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: Colors.white, //边框颜色为白色
+              color: Color.fromARGB(255, 237, 236, 237), //边框颜色为白色
               width: 1, //宽度为5
             ),
             borderRadius: BorderRadius.circular(20),

@@ -2,6 +2,7 @@ import 'package:flutter_ijkplayer/flutter_ijkplayer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import './../../../store/details/details.dart';
+import './../../../widgets/custom_player.dart'; // 自定义播放器样式
 
 ///http://vt1.doubanio.com/201902111139/0c06a85c600b915d8c9cbdbbaf06ba9f/view/movie/M/302420330.mp4
 ///http://g.shumafen.cn/api/user/file_jx_2.php?secret=f3a81974b27a414a&id=be6a5500a342acc3.mp4
@@ -12,11 +13,8 @@ import './../../../store/details/details.dart';
 // 'http://184.72.239.149/vod/smil:BigBuckBunny.smil/playlist.m3u8',
 // "file:///sdcard/Download/Sample1.mp4",
 class VideoWidget extends StatefulWidget {
-  final String url;
-  final String previewImgUrl;
   final DetailsStore store;
-  VideoWidget({Key key, @required this.url, this.store, this.previewImgUrl})
-      : super(key: key);
+  VideoWidget({Key key, this.store}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _VideoWidgetState();
@@ -24,19 +22,33 @@ class VideoWidget extends StatefulWidget {
 
 class _VideoWidgetState extends State<VideoWidget> {
   IjkMediaController controller = IjkMediaController();
+  CustomIJKControllerWidget cusController;
 
   @override
   void initState() {
     super.initState();
+    cusController = CustomIJKControllerWidget(
+      controller: controller,
+    );
+    // 初始化
+    controller.setNetworkDataSource(
+      widget.store.currentUrl,
+      autoPlay: true,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Observer(builder: (_) {
+    // 判断是否点击的是全屏
+    if (widget.store.isClickPlayers) {
       controller.setNetworkDataSource(
         widget.store.currentUrl,
         autoPlay: true,
       );
+      widget.store.changeIsClickPlayers();
+    }
+
+    return Observer(builder: (_) {
       return buildIjkPlayer();
     });
   }
@@ -47,11 +59,9 @@ class _VideoWidgetState extends State<VideoWidget> {
       child: Container(
         child: IjkPlayer(
           mediaController: controller,
-          // controllerWidgetBuilder: (mediaController) {
-          //   return DefaultIJKControllerWidget(
-          //     controller: controller,
-          //   ); // 自定义
-          // },
+          controllerWidgetBuilder: (mediaController) {
+            return cusController; // 自定义
+          },
         ),
       ),
     );

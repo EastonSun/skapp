@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:incrementally_loading_listview/incrementally_loading_listview.dart';
 import 'package:pk_skeleton/pk_skeleton.dart';
+import 'package:provider/provider.dart';
+import 'package:skapp/store/root.dart';
 import './../../store/classify/classify.dart';
 import './skitem.dart';
 
@@ -59,17 +61,24 @@ class _SKListState extends State<SKList> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    final Global _global = Provider.of<Global>(context);
     return Observer(
       builder: (_) => Container(
         child: RefreshIndicator(
           onRefresh: this.onRefresh,
           child: store.isVodLoading
               ? // list skeleton
-              PKCardListSkeleton(
-                  isCircularImage: true,
-                  isBottomLinesActive: true,
-                  length: 10,
-                )
+              _global.isDark
+                  ? PKDarkCardListSkeleton(
+                      isCircularImage: true,
+                      isBottomLinesActive: true,
+                      length: 10,
+                    )
+                  : PKCardListSkeleton(
+                      isCircularImage: true,
+                      isBottomLinesActive: true,
+                      length: 10,
+                    )
               : IncrementallyLoadingListView(
                   loadMore: () async {
                     await loadMoreData();

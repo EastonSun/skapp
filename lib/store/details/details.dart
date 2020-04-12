@@ -46,6 +46,9 @@ abstract class DetailsStoreMobx with Store {
   @observable
   int currentPlayers = 0; // nid
 
+  @observable
+  bool isClickPlayers = false; // 是否点击了切换
+
   @computed
   String get currentUrl {
     return players[currentTabs][currentPlayers]['url'] ?? '';
@@ -110,6 +113,12 @@ abstract class DetailsStoreMobx with Store {
 
   @action
   void changeCurrentPlayers(int current) {
+    isClickPlayers = true;
     currentPlayers = current;
+  }
+
+  @action
+  void changeIsClickPlayers() {
+    isClickPlayers = false;
   }
 }

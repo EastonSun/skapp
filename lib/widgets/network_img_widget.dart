@@ -36,6 +36,9 @@ class _NetworkImgWidgetState extends State<NetworkImgWidget> {
           child: FadeInImage.memoryNetwork(
             placeholder: kTransparentImage,
             image: imgUrl,
+            fit: BoxFit.cover,
+            width: double.infinity,
+            height: double.infinity,
           ),
         ),
       ],

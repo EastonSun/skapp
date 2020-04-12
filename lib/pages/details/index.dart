@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:pk_skeleton/pk_skeleton.dart';
+import 'package:provider/provider.dart';
+import 'package:skapp/store/root.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 import './../../store/details/details.dart';
+import './../../store/classify/classify.dart';
 import './widgets/video_widget.dart';
 import './widgets/desc.dart';
 import './widgets/players.dart';
+import './widgets/webview_widget.dart';
+import './widgets/like_widget.dart';
+import './widgets/slide_up.dart';
 
 class Details extends StatefulWidget {
   final String vodId;
@@ -15,11 +22,15 @@ class Details extends StatefulWidget {
 
 class _DetailsState extends State<Details> {
   final DetailsStore store = DetailsStore();
+  final ClassifyStore classifyStore = ClassifyStore();
+  PanelController pc = new PanelController();
 
   Future<dynamic> requestAPI() async {
     await store.fetchVodData();
     store.formatPDTbas(store.vod.vodPlayFrom);
     store.formatPD(store.vod.vodPlayUrl);
+    classifyStore.changeQuery(page: 1, limit: 6);
+    await classifyStore.fetchVodData(typeId: store.vod.typeId);
   }
 
   @override
@@ -32,12 +43,18 @@ class _DetailsState extends State<Details> {
 
   @override
   Widget build(BuildContext context) {
+    final Global _global = Provider.of<Global>(context);
     return Observer(
       builder: (_) => store.isLoading
-          ? PKCardProfileSkeleton(
-              isCircularImage: true,
-              isBottomLinesActive: true,
-            )
+          ? _global.isDark
+              ? PKDarkCardProfileSkeleton(
+                  isCircularImage: true,
+                  isBottomLinesActive: true,
+                )
+              : PKCardProfileSkeleton(
+                  isCircularImage: true,
+                  isBottomLinesActive: true,
+                )
           : Scaffold(
               // appBar: AppBar(
               //   title: Text(store.vod.vodName),
@@ -50,10 +67,13 @@ class _DetailsState extends State<Details> {
                       color: Colors.black,
                       child: Stack(
                         children: <Widget>[
-                          VideoWidget(
-                            url: store.currentUrl,
-                            store: store,
-                          ),
+                          store.currentUrl.indexOf('.m3u8') >= 0
+                              ? VideoWidget(
+                                  store: store,
+                                )
+                              : WebViewPage(
+                                  store: store,
+                                ),
                           IconButton(
                               icon: Icon(
                                 Icons.arrow_back_ios,
@@ -73,9 +93,12 @@ class _DetailsState extends State<Details> {
                           itemBuilder: (BuildContext context, int index) {
                             switch (index) {
                               case 0:
-                                return Desc(vod: store.vod);
+                                return Desc(store: store, pc: pc);
                               case 1:
                                 return Players(store: store);
+                              case 2:
+                                return Like(
+                                    vodDataLists: classifyStore.vodDataLists);
                               default:
                                 return Container();
                             }
@@ -89,7 +112,8 @@ class _DetailsState extends State<Details> {
                           },
                         ),
                       ),
-                    )
+                    ),
+                    SlideUpPage(store: store, pc: pc)
                   ],
                 ),
               ),

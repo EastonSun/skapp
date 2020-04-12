@@ -134,6 +134,23 @@ mixin _$DetailsStore on DetailsStoreMobx, Store {
     }, _$currentPlayersAtom, name: '${_$currentPlayersAtom.name}_set');
   }
 
+  final _$isClickPlayersAtom = Atom(name: 'DetailsStoreMobx.isClickPlayers');
+
+  @override
+  bool get isClickPlayers {
+    _$isClickPlayersAtom.context.enforceReadPolicy(_$isClickPlayersAtom);
+    _$isClickPlayersAtom.reportObserved();
+    return super.isClickPlayers;
+  }
+
+  @override
+  set isClickPlayers(bool value) {
+    _$isClickPlayersAtom.context.conditionallyRunInAction(() {
+      super.isClickPlayers = value;
+      _$isClickPlayersAtom.reportChanged();
+    }, _$isClickPlayersAtom, name: '${_$isClickPlayersAtom.name}_set');
+  }
+
   final _$fetchVodDataAsyncAction = AsyncAction('fetchVodData');
 
   @override
@@ -195,9 +212,19 @@ mixin _$DetailsStore on DetailsStoreMobx, Store {
   }
 
   @override
+  void changeIsClickPlayers() {
+    final _$actionInfo = _$DetailsStoreMobxActionController.startAction();
+    try {
+      return super.changeIsClickPlayers();
+    } finally {
+      _$DetailsStoreMobxActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     final string =
-        'isLoading: ${isLoading.toString()},vodId: ${vodId.toString()},vod: ${vod.toString()},players: ${players.toString()},pTabs: ${pTabs.toString()},currentTabs: ${currentTabs.toString()},currentPlayers: ${currentPlayers.toString()},currentUrl: ${currentUrl.toString()}';
+        'isLoading: ${isLoading.toString()},vodId: ${vodId.toString()},vod: ${vod.toString()},players: ${players.toString()},pTabs: ${pTabs.toString()},currentTabs: ${currentTabs.toString()},currentPlayers: ${currentPlayers.toString()},isClickPlayers: ${isClickPlayers.toString()},currentUrl: ${currentUrl.toString()}';
     return '{$string}';
   }
 }

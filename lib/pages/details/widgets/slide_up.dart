@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -15,30 +17,22 @@ class SlideUpPage extends StatelessWidget {
   Widget build(BuildContext context) {
     _panelHeightOpen = MediaQuery.of(context).size.height -
         ((MediaQuery.of(context).size.width / 16.0) * 9.0) -
-        _panelHeightClosed -
-        24.0;
-    //store.openPanel ? _pc.open() : _pc.close();
+        MediaQuery.of(context).padding.top -
+        MediaQueryData.fromWindow(window).padding.top;
 
     return Observer(builder: (_) {
-      return Container(
-        child: Material(
-          child: Stack(
-            alignment: Alignment.topCenter,
-            children: <Widget>[
-              SlidingUpPanel(
-                controller: pc,
-                maxHeight: _panelHeightOpen,
-                minHeight: _panelHeightClosed,
-                parallaxEnabled: true,
-                parallaxOffset: 0,
-                color: Theme.of(context).cardColor,
-                panelBuilder: (sc) => _panel(sc, context, store),
-                defaultPanelState: PanelState.CLOSED,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(0), topRight: Radius.circular(0)),
-              )
-            ],
-          ),
+      return SingleChildScrollView(
+        child: SlidingUpPanel(
+          controller: pc,
+          maxHeight: _panelHeightOpen,
+          minHeight: _panelHeightClosed,
+          parallaxEnabled: false,
+          parallaxOffset: 0,
+          color: Theme.of(context).cardColor,
+          panelBuilder: (sc) => _panel(sc, context, store),
+          defaultPanelState: PanelState.CLOSED,
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(0), topRight: Radius.circular(0)),
         ),
       );
     });
@@ -48,6 +42,7 @@ class SlideUpPage extends StatelessWidget {
     return MediaQuery.removePadding(
       context: context,
       removeTop: true,
+      removeBottom: true,
       child: ListView.separated(
         padding: new EdgeInsets.all(5.0),
         itemCount: 3,

@@ -26,9 +26,12 @@ class _NetworkImgWidgetState extends State<NetworkImgWidget> {
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-        Center(
-          child: CircularProgressIndicator(
-            strokeWidth: 1.4,
+        Padding(
+          padding: EdgeInsets.only(top: 14),
+          child: Center(
+            child: CircularProgressIndicator(
+              strokeWidth: 1.4,
+            ),
           ),
         ),
         ClipRRect(
@@ -36,7 +39,7 @@ class _NetworkImgWidgetState extends State<NetworkImgWidget> {
           child: FadeInImage.memoryNetwork(
             placeholder: kTransparentImage,
             image: imgUrl,
-            fit: BoxFit.cover,
+            fit: BoxFit.fill,
             width: double.infinity,
             height: double.infinity,
           ),

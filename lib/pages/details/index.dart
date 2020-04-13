@@ -29,7 +29,7 @@ class _DetailsState extends State<Details> {
     await store.fetchVodData();
     store.formatPDTbas(store.vod.vodPlayFrom);
     store.formatPD(store.vod.vodPlayUrl);
-    classifyStore.changeQuery(page: 1, limit: 6);
+    classifyStore.changeQuery(page: 1, limit: 6, type: 'score');
     await classifyStore.fetchVodData(typeId: store.vod.typeId);
   }
 

@@ -35,7 +35,7 @@ class _SKItemState extends State<SKItem> {
       },
       child: Container(
         color: Theme.of(context).cardColor,
-        height: 140,
+        height: 144,
         //margin: EdgeInsets.only(bottom: 10.0),
         padding: EdgeInsets.only(
           left: 15,
@@ -44,17 +44,19 @@ class _SKItemState extends State<SKItem> {
           bottom: 15.0,
         ),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Expanded(
-                flex: 1,
-                child: NetworkImgWidget(
-                  imgUrl: vod.vodPic,
-                  radius: 4,
-                )),
+            Container(
+              width: 86,
+              child: NetworkImgWidget(
+                imgUrl: vod.vodPic,
+                radius: 4,
+              ),
+            ),
             Expanded(
               flex: 2,
               child: Padding(
-                padding: EdgeInsets.only(left: 6, right: 8, top: 8, bottom: 8),
+                padding: EdgeInsets.only(left: 6, right: 8, top: 0, bottom: 8),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,

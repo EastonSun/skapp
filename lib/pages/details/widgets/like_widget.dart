@@ -48,16 +48,18 @@ class Like extends StatelessWidget {
                   child: Container(
                     child: Column(
                       children: <Widget>[
-                        Container(
-                          height: 140,
-                          child: NetworkImgWidget(
-                            imgUrl: vod.vodPic,
-                            radius: 4,
+                        AspectRatio(
+                          aspectRatio: 0.73, // 宽高比
+                          child: Container(
+                            child: NetworkImgWidget(
+                              imgUrl: vod.vodPic,
+                              radius: 4,
+                            ),
                           ),
                         ),
                         Padding(
                           padding: EdgeInsets.only(
-                              top: 12, left: 6, right: 6, bottom: 10),
+                              top: 8, left: 6, right: 6, bottom: 8),
                           child: Text(
                             vod.vodName,
                             maxLines: 2,

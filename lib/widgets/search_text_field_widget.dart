@@ -7,9 +7,17 @@ class SearchTextFieldWidget extends StatelessWidget {
   final VoidCallback onTab;
   final String hintText;
   final EdgeInsetsGeometry margin;
+  final TextEditingController controller;
+  final FocusNode focus;
 
   SearchTextFieldWidget(
-      {Key key, this.hintText, this.onSubmitted, this.onTab, this.margin})
+      {Key key,
+      this.hintText,
+      this.onSubmitted,
+      this.onTab,
+      this.controller,
+      this.focus,
+      this.margin})
       : super(key: key);
 
   @override
@@ -24,17 +32,19 @@ class SearchTextFieldWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(4.0),
       ),
       child: TextField(
+        controller: controller,
         onSubmitted: onSubmitted,
-        onTap: onTab,
         cursorColor: Color.fromARGB(255, 0, 189, 96),
         style: Theme.of(context).textTheme.body1,
         minLines: 1,
-        autofocus: false,
+        autofocus: true,
         enableInteractiveSelection: false,
+        focusNode: focus,
         decoration: InputDecoration(
           contentPadding: EdgeInsets.zero,
           border: InputBorder.none,
           hintText: hintText,
+          hintStyle: Theme.of(context).textTheme.caption,
           // hintStyle: Theme.of(context).textTheme.caption,
           enabledBorder: OutlineInputBorder(
             /*边角*/
@@ -53,7 +63,7 @@ class SearchTextFieldWidget extends StatelessWidget {
           ),
           prefixIcon: Icon(
             Icons.search,
-            size: 20,
+            size: 18,
             color: Color.fromARGB(255, 128, 128, 128),
           ),
         ),

@@ -1,10 +1,12 @@
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:skapp/routers/application.dart';
 import './../../store/type/type.dart';
 import './../../utils/map.dart';
 import './../classify/index.dart';
-import './../../widgets/search_text_field_widget.dart';
+import './../../widgets/search_text_field_widget_app.dart';
 import './../../widgets/smart_drawer.dart';
 import './../../store/root.dart';
 
@@ -133,8 +135,13 @@ class _App extends State<App> {
             Expanded(
               child: SearchTextFieldWidget(
                 hintText: '搜索',
-                margin: EdgeInsets.only(left: 0.0, right: 0.0),
                 onTab: () {
+                  Application.router.navigateTo(
+                    context,
+                    "/search",
+                    transition: TransitionType.native,
+                    transitionDuration: Duration(milliseconds: 300),
+                  );
                   // Router.push(context, Router.searchPage, '电影/电视剧/影人');
                 },
               ),

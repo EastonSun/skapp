@@ -45,7 +45,7 @@ class Players extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(left: 6, right: 6, top: 6, bottom: 16),
                 child: Container(
-                  height: 70,
+                  height: 60,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     // physics: NeverScrollableScrollPhysics(),

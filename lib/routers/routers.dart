@@ -7,6 +7,8 @@ class Routes {
   static String root = "/";
   // 详情页面
   static String details = "/details";
+  // 搜索页面
+  static String search = "/search";
 
   static void configureRoutes(Router router) {
     router.notFoundHandler = Handler(
@@ -15,6 +17,7 @@ class Routes {
     });
     router.define(root, handler: rootHandler);
     router.define(details, handler: detailsRouteHandler);
+    router.define(search, handler: searchRouteHandler);
     // router.define(demoSimpleFixedTrans,
     //     handler: demoRouteHandler, transitionType: TransitionType.inFromLeft);
   }

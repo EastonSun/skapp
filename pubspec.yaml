@@ -38,6 +38,7 @@ dependencies:
   webview_flutter: ^0.3.19+9
   sliding_up_panel: ^1.0.1
   cached_network_image: ^2.1.0+1
+  flutter_cache_manager: ^1.2.1
 
 dev_dependencies:
   flutter_test:

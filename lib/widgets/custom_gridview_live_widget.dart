@@ -26,10 +26,11 @@ class CustomGridView extends StatelessWidget {
           return GestureDetector(
             onTap: () {
               Application.router.navigateTo(
-                  context, "/show_lives?address=${vod.address}",
-                  transition: TransitionType.native,
-                  transitionDuration: Duration(milliseconds: 300),
-                  replace: true);
+                context,
+                "/showLives?address=${Uri.encodeComponent(vod.address)}",
+                transition: TransitionType.native,
+                transitionDuration: Duration(milliseconds: 300),
+              );
             },
             child: Container(
               child: Column(

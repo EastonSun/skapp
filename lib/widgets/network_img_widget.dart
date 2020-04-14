@@ -19,12 +19,20 @@ class NetworkImgWidget extends StatefulWidget {
 }
 
 class _NetworkImgWidgetState extends State<NetworkImgWidget> {
-  final imgUrl;
+  var imgUrl;
   final radius;
+  // bool imageFailedToLoad = false;
   _NetworkImgWidgetState(this.imgUrl, this.radius);
 
   @override
   Widget build(BuildContext context) {
+    // precacheImage(NetworkImage(imgUrl), context, onError: (e, stackTrace) {
+    //   print('Image failed to load with error $e.');
+    //   setState(() {
+    //     imageFailedToLoad = true;
+    //   });
+    // });
+
     return Stack(
       children: <Widget>[
         Padding(

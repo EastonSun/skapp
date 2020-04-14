@@ -2,6 +2,7 @@ import './../pages/app/index.dart';
 import './../pages/details/index.dart';
 import './../pages/search/index.dart';
 import './../pages/live/index.dart';
+import './../pages/live/show_lives.dart';
 
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
@@ -27,4 +28,11 @@ Handler searchRouteHandler = Handler(
 Handler liveRouteHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   return Live();
+});
+
+Handler showLivesRouteHandler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  return VideoWidget(
+    address: params['address'].first,
+  );
 });

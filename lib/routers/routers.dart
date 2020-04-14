@@ -11,6 +11,8 @@ class Routes {
   static String search = "/search";
   // 直播概览
   static String live = "/live";
+  // 直播详情
+  static String showLives = "/showLives";
 
   static void configureRoutes(Router router) {
     router.notFoundHandler = Handler(
@@ -21,6 +23,7 @@ class Routes {
     router.define(details, handler: detailsRouteHandler);
     router.define(search, handler: searchRouteHandler);
     router.define(live, handler: liveRouteHandler);
+    router.define(showLives, handler: showLivesRouteHandler);
     // router.define(demoSimpleFixedTrans,
     //     handler: demoRouteHandler, transitionType: TransitionType.inFromLeft);
   }

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
 
@@ -36,9 +37,14 @@ class _NetworkImgWidgetState extends State<NetworkImgWidget> {
         ),
         ClipRRect(
           borderRadius: BorderRadius.all(Radius.circular(radius)),
-          child: FadeInImage.memoryNetwork(
-            placeholder: kTransparentImage,
-            image: imgUrl,
+          child: CachedNetworkImage(
+            imageUrl: imgUrl,
+            errorWidget: (context, url, error) => Container(
+              color: Theme.of(context).backgroundColor,
+              child: Center(
+                child: Icon(Icons.error),
+              ),
+            ),
             fit: BoxFit.fill,
             width: double.infinity,
             height: double.infinity,

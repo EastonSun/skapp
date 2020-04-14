@@ -1,6 +1,7 @@
 import './../pages/app/index.dart';
 import './../pages/details/index.dart';
 import './../pages/search/index.dart';
+import './../pages/live/index.dart';
 
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
@@ -21,4 +22,9 @@ Handler detailsRouteHandler = Handler(
 Handler searchRouteHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   return Search();
+});
+
+Handler liveRouteHandler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  return Live();
 });

@@ -121,6 +121,19 @@ class _App extends State<App> {
                 _global.isDark ? Icons.invert_colors : Icons.invert_colors_off),
             selected: _global.isDark,
           ),
+          ListTile(
+            title: Text('直播'),
+            leading: Icon(Icons.live_tv),
+            onTap: () {
+              Navigator.of(context).pop();
+              Application.router.navigateTo(
+                context,
+                "/live",
+                transition: TransitionType.native,
+                transitionDuration: Duration(milliseconds: 300),
+              );
+            },
+          )
         ],
       ),
     );

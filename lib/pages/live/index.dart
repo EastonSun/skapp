@@ -83,6 +83,9 @@ class _LiveState extends State<Live> with SingleTickerProviderStateMixin {
                     // labelStyle: TextStyle(fontSize: 12),
                     tabs: myTabs,
                   ),
+                  SizedBox(
+                    height: 20,
+                  ),
                   Expanded(
                     flex: 1,
                     child: TabBarView(

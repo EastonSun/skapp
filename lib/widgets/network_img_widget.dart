@@ -21,12 +21,12 @@ class NetworkImgWidget extends StatefulWidget {
 class _NetworkImgWidgetState extends State<NetworkImgWidget> {
   var imgUrl;
   final radius;
-  // bool imageFailedToLoad = false;
   _NetworkImgWidgetState(this.imgUrl, this.radius);
 
   @override
   Widget build(BuildContext context) {
-    // precacheImage(NetworkImage(imgUrl), context, onError: (e, stackTrace) {
+    // precacheImage(CachedNetworkImageProvider(imgUrl), context,
+    //     onError: (e, stackTrace) {
     //   print('Image failed to load with error $e.');
     //   setState(() {
     //     imageFailedToLoad = true;
@@ -44,20 +44,16 @@ class _NetworkImgWidgetState extends State<NetworkImgWidget> {
           ),
         ),
         ClipRRect(
-          borderRadius: BorderRadius.all(Radius.circular(radius)),
-          child: CachedNetworkImage(
-            imageUrl: imgUrl,
-            errorWidget: (context, url, error) => Container(
-              color: Theme.of(context).backgroundColor,
-              child: Center(
-                child: Icon(Icons.error),
+            borderRadius: BorderRadius.all(Radius.circular(radius)),
+            child: FadeInImage(
+              placeholder: MemoryImage(kTransparentImage),
+              image: CachedNetworkImageProvider(
+                imgUrl,
               ),
-            ),
-            fit: BoxFit.fill,
-            width: double.infinity,
-            height: double.infinity,
-          ),
-        ),
+              fit: BoxFit.fill,
+              width: double.infinity,
+              height: double.infinity,
+            )),
       ],
     );
   }

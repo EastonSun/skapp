@@ -57,7 +57,7 @@ class _LiveListState extends State<LiveList>
                       length: 10,
                     )
               : ListView(
-                  children: <Widget>[CustomGridView(store.live)],
+                  children: <Widget>[CustomGridView(store.live, widget.url)],
                 ),
         ),
       ),

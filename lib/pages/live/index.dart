@@ -84,7 +84,7 @@ class _LiveState extends State<Live> with SingleTickerProviderStateMixin {
                     tabs: myTabs,
                   ),
                   SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   Expanded(
                     flex: 1,

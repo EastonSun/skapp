@@ -34,5 +34,7 @@ Handler showLivesRouteHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   return VideoWidget(
     address: params['address'].first,
+    index: int.parse(params['index'].first),
+    url: params['url'].first,
   );
 });

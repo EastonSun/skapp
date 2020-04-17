@@ -6,7 +6,8 @@ import 'network_img_widget.dart';
 
 class CustomGridView extends StatelessWidget {
   final List lists;
-  CustomGridView(this.lists);
+  final String url; // 地址
+  CustomGridView(this.lists, this.url);
   @override
   Widget build(BuildContext context) {
     return Observer(
@@ -27,7 +28,7 @@ class CustomGridView extends StatelessWidget {
             onTap: () {
               Application.router.navigateTo(
                 context,
-                "/showLives?address=${Uri.encodeComponent(vod.address)}",
+                "/showLives?address=${Uri.encodeComponent(vod.address)}&index=$index&url=$url",
                 transition: TransitionType.native,
                 transitionDuration: Duration(milliseconds: 300),
               );
@@ -38,7 +39,7 @@ class CustomGridView extends StatelessWidget {
                   AspectRatio(
                     aspectRatio: 0.73, // 宽高比
                     child: Container(
-                      child: Image.asset('/assets/images/hgf.jpeg'),
+                      child: Image.asset('assets/images/hgf.jpeg'),
                       // child: NetworkImgWidget(
                       //   imgUrl: vod.img,
                       //   radius: 4,

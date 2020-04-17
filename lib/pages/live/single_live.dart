@@ -27,11 +27,15 @@ class _SingleVideoWidgetState extends State<SingleVideoWidget> {
     super.initState();
 
     cusController = CustomIJKControllerWidget(
-        controller: controller,
-        currentFullScreenState: true,
-        showFullScreenButton: false,
-        horizontalGesture: false,
-        verticalGesture: false);
+      controller: controller,
+      currentFullScreenState: true,
+      showFullScreenButton: false,
+      horizontalGesture: false,
+      verticalGesture: false,
+      fullscreenControllerWidgetBuilder: (IJKControllerWidgetBuilder) {
+        return Container();
+      },
+    );
     // 初始化
     controller.setNetworkDataSource(
       widget.address,
@@ -51,8 +55,26 @@ class _SingleVideoWidgetState extends State<SingleVideoWidget> {
         controllerWidgetBuilder: (mediaController) {
           return cusController; // 自定义
         },
+        statusWidgetBuilder: _buildStatusWidget,
       ),
     );
+  }
+
+  Widget _buildStatusWidget(
+    BuildContext context,
+    IjkMediaController controller,
+    IjkStatus status,
+  ) {
+    if (status == IjkStatus.prepared) {
+      return Center(
+        child: CircularProgressIndicator(
+          strokeWidth: 1.4,
+        ),
+      );
+    }
+
+    // you can custom your self status widget
+    return IjkStatusWidget.buildStatusWidget(context, controller, status);
   }
 
   @override

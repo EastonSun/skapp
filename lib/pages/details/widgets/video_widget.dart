@@ -24,17 +24,27 @@ class _VideoWidgetState extends State<VideoWidget> {
   IjkMediaController controller = IjkMediaController();
   CustomIJKControllerWidget cusController;
 
+  initPlayer() async {
+    await controller.setNetworkDataSource(
+      widget.store.currentUrl,
+      autoPlay: true,
+    );
+  }
+
   @override
   void initState() {
     super.initState();
     cusController = CustomIJKControllerWidget(
       controller: controller,
+      // fullscreenControllerWidgetBuilder: (IJKControllerWidgetBuilder) {
+      //   return Container(
+      //     color: Colors.red,
+      //     child: Text('ccc'),
+      //   );
+      // },
     );
     // 初始化
-    controller.setNetworkDataSource(
-      widget.store.currentUrl,
-      autoPlay: true,
-    );
+    initPlayer();
   }
 
   @override
@@ -57,14 +67,31 @@ class _VideoWidgetState extends State<VideoWidget> {
     return AspectRatio(
       aspectRatio: 16.0 / 9.0, // 宽高比
       child: Container(
-        child: IjkPlayer(
-          mediaController: controller,
-          controllerWidgetBuilder: (mediaController) {
-            return cusController; // 自定义
-          },
-        ),
-      ),
+          child: IjkPlayer(
+        mediaController: controller,
+        controllerWidgetBuilder: (mediaController) {
+          return cusController; // 自定义
+        },
+        statusWidgetBuilder: _buildStatusWidget,
+      )),
     );
+  }
+
+  Widget _buildStatusWidget(
+    BuildContext context,
+    IjkMediaController controller,
+    IjkStatus status,
+  ) {
+    if (status == IjkStatus.prepared) {
+      return Center(
+        child: CircularProgressIndicator(
+          strokeWidth: 1.4,
+        ),
+      );
+    }
+
+    // you can custom your self status widget
+    return IjkStatusWidget.buildStatusWidget(context, controller, status);
   }
 
   @override

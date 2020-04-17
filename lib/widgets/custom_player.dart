@@ -121,7 +121,7 @@ class CustomIJKControllerWidgetState extends State<CustomIJKControllerWidget>
 
   GlobalKey currentKey = GlobalKey();
 
-  bool _isShow = true;
+  bool _isShow = false;
 
   String _speed = '1.0';
 
@@ -214,8 +214,8 @@ class CustomIJKControllerWidgetState extends State<CustomIJKControllerWidget>
     if (!isShow) {
       return Container();
     }
-    // 在此处定义定时器，隐藏下面的bar 等待 8000ms
-    Future.delayed(const Duration(milliseconds: 8000)).then((_) {
+    // 在此处定义定时器，隐藏下面的bar 等待 6000ms
+    Future.delayed(const Duration(milliseconds: 6000)).then((_) {
       isShow = false;
     });
     return StreamBuilder<VideoInfo>(
@@ -237,7 +237,7 @@ class CustomIJKControllerWidgetState extends State<CustomIJKControllerWidget>
     var isFull = widget.currentFullScreenState;
 
     return IconButton(
-      color: Theme.of(context).primaryColorDark,
+      color: Colors.white,
       icon: Icon(isFull ? Icons.fullscreen_exit : Icons.fullscreen),
       onPressed: fullScreen,
     );
@@ -275,7 +275,8 @@ class CustomIJKControllerWidgetState extends State<CustomIJKControllerWidget>
         playWillPauseOther: widget.playWillPauseOther,
         fullScreenWidget: _buildFullScreenButton(context),
         changeSpeed: changeSpeed,
-        speed: speed);
+        speed: speed,
+        currentFullScreenState: widget.currentFullScreenState);
   }
 
   changeSpeed(value) {
@@ -567,6 +568,7 @@ class PortraitController extends StatelessWidget {
   final bool playWillPauseOther;
   final Widget fullScreenWidget;
   final String speed;
+  final bool currentFullScreenState;
   final changeSpeed;
 
   PortraitController(
@@ -577,7 +579,8 @@ class PortraitController extends StatelessWidget {
       this.playWillPauseOther = true,
       this.fullScreenWidget,
       this.changeSpeed,
-      this.speed})
+      this.speed,
+      this.currentFullScreenState})
       : super(key: key);
 
   bool get haveTime {
@@ -621,10 +624,12 @@ class PortraitController extends StatelessWidget {
           padding: const EdgeInsets.all(6.0),
           child: maxTime,
         ),
-        Padding(
-          padding: const EdgeInsets.all(6.0),
-          child: buildSpeed(context, info),
-        ),
+        currentFullScreenState
+            ? Padding(
+                padding: const EdgeInsets.all(6.0),
+                child: buildSpeed(context, info),
+              )
+            : Container(),
         fullScreenButton,
       ],
     );
@@ -635,7 +640,7 @@ class PortraitController extends StatelessWidget {
       child: widget,
     );
     widget = Container(
-      color: Colors.black.withOpacity(0.42),
+      color: Colors.black.withOpacity(0.0),
       child: widget,
     );
     return widget;
@@ -645,22 +650,28 @@ class PortraitController extends StatelessWidget {
     if (!info.hasData || info.duration == 0) {
       return Container();
     }
-    return DropdownButtonHideUnderline(
-      child: DropdownButton<String>(
-        value: speed,
-        hint: Text('倍数'),
-        onChanged: (String newValue) {
-          changeSpeed(newValue);
-        },
-        iconSize: 0,
-        style: TextStyle(color: Theme.of(context).primaryColorDark),
-        items:
-            ['0.5', '1.0', '1.5', '2.0'].map<DropdownMenuItem<String>>((value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-          );
-        }).toList(),
+    return Theme(
+      data: Theme.of(context).copyWith(
+        canvasColor: Color.fromRGBO(0, 0, 0, 1.00),
+      ),
+      // DropdownButtonHideUnderline 没有下划线的下拉栏
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton<String>(
+          value: speed,
+          hint: Text('倍数'),
+          onChanged: (String newValue) {
+            changeSpeed(newValue);
+          },
+          iconSize: 0,
+          style: TextStyle(color: Colors.white),
+          items: ['0.5', '1.0', '1.5', '2.0']
+              .map<DropdownMenuItem<String>>((value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
+        ),
       ),
     );
   }
@@ -670,7 +681,7 @@ class PortraitController extends StatelessWidget {
       return Container();
     }
     return Container(
-      height: 22,
+      height: 10,
       child: ProgressBar(
         playedColor: Theme.of(context).primaryColorDark,
         current: info.currentPosition,
@@ -690,7 +701,7 @@ class PortraitController extends StatelessWidget {
     return haveTime
         ? Text(
             TimeHelper.getTimeText(info.currentPosition),
-            style: TextStyle(color: Theme.of(context).primaryColorDark),
+            style: TextStyle(color: Colors.white),
           )
         : Container();
   }
@@ -699,7 +710,7 @@ class PortraitController extends StatelessWidget {
     return haveTime
         ? Text(
             TimeHelper.getTimeText(info.duration),
-            style: TextStyle(color: Theme.of(context).primaryColorDark),
+            style: TextStyle(color: Colors.white),
           )
         : Container();
   }
@@ -709,7 +720,7 @@ class PortraitController extends StatelessWidget {
       onPressed: () {
         controller.playOrPause(pauseOther: playWillPauseOther);
       },
-      color: Theme.of(context).primaryColorDark,
+      color: Colors.white,
       icon: Icon(info.isPlaying ? Icons.pause : Icons.play_arrow),
       iconSize: 25.0,
     );

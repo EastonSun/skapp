@@ -38,6 +38,8 @@ android {
 
     lintOptions {
         disable 'InvalidPackage'
+        checkReleaseBuilds false
+        // abortOnError false
     }
 
     defaultConfig {
@@ -54,7 +56,7 @@ android {
         release {
             keyAlias "key"
             keyPassword "19940111"
-            storeFile file("F:/code/key.jks")
+            storeFile file("E:/code/key.jks")
             storePassword "19940111"
         }
     }
@@ -79,4 +81,3 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
-

@@ -50,7 +50,7 @@ abstract class GlobalMobx with Store {
 
   /// 可观察的值
   @observable
-  bool showAd = false; // 是否显示loading
+  bool showAd = true; // 是否显示loading
 
   @observable
   String title = 'SK'; // 标题

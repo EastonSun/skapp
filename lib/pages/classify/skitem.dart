@@ -35,7 +35,7 @@ class _SKItemState extends State<SKItem> {
       },
       child: Container(
         color: Theme.of(context).cardColor,
-        height: 144,
+        height: 148,
         //margin: EdgeInsets.only(bottom: 10.0),
         padding: EdgeInsets.only(
           left: 15,
@@ -48,9 +48,12 @@ class _SKItemState extends State<SKItem> {
           children: <Widget>[
             Container(
               width: 86,
-              child: NetworkImgWidget(
-                imgUrl: vod.vodPic,
-                radius: 4,
+              child: AspectRatio(
+                aspectRatio: 0.73, // 宽高比
+                child: NetworkImgWidget(
+                  imgUrl: vod.vodPic,
+                  radius: 4,
+                ),
               ),
             ),
             Expanded(
@@ -99,22 +102,23 @@ class _SKItemState extends State<SKItem> {
               ),
             ),
             Expanded(
-                flex: 1,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(left: 15, right: 0),
-                      child: Text(
-                        vod.vodActor,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 6,
-                        style: Theme.of(context).textTheme.caption,
-                      ),
+              flex: 1,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(left: 15, right: 0),
+                    child: Text(
+                      vod.vodActor,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 6,
+                      style: Theme.of(context).textTheme.caption,
                     ),
-                  ],
-                )),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),

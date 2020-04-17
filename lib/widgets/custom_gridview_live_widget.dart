@@ -38,10 +38,11 @@ class CustomGridView extends StatelessWidget {
                   AspectRatio(
                     aspectRatio: 0.73, // 宽高比
                     child: Container(
-                      child: NetworkImgWidget(
-                        imgUrl: vod.img,
-                        radius: 4,
-                      ),
+                      child: Image.asset('/assets/images/hgf.jpeg'),
+                      // child: NetworkImgWidget(
+                      //   imgUrl: vod.img,
+                      //   radius: 4,
+                      // ),
                     ),
                   ),
                   Padding(

@@ -41,6 +41,7 @@ dependencies:
   flutter_cache_manager: ^1.2.1
   path_provider: ^1.6.5
   fluttertoast: ^4.0.1
+  wakelock: ^0.1.4+1
 
 dev_dependencies:
   flutter_test:

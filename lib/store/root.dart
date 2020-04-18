@@ -63,6 +63,13 @@ abstract class GlobalMobx with Store {
     return isDark ? Brightness.dark : Brightness.light;
   }
 
+  // 获取图片缓存数据
+  @computed
+  int get imageCasheSize {
+    ImageCache imageCache = PaintingBinding.instance.imageCache;
+    return imageCache.currentSizeBytes;
+  }
+
   @observable
   bool isDark;
 

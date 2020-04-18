@@ -15,6 +15,12 @@ mixin _$Global on GlobalMobx, Store {
   Brightness get themeMode =>
       (_$themeModeComputed ??= Computed<Brightness>(() => super.themeMode))
           .value;
+  Computed<int> _$imageCasheSizeComputed;
+
+  @override
+  int get imageCasheSize =>
+      (_$imageCasheSizeComputed ??= Computed<int>(() => super.imageCasheSize))
+          .value;
 
   final _$showAdAtom = Atom(name: 'GlobalMobx.showAd');
 
@@ -119,7 +125,7 @@ mixin _$Global on GlobalMobx, Store {
   @override
   String toString() {
     final string =
-        'showAd: ${showAd.toString()},title: ${title.toString()},theme: ${theme.toString()},isDark: ${isDark.toString()},themeMode: ${themeMode.toString()}';
+        'showAd: ${showAd.toString()},title: ${title.toString()},theme: ${theme.toString()},isDark: ${isDark.toString()},themeMode: ${themeMode.toString()},imageCasheSize: ${imageCasheSize.toString()}';
     return '{$string}';
   }
 }

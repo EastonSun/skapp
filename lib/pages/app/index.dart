@@ -1,8 +1,10 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:skapp/routers/application.dart';
+import 'package:skapp/utils/cache.dart';
 import './../../store/type/type.dart';
 import './../../utils/map.dart';
 import './../classify/index.dart';
@@ -30,6 +32,8 @@ class _App extends State<App> {
   List<Widget> _pageList;
 
   List<BottomNavigationBarItem> itemList = [];
+
+  String size;
 
   Future<dynamic> requestAPI() async {
     await store.fetchData();
@@ -73,8 +77,16 @@ class _App extends State<App> {
     print('didUpdateWidget');
   }
 
+  Future getCacheInfo() async {
+    String sizeStr = await loadCache();
+    setState(() {
+      size = sizeStr;
+    });
+  }
+
   // 左侧抽屉
   renderDrawer(context, _global) {
+    getCacheInfo();
     return SmartDrawer(
       widthPercent: 0.65,
       child: ListView(
@@ -120,6 +132,13 @@ class _App extends State<App> {
             secondary: Icon(
                 _global.isDark ? Icons.invert_colors : Icons.invert_colors_off),
             selected: _global.isDark,
+          ),
+          ListTile(
+            title: Text('清除缓存($size)'),
+            leading: Icon(Icons.layers_clear),
+            onTap: () {
+              clearCache();
+            },
           ),
           ListTile(
             title: Text('直播'),
@@ -170,6 +189,7 @@ class _App extends State<App> {
     return PageView(
       controller: _pageController,
       children: _pageList,
+      physics: NeverScrollableScrollPhysics(),
       onPageChanged: (index) {
         _selectIndex = index;
       },

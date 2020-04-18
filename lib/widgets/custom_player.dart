@@ -9,7 +9,7 @@ import 'package:flutter_ijkplayer/src/helper/logutil.dart';
 import 'package:flutter_ijkplayer/src/helper/time_helper.dart';
 import 'package:flutter_ijkplayer/src/helper/ui_helper.dart';
 import 'package:flutter_ijkplayer/src/route/fullscreen_route.dart';
-import 'package:flutter_ijkplayer/src/widget/progress_bar.dart';
+// import 'package:flutter_ijkplayer/src/widget/progress_bar.dart';
 
 part 'full_screen.part.dart';
 
@@ -681,19 +681,36 @@ class PortraitController extends StatelessWidget {
       return Container();
     }
     return Container(
-      height: 10,
-      child: ProgressBar(
-        playedColor: Theme.of(context).primaryColorDark,
-        current: info.currentPosition,
+      // height: 10,
+      child: Slider(
+        value: info.currentPosition,
         max: info.duration,
-        changeProgressHandler: (progress) async {
-          await controller.seekToProgress(progress);
-          tooltipDelegate?.hideTooltip();
+        min: 0.0,
+        divisions: (info.duration).ceil(),
+        activeColor: Theme.of(context).primaryColorDark,
+        label: TimeHelper.getTimeText(info.currentPosition),
+        onChanged: (double progress) {
+          controller.seekTo(progress);
         },
-        tapProgressHandler: (progress) {
-          showProgressTooltip(info, progress);
+        onChangeStart: (double progress) {},
+        onChangeEnd: (double progress) async {
+          await controller.seekTo(progress).then((v) {
+            tooltipDelegate?.hideTooltip();
+          });
         },
       ),
+      // child: ProgressBar(
+      //   playedColor: Theme.of(context).primaryColorDark,
+      //   current: info.currentPosition,
+      //   max: info.duration,
+      //   changeProgressHandler: (progress) async {
+      //     await controller.seekToProgress(progress);
+      //     tooltipDelegate?.hideTooltip();
+      //   },
+      //   tapProgressHandler: (progress) {
+      //     showProgressTooltip(info, progress);
+      //   },
+      // ),
     );
   }
 
@@ -722,7 +739,7 @@ class PortraitController extends StatelessWidget {
       },
       color: Colors.white,
       icon: Icon(info.isPlaying ? Icons.pause : Icons.play_arrow),
-      iconSize: 25.0,
+      iconSize: 22.0,
     );
   }
 

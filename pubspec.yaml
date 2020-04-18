@@ -39,6 +39,8 @@ dependencies:
   sliding_up_panel: ^1.0.1
   cached_network_image: ^2.1.0+1
   flutter_cache_manager: ^1.2.1
+  path_provider: ^1.6.5
+  fluttertoast: ^4.0.1
 
 dev_dependencies:
   flutter_test:

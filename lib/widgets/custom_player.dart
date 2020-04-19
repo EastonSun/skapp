@@ -625,7 +625,7 @@ class PortraitController extends StatelessWidget {
             onTap: onTapClock,
             child: Padding(
               padding: EdgeInsets.only(
-                left: 16.0,
+                left: 12.0,
                 right: 6.0,
                 top: 6.0,
                 bottom: 6.0,

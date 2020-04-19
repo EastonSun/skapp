@@ -1,5 +1,6 @@
 import 'package:flutter_ijkplayer/flutter_ijkplayer.dart';
 import 'package:flutter/material.dart';
+import 'package:wakelock/wakelock.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import './../../../store/details/details.dart';
 import './../../../widgets/custom_player.dart'; // 自定义播放器样式
@@ -34,6 +35,7 @@ class _VideoWidgetState extends State<VideoWidget> {
   @override
   void initState() {
     super.initState();
+    Wakelock.enable();
     cusController = CustomIJKControllerWidget(
       controller: controller,
       // fullscreenControllerWidgetBuilder: (IJKControllerWidgetBuilder) {
@@ -97,6 +99,7 @@ class _VideoWidgetState extends State<VideoWidget> {
   @override
   void dispose() {
     controller.dispose();
+    Wakelock.disable();
     super.dispose();
   }
 }

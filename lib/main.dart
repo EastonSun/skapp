@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wakelock/wakelock.dart';
+
 import 'package:fluro/fluro.dart';
 import 'routers/routers.dart';
 import 'routers/application.dart';
@@ -10,7 +10,6 @@ import './store/root.dart';
 import './pages/splash/index.dart';
 
 void main() async {
-  Wakelock.enable();
   WidgetsFlutterBinding.ensureInitialized();
   // 初始化信息
   SharedPreferences prefs = await SharedPreferences.getInstance();

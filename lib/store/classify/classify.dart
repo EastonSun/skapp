@@ -50,7 +50,7 @@ abstract class ClassifyStoreMobx with Store {
   num qLimit = 10;
 
   @observable
-  String qType = 'hot';
+  String qType = 'updateTime';
 
   @action
   Future<dynamic> fetchTypeData({@required typeId}) async {

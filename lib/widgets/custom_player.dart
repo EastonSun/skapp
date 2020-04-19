@@ -123,10 +123,20 @@ class CustomIJKControllerWidgetState extends State<CustomIJKControllerWidget>
 
   bool _isShow = false;
 
+  bool _isClock = false;
+
   String _speed = '1.0';
 
   set isShow(bool value) {
     _isShow = value;
+    setState(() {});
+    if (value == true) {
+      controller.refreshVideoInfo();
+    }
+  }
+
+  set isClock(bool value) {
+    _isClock = value;
     setState(() {});
     if (value == true) {
       controller.refreshVideoInfo();
@@ -139,6 +149,8 @@ class CustomIJKControllerWidgetState extends State<CustomIJKControllerWidget>
   }
 
   bool get isShow => _isShow;
+
+  bool get isClock => _isClock;
 
   String get speed => _speed;
 
@@ -276,7 +288,10 @@ class CustomIJKControllerWidgetState extends State<CustomIJKControllerWidget>
         fullScreenWidget: _buildFullScreenButton(context),
         changeSpeed: changeSpeed,
         speed: speed,
-        currentFullScreenState: widget.currentFullScreenState);
+        currentFullScreenState: widget.currentFullScreenState,
+        isShow: isShow,
+        isClock: isClock,
+        onTapClock: onTapClock);
   }
 
   changeSpeed(value) {
@@ -342,6 +357,8 @@ class CustomIJKControllerWidgetState extends State<CustomIJKControllerWidget>
 
   onTap() => isShow = !isShow;
 
+  onTapClock() => isClock = !isClock;
+
   Function onDoubleTap() {
     return widget.doubleTapPlay
         ? () {
@@ -352,10 +369,10 @@ class CustomIJKControllerWidgetState extends State<CustomIJKControllerWidget>
   }
 
   Function wrapHorizontalGesture(Function function) =>
-      widget.horizontalGesture == true ? function : null;
+      isClock ? null : widget.horizontalGesture == true ? function : null;
 
   Function wrapVerticalGesture(Function function) =>
-      widget.verticalGesture == true ? function : null;
+      isClock ? null : widget.verticalGesture == true ? function : null;
 
   void _onHorizontalDragStart(DragStartDetails details) async {
     var videoInfo = await controller.getVideoInfo();
@@ -569,19 +586,25 @@ class PortraitController extends StatelessWidget {
   final Widget fullScreenWidget;
   final String speed;
   final bool currentFullScreenState;
+  final bool isShow;
+  final bool isClock;
+  final Function onTapClock;
   final changeSpeed;
 
-  PortraitController(
-      {Key key,
-      this.controller,
-      this.info,
-      this.tooltipDelegate,
-      this.playWillPauseOther = true,
-      this.fullScreenWidget,
-      this.changeSpeed,
-      this.speed,
-      this.currentFullScreenState})
-      : super(key: key);
+  PortraitController({
+    Key key,
+    this.controller,
+    this.info,
+    this.tooltipDelegate,
+    this.playWillPauseOther = true,
+    this.fullScreenWidget,
+    this.changeSpeed,
+    this.speed,
+    this.isShow,
+    this.isClock,
+    this.onTapClock,
+    this.currentFullScreenState,
+  }) : super(key: key);
 
   bool get haveTime {
     return info.hasData && info.duration > 0;
@@ -593,14 +616,63 @@ class PortraitController extends StatelessWidget {
       return Container();
     }
     Widget bottomBar = buildBottomBar(context);
-    return Column(
+    return Stack(
       children: <Widget>[
-        Expanded(
-          child: Container(),
+        Align(
+          //对齐底部
+          alignment: Alignment.centerLeft,
+          child: GestureDetector(
+            onTap: onTapClock,
+            child: Padding(
+              padding: EdgeInsets.only(
+                left: 16.0,
+                right: 6.0,
+                top: 6.0,
+                bottom: 6.0,
+              ),
+              child: Icon(
+                isClock ? Icons.lock_outline : Icons.lock_open,
+                color: Colors.white,
+              ),
+            ),
+          ),
         ),
-        bottomBar,
+        Align(
+          //对齐底部
+          alignment: Alignment.bottomCenter,
+          child: isClock ? Container() : bottomBar,
+        ),
       ],
     );
+    // Column(
+    //   crossAxisAlignment: CrossAxisAlignment.start,
+    //   children: <Widget>[
+    //     Expanded(
+    //       child: Container(
+    //         child: Column(
+    //           mainAxisAlignment: MainAxisAlignment.center,
+    //           children: <Widget>[
+    //             GestureDetector(
+    //                 onTap: onTapClock,
+    //                 child: Padding(
+    //                   padding: EdgeInsets.only(
+    //                     left: 20.0,
+    //                     right: 6.0,
+    //                     top: 6.0,
+    //                     bottom: 6.0,
+    //                   ),
+    //                   child: Icon(
+    //                     isClock ? Icons.lock_outline : Icons.lock_open,
+    //                     color: Colors.white,
+    //                   ),
+    //                 ))
+    //           ],
+    //         ),
+    //       ),
+    //     ),
+    //     isClock ? Container() : bottomBar,
+    //   ],
+    // );
   }
 
   Widget buildBottomBar(BuildContext context) {
@@ -612,26 +684,29 @@ class PortraitController extends StatelessWidget {
 
     var fullScreenButton = buildFullScreenButton(context);
 
-    Widget widget = Row(
-      children: <Widget>[
-        playButton,
-        Padding(
-          padding: const EdgeInsets.all(6.0),
-          child: currentTime,
-        ),
-        Expanded(child: progress),
-        Padding(
-          padding: const EdgeInsets.all(6.0),
-          child: maxTime,
-        ),
-        currentFullScreenState
-            ? Padding(
-                padding: const EdgeInsets.all(6.0),
-                child: buildSpeed(context, info),
-              )
-            : Container(),
-        fullScreenButton,
-      ],
+    Widget widget = Container(
+      height: 40,
+      child: Row(
+        children: <Widget>[
+          playButton,
+          Padding(
+            padding: const EdgeInsets.all(6.0),
+            child: currentTime,
+          ),
+          Expanded(child: progress),
+          Padding(
+            padding: const EdgeInsets.all(6.0),
+            child: maxTime,
+          ),
+          currentFullScreenState
+              ? Padding(
+                  padding: const EdgeInsets.all(6.0),
+                  child: buildSpeed(context, info),
+                )
+              : Container(),
+          fullScreenButton,
+        ],
+      ),
     );
     widget = DefaultTextStyle(
       style: const TextStyle(
@@ -694,6 +769,7 @@ class PortraitController extends StatelessWidget {
         },
         onChangeStart: (double progress) {},
         onChangeEnd: (double progress) async {
+          showProgressTooltip(info, progress);
           await controller.seekTo(progress).then((v) {
             tooltipDelegate?.hideTooltip();
           });

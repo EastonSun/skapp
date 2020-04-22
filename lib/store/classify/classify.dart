@@ -95,7 +95,7 @@ abstract class ClassifyStoreMobx with Store {
   void resetData() {
     qPage = 1;
     qLimit = 10;
-    qType = 'hot';
+    qType = 'updateTime';
     vodDataLists.clear();
   }
 }

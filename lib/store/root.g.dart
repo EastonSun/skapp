@@ -39,6 +39,23 @@ mixin _$Global on GlobalMobx, Store {
     }, _$showAdAtom, name: '${_$showAdAtom.name}_set');
   }
 
+  final _$appConfigAtom = Atom(name: 'GlobalMobx.appConfig');
+
+  @override
+  AppConfigDao get appConfig {
+    _$appConfigAtom.context.enforceReadPolicy(_$appConfigAtom);
+    _$appConfigAtom.reportObserved();
+    return super.appConfig;
+  }
+
+  @override
+  set appConfig(AppConfigDao value) {
+    _$appConfigAtom.context.conditionallyRunInAction(() {
+      super.appConfig = value;
+      _$appConfigAtom.reportChanged();
+    }, _$appConfigAtom, name: '${_$appConfigAtom.name}_set');
+  }
+
   final _$titleAtom = Atom(name: 'GlobalMobx.title');
 
   @override
@@ -90,6 +107,13 @@ mixin _$Global on GlobalMobx, Store {
     }, _$isDarkAtom, name: '${_$isDarkAtom.name}_set');
   }
 
+  final _$getAppConfigAsyncAction = AsyncAction('getAppConfig');
+
+  @override
+  Future<dynamic> getAppConfig() {
+    return _$getAppConfigAsyncAction.run(() => super.getAppConfig());
+  }
+
   final _$GlobalMobxActionController = ActionController(name: 'GlobalMobx');
 
   @override
@@ -125,7 +149,7 @@ mixin _$Global on GlobalMobx, Store {
   @override
   String toString() {
     final string =
-        'showAd: ${showAd.toString()},title: ${title.toString()},theme: ${theme.toString()},isDark: ${isDark.toString()},themeMode: ${themeMode.toString()},imageCasheSize: ${imageCasheSize.toString()}';
+        'showAd: ${showAd.toString()},appConfig: ${appConfig.toString()},title: ${title.toString()},theme: ${theme.toString()},isDark: ${isDark.toString()},themeMode: ${themeMode.toString()},imageCasheSize: ${imageCasheSize.toString()}';
     return '{$string}';
   }
 }

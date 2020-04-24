@@ -10,6 +10,9 @@ import 'package:mobx/mobx.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
+import './../dao/app_config_dao.dart';
+import './../http/API.dart';
+import './../http/http_request.dart';
 
 /// 必须, 用于生成.g文件
 part 'root.g.dart';
@@ -42,6 +45,8 @@ abstract class GlobalMobx with Store {
     Colors.blueGrey,
   ];
 
+  String url = API.APP_CONFIG;
+
   Future getThemeIndex() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int themeIndex = prefs.getInt('themeIndex') ?? 0;
@@ -51,6 +56,9 @@ abstract class GlobalMobx with Store {
   /// 可观察的值
   @observable
   bool showAd = true; // 是否显示loading
+
+  @observable
+  AppConfigDao appConfig;
 
   @observable
   String title = 'SK'; // 标题
@@ -97,5 +105,12 @@ abstract class GlobalMobx with Store {
   void changeThemeMode(bool value) {
     isDark = value;
     prefs.setBool('isDark', value);
+  }
+
+  @action
+  Future<dynamic> getAppConfig() async {
+    var req = HttpRequest(API.BASE_SK_URL);
+    final res = await req.get(url);
+    this.appConfig = AppConfigDao.fromJson(res);
   }
 }

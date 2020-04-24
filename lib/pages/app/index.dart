@@ -1,6 +1,6 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+// import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:skapp/routers/application.dart';
@@ -140,19 +140,21 @@ class _App extends State<App> {
               clearCache();
             },
           ),
-          ListTile(
-            title: Text('直播'),
-            leading: Icon(Icons.live_tv),
-            onTap: () {
-              Navigator.of(context).pop();
-              Application.router.navigateTo(
-                context,
-                "/live",
-                transition: TransitionType.native,
-                transitionDuration: Duration(milliseconds: 300),
-              );
-            },
-          )
+          _global.appConfig.showlive
+              ? ListTile(
+                  title: Text('直播'),
+                  leading: Icon(Icons.live_tv),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    Application.router.navigateTo(
+                      context,
+                      "/live",
+                      transition: TransitionType.native,
+                      transitionDuration: Duration(milliseconds: 300),
+                    );
+                  },
+                )
+              : Container()
         ],
       ),
     );

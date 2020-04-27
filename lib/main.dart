@@ -34,8 +34,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Global _global = Provider.of<Global>(context);
-    _global.getAppConfig();
-
     return Observer(
       builder: (_) => MaterialApp(
         theme: ThemeData(

@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 // import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:package_info/package_info.dart';
-import 'package:flutter_app_upgrade/flutter_app_upgrade.dart';
+
 import 'package:provider/provider.dart';
 import 'package:skapp/routers/application.dart';
 import 'package:skapp/utils/cache.dart';
 import './../../store/type/type.dart';
 import './../../utils/map.dart';
+import 'package:flutter_app_upgrade/flutter_app_upgrade.dart';
 import './../classify/index.dart';
 import './../../widgets/search_text_field_widget_app.dart';
 import './../../widgets/smart_drawer.dart';
@@ -26,7 +27,9 @@ class App extends StatefulWidget {
 
 class _App extends State<App> {
   final Type store = Type();
-  Global _global;
+  final Global globalStore = Global(null);
+
+  PackageInfo _appInfo;
 
   //创建页面控制器
   PageController _pageController;
@@ -40,7 +43,6 @@ class _App extends State<App> {
 
   Future<dynamic> requestAPI() async {
     await store.fetchData();
-
     if (store.type != null &&
         store.type.code == 200 &&
         store.type.data.length > 1) {
@@ -73,7 +75,7 @@ class _App extends State<App> {
     super.initState();
     _pageController = new PageController(initialPage: _selectIndex);
     requestAPI();
-    upgradeApp();
+    _checkAppUpgrade();
   }
 
   @override
@@ -82,20 +84,37 @@ class _App extends State<App> {
     print('didUpdateWidget');
   }
 
-  Future upgradeApp() async {
-    _global = Provider.of<Global>(context);
+  _getAppInfo() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    setState(() {
+      _appInfo = packageInfo;
+    });
+  }
 
-    String appName = packageInfo.appName;
-    String packageName = packageInfo.packageName;
-    String version = packageInfo.version;
-    String buildNumber = packageInfo.buildNumber;
+  _checkAppUpgrade() {
     AppUpgrade.appUpgrade(
       context,
       _checkAppInfo(),
+      cancelText: '以后再说',
+      okText: '马上升级',
       iosAppId: 'id88888888',
+      // appMarketInfo: AppMarket.huaWei,
     );
-    setState(() {});
+  }
+
+  Future<AppUpgradeInfo> _checkAppInfo() async {
+    await _getAppInfo();
+    await globalStore.getAppConfig();
+    return Future.value(
+      globalStore.appConfig.version != _appInfo.version
+          ? AppUpgradeInfo(
+              title: globalStore.appConfig.title,
+              contents: globalStore.appConfig.contents,
+              apkDownloadUrl: globalStore.appConfig.apkDownloadUrl,
+              force: globalStore.appConfig.force,
+            )
+          : null,
+    );
   }
 
   Future getCacheInfo() async {
@@ -103,21 +122,6 @@ class _App extends State<App> {
     setState(() {
       size = sizeStr;
     });
-  }
-
-  Future<AppUpgradeInfo> _checkAppInfo() {
-    return Future.value(AppUpgradeInfo(
-      title: '新版本V1.1.1',
-      contents: [
-        '1、支持立体声蓝牙耳机，同时改善配对性能',
-        '2、提供屏幕虚拟键盘',
-        '3、更简洁更流畅，使用起来更快',
-        '4、修复一些软件在使用时自动退出bug',
-        '5、新增加了分类查看功能'
-      ],
-      apkDownloadUrl: '',
-      force: false,
-    ));
   }
 
   // 左侧抽屉
@@ -176,7 +180,7 @@ class _App extends State<App> {
               clearCache();
             },
           ),
-          _global.appConfig.showlive
+          globalStore.appConfig.showlive
               ? ListTile(
                   title: Text('直播'),
                   leading: Icon(Icons.live_tv),
@@ -259,7 +263,7 @@ class _App extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    _global = Provider.of<Global>(context);
+    Global _global = Provider.of<Global>(context);
 
     return store.isLoading
         ? Container()

@@ -44,7 +44,8 @@ dependencies:
   path_provider: ^1.6.5
   fluttertoast: ^4.0.1
   wakelock: ^0.1.4+1
-  flutter_app_upgrade: ^1.0.2
+  flutter_app_upgrade: ^1.0.0
+  package_info: ^0.4.0+17
 
 dev_dependencies:
   flutter_test:

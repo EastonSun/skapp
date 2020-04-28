@@ -12,6 +12,8 @@ class API {
   static const SEARCH_URL = '/sk-api/search/list?keyword='; // 搜索
   // app配置
   static const APP_CONFIG = '/app/config';
+  // app更新配置
+  static const APP_UPDATE_URL = '/assets/app/appcast.xml';
 
   // 直播接口
   static const BASE_LIVE_URL = 'http://api.vipmisss.com:81/xcdsw';

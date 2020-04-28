@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:package_info/package_info.dart';
+import 'package:upgrader/upgrader.dart';
 import 'package:fluro/fluro.dart';
 import 'routers/routers.dart';
 import 'routers/application.dart';
 import './store/root.dart';
 import './pages/splash/index.dart';
+import './http/API.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,6 +27,9 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+  final updataAppUrl = API.BASE_SK_URL + API.APP_UPDATE_URL;
+  PackageInfo packageInfo;
+
   MyApp() {
     final router = new Router();
     Routes.configureRoutes(router);
@@ -34,6 +39,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Global _global = Provider.of<Global>(context);
+    _global.getAppConfig();
+    Upgrader().clearSavedSettings();
+    // Upgrader().isUpdateAvailable();
+    final cfg =
+        AppcastConfiguration(url: updataAppUrl, supportedOS: ['android']);
+    _upgradeApp(_global);
+
     return Observer(
       builder: (_) => MaterialApp(
         theme: ThemeData(
@@ -42,11 +54,35 @@ class MyApp extends StatelessWidget {
           platform: TargetPlatform.iOS,
         ),
         home: Scaffold(
-          resizeToAvoidBottomPadding: false,
-          body: SplashWidget(),
-        ),
+            resizeToAvoidBottomPadding: false,
+            body: _global.updataApp
+                ? UpgradeAlert(
+                    appcastConfig: cfg,
+                    title: '发现新版本',
+                    prompt: '',
+                    showLater: false,
+                    showIgnore: false,
+                    buttonTitleUpdate: '立即更新',
+                    debugAlwaysUpgrade: true,
+                    child: Center(
+                      child: Container(),
+                    )
+                    // debugLogging: true,
+                    )
+                : SplashWidget()),
         onGenerateRoute: Application.router.generator,
       ),
     );
+  }
+
+  _upgradeApp(_global) async {
+    final appcast = Appcast();
+    await appcast.parseAppcastItemsFromUri(updataAppUrl);
+    final bestItem = appcast.bestItem();
+    // 判断版本是否一致
+    packageInfo = await PackageInfo.fromPlatform();
+    if (packageInfo.version != bestItem.versionString) {
+      _global.changeUpdataApp();
+    }
   }
 }

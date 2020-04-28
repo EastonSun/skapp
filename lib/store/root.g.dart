@@ -39,6 +39,23 @@ mixin _$Global on GlobalMobx, Store {
     }, _$showAdAtom, name: '${_$showAdAtom.name}_set');
   }
 
+  final _$updataAppAtom = Atom(name: 'GlobalMobx.updataApp');
+
+  @override
+  bool get updataApp {
+    _$updataAppAtom.context.enforceReadPolicy(_$updataAppAtom);
+    _$updataAppAtom.reportObserved();
+    return super.updataApp;
+  }
+
+  @override
+  set updataApp(bool value) {
+    _$updataAppAtom.context.conditionallyRunInAction(() {
+      super.updataApp = value;
+      _$updataAppAtom.reportChanged();
+    }, _$updataAppAtom, name: '${_$updataAppAtom.name}_set');
+  }
+
   final _$appConfigAtom = Atom(name: 'GlobalMobx.appConfig');
 
   @override
@@ -147,9 +164,19 @@ mixin _$Global on GlobalMobx, Store {
   }
 
   @override
+  void changeUpdataApp() {
+    final _$actionInfo = _$GlobalMobxActionController.startAction();
+    try {
+      return super.changeUpdataApp();
+    } finally {
+      _$GlobalMobxActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     final string =
-        'showAd: ${showAd.toString()},appConfig: ${appConfig.toString()},title: ${title.toString()},theme: ${theme.toString()},isDark: ${isDark.toString()},themeMode: ${themeMode.toString()},imageCasheSize: ${imageCasheSize.toString()}';
+        'showAd: ${showAd.toString()},updataApp: ${updataApp.toString()},appConfig: ${appConfig.toString()},title: ${title.toString()},theme: ${theme.toString()},isDark: ${isDark.toString()},themeMode: ${themeMode.toString()},imageCasheSize: ${imageCasheSize.toString()}';
     return '{$string}';
   }
 }

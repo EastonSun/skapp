@@ -764,15 +764,15 @@ class PortraitController extends StatelessWidget {
         divisions: (info.duration).ceil(),
         activeColor: Theme.of(context).primaryColorDark,
         label: TimeHelper.getTimeText(info.currentPosition),
-        onChanged: (double progress) {
-          controller.seekTo(progress);
+        onChanged: (double progress) async {
+          // showProgressTooltip(info, progress);
+          await controller.seekTo(progress);
+          tooltipDelegate?.hideTooltip();
         },
         onChangeStart: (double progress) {},
         onChangeEnd: (double progress) async {
-          showProgressTooltip(info, progress);
-          await controller.seekTo(progress).then((v) {
-            tooltipDelegate?.hideTooltip();
-          });
+          // await controller.seekTo(progress);
+          // tooltipDelegate?.hideTooltip();
         },
       ),
       // child: ProgressBar(

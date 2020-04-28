@@ -58,6 +58,9 @@ abstract class GlobalMobx with Store {
   bool showAd = true; // 是否显示loading
 
   @observable
+  bool updataApp = false; // 是否更新app
+
+  @observable
   AppConfigDao appConfig;
 
   @observable
@@ -114,5 +117,10 @@ abstract class GlobalMobx with Store {
     var req = HttpRequest(API.BASE_SK_URL);
     final res = await req.get(url);
     this.appConfig = AppConfigDao.fromJson(res);
+  }
+
+  @action
+  void changeUpdataApp() {
+    updataApp = true;
   }
 }

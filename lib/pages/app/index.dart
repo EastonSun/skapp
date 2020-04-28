@@ -2,14 +2,11 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
-import 'package:package_info/package_info.dart';
-
 import 'package:provider/provider.dart';
 import 'package:skapp/routers/application.dart';
 import 'package:skapp/utils/cache.dart';
 import './../../store/type/type.dart';
 import './../../utils/map.dart';
-import 'package:flutter_app_upgrade/flutter_app_upgrade.dart';
 import './../classify/index.dart';
 import './../../widgets/search_text_field_widget_app.dart';
 import './../../widgets/smart_drawer.dart';
@@ -27,9 +24,6 @@ class App extends StatefulWidget {
 
 class _App extends State<App> {
   final Type store = Type();
-  final Global globalStore = Global(null);
-
-  PackageInfo _appInfo;
 
   //创建页面控制器
   PageController _pageController;
@@ -75,46 +69,12 @@ class _App extends State<App> {
     super.initState();
     _pageController = new PageController(initialPage: _selectIndex);
     requestAPI();
-    _checkAppUpgrade();
   }
 
   @override
   void didUpdateWidget(App oldWidget) {
     super.didUpdateWidget(oldWidget);
     print('didUpdateWidget');
-  }
-
-  _getAppInfo() async {
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    setState(() {
-      _appInfo = packageInfo;
-    });
-  }
-
-  _checkAppUpgrade() {
-    AppUpgrade.appUpgrade(
-      context,
-      _checkAppInfo(),
-      cancelText: '以后再说',
-      okText: '马上升级',
-      iosAppId: 'id88888888',
-      // appMarketInfo: AppMarket.huaWei,
-    );
-  }
-
-  Future<AppUpgradeInfo> _checkAppInfo() async {
-    await _getAppInfo();
-    await globalStore.getAppConfig();
-    return Future.value(
-      globalStore.appConfig.version != _appInfo.version
-          ? AppUpgradeInfo(
-              title: globalStore.appConfig.title,
-              contents: globalStore.appConfig.contents,
-              apkDownloadUrl: globalStore.appConfig.apkDownloadUrl,
-              force: globalStore.appConfig.force,
-            )
-          : null,
-    );
   }
 
   Future getCacheInfo() async {
@@ -180,7 +140,7 @@ class _App extends State<App> {
               clearCache();
             },
           ),
-          globalStore.appConfig.showlive
+          _global.appConfig.showlive
               ? ListTile(
                   title: Text('直播'),
                   leading: Icon(Icons.live_tv),

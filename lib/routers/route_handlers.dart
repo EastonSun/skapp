@@ -3,6 +3,7 @@ import './../pages/details/index.dart';
 import './../pages/search/index.dart';
 import './../pages/live/index.dart';
 import './../pages/live/show_lives.dart';
+import './../pages/custom/index.dart';
 
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
@@ -37,4 +38,9 @@ Handler showLivesRouteHandler = Handler(
     index: int.parse(params['index'].first),
     url: params['url'].first,
   );
+});
+
+Handler customRouteHandler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  return Custom();
 });

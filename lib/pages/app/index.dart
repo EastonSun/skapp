@@ -154,7 +154,20 @@ class _App extends State<App> {
                     );
                   },
                 )
-              : Container()
+              : Container(),
+          ListTile(
+            title: Text('个性化设置'),
+            leading: Icon(Icons.extension),
+            onTap: () {
+              Navigator.of(context).pop();
+              Application.router.navigateTo(
+                context,
+                "/custom",
+                transition: TransitionType.native,
+                transitionDuration: Duration(milliseconds: 300),
+              );
+            },
+          ),
         ],
       ),
     );

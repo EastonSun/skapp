@@ -156,7 +156,7 @@ class _App extends State<App> {
                 )
               : Container(),
           ListTile(
-            title: Text('个性化设置'),
+            title: Text('自定义片源'),
             leading: Icon(Icons.extension),
             onTap: () {
               Navigator.of(context).pop();

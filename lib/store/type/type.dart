@@ -10,6 +10,7 @@
  */
 
 import 'package:mobx/mobx.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import './../../dao/type_dao.dart';
 import './../../http/API.dart';
 import './../../http/http_request.dart';
@@ -31,7 +32,9 @@ abstract class TypeMobx with Store {
   @action
   Future<dynamic> fetchData() async {
     this.isLoading = true;
-    var req = HttpRequest(API.BASE_SK_URL);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String cIp = prefs.getString('ip') ?? API.BASE_SK_URL;
+    var req = HttpRequest(cIp);
     final res = await req.get(url);
     this.type = SkType.fromJson(res);
   }

@@ -11,6 +11,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import './../../dao/classify_type_dao.dart';
 import './../../dao/vod_list_dao.dart';
 import './../../http/API.dart';
@@ -55,14 +56,18 @@ abstract class ClassifyStoreMobx with Store {
   @action
   Future<dynamic> fetchTypeData({@required typeId}) async {
     this.isLoading = true;
-    var req = HttpRequest(API.BASE_SK_URL);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String cIp = prefs.getString('ip') ?? API.BASE_SK_URL;
+    var req = HttpRequest(cIp);
     final res = await req.get(typeUrl + typeId.toString());
     this.type = ClassifyTypeDao.fromJson(res);
   }
 
   @action
   Future<dynamic> fetchVodData({@required typeId}) async {
-    var req = HttpRequest(API.BASE_SK_URL);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String cIp = prefs.getString('ip') ?? API.BASE_SK_URL;
+    var req = HttpRequest(cIp);
     String query = '?typeId=$typeId&page=$qPage&limit=$qLimit&type=$qType';
     final res = await req.get(vodUrl + query);
     this.vodData = VodListDao.fromJson(res);

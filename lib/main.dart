@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:package_info/package_info.dart';
+import 'package:skapp/widgets/restart_app.dart';
 import 'package:upgrader/upgrader.dart';
 import 'package:fluro/fluro.dart';
 import 'routers/routers.dart';
@@ -16,13 +17,15 @@ void main() async {
   // 初始化信息
   SharedPreferences prefs = await SharedPreferences.getInstance();
 
-  runApp(MultiProvider(
-    providers: [
-      Provider<Global>(
-        create: (_) => Global(prefs),
-      ),
-    ],
-    child: MyApp(),
+  runApp(RestartWidget(
+    child: MultiProvider(
+      providers: [
+        Provider<Global>(
+          create: (_) => Global(prefs),
+        ),
+      ],
+      child: MyApp(),
+    ),
   ));
 }
 

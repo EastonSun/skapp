@@ -10,6 +10,7 @@
  */
 
 import 'package:mobx/mobx.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import './../../dao/vod_dao.dart';
 import './../../http/API.dart';
 import './../../http/http_request.dart';
@@ -100,7 +101,9 @@ abstract class DetailsStoreMobx with Store {
   @action
   Future<dynamic> fetchVodData() async {
     this.isLoading = true;
-    var req = HttpRequest(API.BASE_SK_URL);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String cIp = prefs.getString('ip') ?? API.BASE_SK_URL;
+    var req = HttpRequest(cIp);
     final res = await req.get(detailsUrl + vodId);
     this.vod = VodDao.fromJson(res['data']);
     this.isLoading = false;

@@ -256,6 +256,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_umplus:
+    dependency: "direct main"
+    description:
+      name: flutter_umplus
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.0.1"
   flutter_web_plugins:
     dependency: transitive
     description: flutter
@@ -686,13 +693,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.1.6"
-  umeng_analytics_plugin:
-    dependency: "direct main"
-    description:
-      name: umeng_analytics_plugin
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "1.0.3"
   upgrader:
     dependency: "direct main"
     description:

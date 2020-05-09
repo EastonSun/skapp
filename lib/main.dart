@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:umeng_analytics_plugin/umeng_analytics_plugin.dart';
 import 'package:package_info/package_info.dart';
 import 'package:skapp/widgets/restart_app.dart';
 import 'package:upgrader/upgrader.dart';
@@ -41,6 +42,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    UmengAnalyticsPlugin.init(
+      androidKey: '5eb61d96167eddfc990001c9',
+      iosKey: '',
+    );
     final Global _global = Provider.of<Global>(context);
     _global.getAppConfig();
     Upgrader().clearSavedSettings();
@@ -74,6 +79,7 @@ class MyApp extends StatelessWidget {
                     )
                 : SplashWidget()),
         onGenerateRoute: Application.router.generator,
+        navigatorObservers: [AppAnalysis()],
       ),
     );
   }
@@ -86,6 +92,22 @@ class MyApp extends StatelessWidget {
     packageInfo = await PackageInfo.fromPlatform();
     if (packageInfo.version != bestItem.versionString) {
       _global.changeUpdataApp();
+    }
+  }
+}
+
+class AppAnalysis extends NavigatorObserver {
+  @override
+  void didPush(Route<dynamic> route, Route<dynamic> previousRoute) {
+    if (route.settings.name != null) {
+      UmengAnalyticsPlugin.pageStart(route.settings.name);
+    }
+  }
+
+  @override
+  void didPop(Route<dynamic> route, Route<dynamic> previousRoute) {
+    if (route.settings.name != null) {
+      UmengAnalyticsPlugin.pageEnd(route.settings.name);
     }
   }
 }

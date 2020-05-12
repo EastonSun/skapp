@@ -9,7 +9,7 @@ import 'package:flutter_ijkplayer/src/helper/logutil.dart';
 import 'package:flutter_ijkplayer/src/helper/time_helper.dart';
 import 'package:flutter_ijkplayer/src/helper/ui_helper.dart';
 import 'package:flutter_ijkplayer/src/route/fullscreen_route.dart';
-// import 'package:flutter_ijkplayer/src/widget/progress_bar.dart';
+import './progress_bar.dart';
 
 part 'full_screen.part.dart';
 
@@ -756,37 +756,43 @@ class PortraitController extends StatelessWidget {
       return Container();
     }
     return Container(
-      // height: 10,
-      child: Slider(
-        value: info.currentPosition,
-        max: info.duration,
-        min: 0.0,
-        divisions: (info.duration).ceil(),
-        activeColor: Theme.of(context).primaryColorDark,
-        label: TimeHelper.getTimeText(info.currentPosition),
-        onChanged: (double progress) async {
-          // showProgressTooltip(info, progress);
-          await controller.seekTo(progress);
-          tooltipDelegate?.hideTooltip();
-        },
-        onChangeStart: (double progress) {},
-        onChangeEnd: (double progress) async {
-          // await controller.seekTo(progress);
-          // tooltipDelegate?.hideTooltip();
-        },
-      ),
-      // child: ProgressBar(
-      //   playedColor: Theme.of(context).primaryColorDark,
-      //   current: info.currentPosition,
+      height: 16,
+      // child: Slider(
+      //   value: info.currentPosition,
       //   max: info.duration,
-      //   changeProgressHandler: (progress) async {
-      //     await controller.seekToProgress(progress);
+      //   min: 0.0,
+      //   divisions: (info.duration).ceil(),
+      //   activeColor: Theme.of(context).primaryColorDark,
+      //   label: TimeHelper.getTimeText(info.currentPosition),
+      //   onChanged: (double progress) async {
+      //     // showProgressTooltip(info, progress);
+      //     // 先暂停
+      //     await controller.pause();
+      //     await controller.seekTo(progress);
+      //     await controller.play();
       //     tooltipDelegate?.hideTooltip();
       //   },
-      //   tapProgressHandler: (progress) {
-      //     showProgressTooltip(info, progress);
+      //   onChangeStart: (double progress) async {},
+      //   onChangeEnd: (double progress) async {
+      //     await controller.seekTo(progress);
+      //     // await controller.play();
+      //     // tooltipDelegate?.hideTooltip();
       //   },
       // ),
+      child: ProgressBar(
+        playedColor: Theme.of(context).primaryColorDark,
+        bufferColor: Colors.white,
+        backgroundColor: Colors.grey,
+        current: info.currentPosition,
+        max: info.duration,
+        changeProgressHandler: (progress) async {
+          await controller.seekToProgress(progress);
+          tooltipDelegate?.hideTooltip();
+        },
+        tapProgressHandler: (progress) {
+          showProgressTooltip(info, progress);
+        },
+      ),
     );
   }
 

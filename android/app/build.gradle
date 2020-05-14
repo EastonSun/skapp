@@ -67,8 +67,8 @@ android {
         release {
             keyAlias "key"
             keyPassword "19940111"
-            // storeFile file("/User/ncer/code/key.jks")
-            storeFile file("E:/code/key.jks")
+            storeFile file("/User/ncer/code/key.jks")
+            // storeFile file("E:/code/key.jks")
             storePassword "19940111"
         }
     }

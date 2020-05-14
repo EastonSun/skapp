@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_umplus/flutter_umplus.dart';
+// import 'package:flutter_umplus/flutter_umplus.dart';
+import 'package:umeng_analytics_plugin/umeng_analytics_plugin.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:package_info/package_info.dart';
@@ -39,15 +40,19 @@ class MyApp extends StatelessWidget {
     final router = new Router();
     Routes.configureRoutes(router);
     Application.router = router;
-    FlutterUmplus.init(
-      '5eb61d96167eddfc990001c9',
-      channel: '',
-      reportCrash: false,
-      logEnable: true,
-      encrypt: true,
+    UmengAnalyticsPlugin.init(
+      androidKey: '5eb61d96167eddfc990001c9',
+      iosKey: '',
     );
-    FlutterUmplus.beginPageView('/');
-    FlutterUmplus.endPageView('/');
+    // FlutterUmplus.init(
+    //   '5eb61d96167eddfc990001c9',
+    //   channel: '',
+    //   reportCrash: false,
+    //   logEnable: true,
+    //   encrypt: true,
+    // );
+    // FlutterUmplus.beginPageView('/');
+    // FlutterUmplus.endPageView('/');
   }
 
   @override
@@ -105,15 +110,36 @@ class MyApp extends StatelessWidget {
 class AppAnalysis extends NavigatorObserver {
   @override
   void didPush(Route<dynamic> route, Route<dynamic> previousRoute) {
-    if (route.settings.name != null) {
-      FlutterUmplus.beginPageView(route.settings.name);
+    if (previousRoute?.settings?.name != null) {
+      UmengAnalyticsPlugin.pageEnd(previousRoute.settings.name);
+    }
+
+    if (route?.settings?.name != null) {
+      // FlutterUmplus.beginPageView(route.settings.name);
+      UmengAnalyticsPlugin.pageStart(route.settings.name);
     }
   }
 
   @override
   void didPop(Route<dynamic> route, Route<dynamic> previousRoute) {
-    if (route.settings.name != null) {
-      FlutterUmplus.endPageView(route.settings.name);
+    if (route?.settings?.name != null) {
+      // FlutterUmplus.endPageView(route.settings.name);
+      UmengAnalyticsPlugin.pageEnd(route.settings.name);
+    }
+
+    if (previousRoute?.settings?.name != null) {
+      UmengAnalyticsPlugin.pageStart(previousRoute.settings.name);
+    }
+  }
+
+  @override
+  void didReplace({Route<dynamic> newRoute, Route<dynamic> oldRoute}) {
+    if (oldRoute?.settings?.name != null) {
+      UmengAnalyticsPlugin.pageEnd(oldRoute.settings.name);
+    }
+
+    if (newRoute?.settings?.name != null) {
+      UmengAnalyticsPlugin.pageStart(newRoute.settings.name);
     }
   }
 }

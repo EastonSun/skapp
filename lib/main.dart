@@ -32,16 +32,13 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   final updataAppUrl = API.BASE_SK_URL + API.APP_UPDATE_URL;
+
   PackageInfo packageInfo;
 
   MyApp() {
     final router = new Router();
     Routes.configureRoutes(router);
     Application.router = router;
-  }
-
-  @override
-  Widget build(BuildContext context) {
     FlutterUmplus.init(
       '5eb61d96167eddfc990001c9',
       channel: '',
@@ -49,6 +46,12 @@ class MyApp extends StatelessWidget {
       logEnable: true,
       encrypt: true,
     );
+    FlutterUmplus.beginPageView('/');
+    FlutterUmplus.endPageView('/');
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final Global _global = Provider.of<Global>(context);
     _global.getAppConfig();
     Upgrader().clearSavedSettings();

@@ -14,6 +14,8 @@ const List<double> rateList = [1.0, 1.2, 1.5, 2.0];
 class TencentPlayerBottomWidget extends StatefulWidget {
   final isShow;
   final showCover;
+  final currentUrl;
+  final showFullBtn;
   final TencentPlayerController controller;
   final VoidCallback behavingCallBack;
   final ValueChanged<int> changeClear;
@@ -21,13 +23,16 @@ class TencentPlayerBottomWidget extends StatefulWidget {
   // UI
   final bool showClearBtn;
 
-  TencentPlayerBottomWidget(
-      {this.isShow,
-      this.showCover,
-      this.controller,
-      this.behavingCallBack,
-      this.changeClear,
-      this.showClearBtn});
+  TencentPlayerBottomWidget({
+    this.isShow,
+    this.showCover,
+    this.currentUrl,
+    this.controller,
+    this.behavingCallBack,
+    this.changeClear,
+    this.showClearBtn,
+    this.showFullBtn = true,
+  });
 
   @override
   _TencentPlayerBottomWidgetState createState() =>
@@ -100,31 +105,31 @@ class _TencentPlayerBottomWidgetState extends State<TencentPlayerBottomWidget> {
                       controller: controller,
                     ),
                   ),
-                  widget.showClearBtn
-                      ? GestureDetector(
-                          behavior: HitTestBehavior.opaque,
-                          onTap: () {
-                            // setState(() {
-                            //   isShowClearList = !isShowClearList;
-                            // });
-                            widget.behavingCallBack?.call();
-                          },
-                          child: Container(
-                              height: _Style.bottomContainerH,
-                              alignment: Alignment.center,
-                              padding: EdgeInsets.only(
-                                left: 15,
-                              ),
-                              child: Text(
-                                transcodeList[currentClearIndex],
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 12,
-                                ),
-                                textAlign: TextAlign.center,
-                              )),
-                        )
-                      : SizedBox(),
+                  // widget.showClearBtn
+                  //     ? GestureDetector(
+                  //         behavior: HitTestBehavior.opaque,
+                  //         onTap: () {
+                  //           // setState(() {
+                  //           //   isShowClearList = !isShowClearList;
+                  //           // });
+                  //           widget.behavingCallBack?.call();
+                  //         },
+                  //         child: Container(
+                  //             height: _Style.bottomContainerH,
+                  //             alignment: Alignment.center,
+                  //             padding: EdgeInsets.only(
+                  //               left: 15,
+                  //             ),
+                  //             child: Text(
+                  //               transcodeList[currentClearIndex],
+                  //               style: TextStyle(
+                  //                 color: Colors.white,
+                  //                 fontSize: 12,
+                  //               ),
+                  //               textAlign: TextAlign.center,
+                  //             )),
+                  //       )
+                  //     : SizedBox(),
                   GestureDetector(
                     behavior: HitTestBehavior.opaque,
                     onTap: () {
@@ -136,9 +141,9 @@ class _TencentPlayerBottomWidgetState extends State<TencentPlayerBottomWidget> {
                     child: Container(
                       height: _Style.bottomContainerH,
                       alignment: Alignment.center,
-                      padding: EdgeInsets.only(left: 15, right: 20),
+                      padding: EdgeInsets.only(left: 12, right: 12),
                       child: Text(
-                        '倍速${controller.value.rate}x',
+                        '${controller.value.rate}X',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 12,
@@ -146,77 +151,110 @@ class _TencentPlayerBottomWidgetState extends State<TencentPlayerBottomWidget> {
                       ),
                     ),
                   ),
+                  widget.showCover
+                      ? GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTap: () {
+                            widget.showFullBtn
+                                ? Navigator.of(context).push(
+                                    CupertinoPageRoute(
+                                      builder: (_) => FullVideoPage(
+                                          controller: controller,
+                                          playType: PlayType.network,
+                                          dataSource: widget.currentUrl),
+                                    ),
+                                  )
+                                : Navigator.pop(context);
+                          },
+                          child: Container(
+                            padding: EdgeInsets.only(right: 10),
+                            child: widget.showFullBtn
+                                ? Icon(
+                                    Icons.fullscreen,
+                                    color: Colors.white,
+                                  )
+                                : Icon(
+                                    Icons.fullscreen_exit,
+                                    color: Colors.white,
+                                  ),
+                            // Image.asset(
+                            //     'assets/images/full_screen_on.png',
+                            //     width: 20,
+                            //     height: 20),
+                          ),
+                        )
+                      : SizedBox(),
                 ],
               ),
             ),
           ),
 
           /// 清晰度选择框
-          isShowClearList
-              ? Positioned(
-                  right: 60,
-                  bottom: _Style.clearItemContainerBottom,
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        width: _Style.clearListContainerW,
-                        padding: EdgeInsets.only(bottom: 5, left: 5, right: 5),
-                        decoration: BoxDecoration(
-                          color: Color(0x7f000000),
-                          borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                        ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: transcodeList.map((String transcode) {
-                            int index = transcodeList.indexOf(transcode);
-                            bool isLastOne = index == transcodeList.length - 1;
-                            return GestureDetector(
-                              behavior: HitTestBehavior.opaque,
-                              onTap: () {
-                                currentClearIndex = index;
-                                isShowClearList = false;
-                                widget.changeClear?.call(currentClearIndex);
-                                widget.behavingCallBack?.call();
-                                setState(() {});
-                              },
-                              child: Container(
-                                alignment: Alignment.center,
-                                height: _Style.clearItemContainerH,
-                                decoration: BoxDecoration(
-                                    border: isLastOne
-                                        ? null
-                                        : Border(
-                                            bottom: BorderSide(
-                                                width: 0.3,
-                                                color: Color(0xffeeeeee)))),
-                                child: Text(
-                                  transcode,
-                                  style: currentClearIndex == index
-                                      ? TextStyle(
-                                          color: Color(0xfff24724),
-                                          fontSize: 12,
-                                        )
-                                      : TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 12,
-                                        ),
-                                ),
-                              ),
-                            );
-                          }).toList(),
-                        ),
-                      ),
-                      Container(
-                        width: 12,
-                        height: 6,
-                        child: CustomPaint(
-                          painter: TrianglePainter(context),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              : SizedBox(),
+          // isShowClearList
+          //     ? Positioned(
+          //         right: 60,
+          //         bottom: _Style.clearItemContainerBottom,
+          //         child: Column(
+          //           children: <Widget>[
+          //             Container(
+          //               width: _Style.clearListContainerW,
+          //               padding: EdgeInsets.only(bottom: 5, left: 5, right: 5),
+          //               decoration: BoxDecoration(
+          //                 color: Color(0x7f000000),
+          //                 borderRadius: BorderRadius.all(Radius.circular(5.0)),
+          //               ),
+          //               child: Column(
+          //                 mainAxisSize: MainAxisSize.min,
+          //                 children: transcodeList.map((String transcode) {
+          //                   int index = transcodeList.indexOf(transcode);
+          //                   bool isLastOne = index == transcodeList.length - 1;
+          //                   return GestureDetector(
+          //                     behavior: HitTestBehavior.opaque,
+          //                     onTap: () {
+          //                       currentClearIndex = index;
+          //                       isShowClearList = false;
+          //                       widget.changeClear?.call(currentClearIndex);
+          //                       widget.behavingCallBack?.call();
+          //                       setState(() {});
+          //                     },
+          //                     child: Container(
+          //                       alignment: Alignment.center,
+          //                       height: _Style.clearItemContainerH,
+          //                       decoration: BoxDecoration(
+          //                           border: isLastOne
+          //                               ? null
+          //                               : Border(
+          //                                   bottom: BorderSide(
+          //                                       width: 0.3,
+          //                                       color: Color(0xffeeeeee)))),
+          //                       child: Text(
+          //                         transcode,
+          //                         style: currentClearIndex == index
+          //                             ? TextStyle(
+          //                                 color: Color(0xfff24724),
+          //                                 fontSize: 12,
+          //                               )
+          //                             : TextStyle(
+          //                                 color: Colors.white,
+          //                                 fontSize: 12,
+          //                               ),
+          //                       ),
+          //                     ),
+          //                   );
+          //                 }).toList(),
+          //               ),
+          //             ),
+          //             Container(
+          //               width: 12,
+          //               height: 6,
+          //               child: CustomPaint(
+          //                 painter: TrianglePainter(context),
+          //               ),
+          //             ),
+          //           ],
+          //         ),
+          //       )
+          //     : SizedBox(),
 
           /// 播放速度选择框
           isShowRateList && widget.isShow
@@ -279,22 +317,6 @@ class _TencentPlayerBottomWidgetState extends State<TencentPlayerBottomWidget> {
                         ),
                       ),
                     ],
-                  ),
-                )
-              : SizedBox(),
-          widget.showCover
-              ? GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onTap: () {
-                    Navigator.of(context).push(CupertinoPageRoute(
-                        builder: (_) => FullVideoPage(
-                            controller: controller,
-                            playType: PlayType.network)));
-                  },
-                  child: Container(
-                    padding: EdgeInsets.all(20),
-                    child: Image.asset('assets/images/full_screen_on.png',
-                        width: 20, height: 20),
                   ),
                 )
               : SizedBox(),
@@ -373,8 +395,8 @@ class _BottomScrubberState extends State<BottomScrubber> {
                           ? 0
                           : showDuration.inMilliseconds /
                               controller.value.duration.inMilliseconds,
-                      valueColor:
-                          AlwaysStoppedAnimation<Color>(Color(0xfffe373c)),
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                          Theme.of(context).primaryColor),
                       backgroundColor: Colors.transparent,
                     ),
                   ],
@@ -416,7 +438,7 @@ class _BottomScrubberState extends State<BottomScrubber> {
           ),
         ),
         SizedBox(
-          width: 15,
+          width: 10,
         ),
         Container(
           constraints: BoxConstraints(minWidth: 80),

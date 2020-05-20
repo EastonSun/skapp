@@ -74,14 +74,14 @@ class _DetailsState extends State<Details> {
                               : WebViewPage(
                                   store: store,
                                 ),
-                          IconButton(
-                              icon: Icon(
-                                Icons.arrow_back_ios,
-                                color: Colors.white,
-                              ),
-                              onPressed: () {
-                                Navigator.pop(context);
-                              }),
+                          // IconButton(
+                          //     icon: Icon(
+                          //       Icons.arrow_back_ios,
+                          //       color: Colors.white,
+                          //     ),
+                          //     onPressed: () {
+                          //       Navigator.pop(context);
+                          //     }),
                         ],
                       ),
                     ),

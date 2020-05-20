@@ -67,7 +67,7 @@ class _TencentPlayerGestureCoverState extends State<TencentPlayerGestureCover> {
                           Text(
                             TimeUtil.formatDuration(showDuration),
                             style: TextStyle(
-                              color: Color(0xfffe373c),
+                              color: Theme.of(context).primaryColor,
                               fontSize: 18,
                             ),
                           ),
@@ -93,7 +93,7 @@ class _TencentPlayerGestureCoverState extends State<TencentPlayerGestureCover> {
                     height: 100,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                      color: Color(0x7f000000),
+                      color: Theme.of(context).primaryColor,
                       borderRadius: BorderRadius.all(Radius.circular(10.0)),
                     ),
                     child: Column(
@@ -101,14 +101,16 @@ class _TencentPlayerGestureCoverState extends State<TencentPlayerGestureCover> {
                       children: <Widget>[
                         Icon(
                           iconData,
-                          color: Color(0x88FE373C),
+                          //color: Color(0x88FE373C),
+                          color: Theme.of(context).primaryColor,
                           size: 25,
                         ),
                         Padding(
                           padding: EdgeInsets.all(5.0),
                           child: Text(text,
                               style: TextStyle(
-                                color: Color(0x88FE373C),
+                                // color: Color(0x88FE373C),
+                                color: Theme.of(context).primaryColor,
                                 fontSize: 18,
                               )),
                         ),

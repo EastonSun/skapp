@@ -24,10 +24,15 @@ class TencentPlayerLoading extends StatelessWidget {
       return Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Image.asset(
-            'assets/images/video_loading.png',
-            width: this.iconW ?? _Style.loadingW,
-            height: this.iconW ?? _Style.loadingW,
+          // Image.asset(
+          //   'assets/images/video_loading.png',
+          //   width: this.iconW ?? _Style.loadingW,
+          //   height: this.iconW ?? _Style.loadingW,
+          // ),
+          Center(
+            child: CircularProgressIndicator(
+              strokeWidth: 2.4,
+            ),
           ),
           SizedBox(
             height: 8,

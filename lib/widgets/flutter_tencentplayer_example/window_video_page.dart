@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:skapp/store/details/details.dart';
-import './full_video_page.dart';
+// import './full_video_page.dart';
 import './widget/tencent_player_bottom_widget.dart';
 import './widget/tencent_player_gesture_cover.dart';
 import './widget/tencent_player_loading.dart';
@@ -11,6 +11,7 @@ import 'package:screen/screen.dart';
 import 'package:flutter_tencentplayer/flutter_tencentplayer.dart';
 import './main.dart';
 import './util/forbidshot_util.dart';
+import 'full_video_page.dart';
 
 // widget.store.currentUrl
 
@@ -54,7 +55,7 @@ class _WindowVideoPageState extends State<WindowVideoPage> {
   @override
   void initState() {
     super.initState();
-    SystemChrome.setEnabledSystemUIOverlays([]);
+    // SystemChrome.setEnabledSystemUIOverlays([]);
     _initController();
     controller.initialize();
     controller.addListener(listener);
@@ -66,8 +67,8 @@ class _WindowVideoPageState extends State<WindowVideoPage> {
   @override
   Future dispose() {
     super.dispose();
-    SystemChrome.setEnabledSystemUIOverlays(
-        [SystemUiOverlay.top, SystemUiOverlay.bottom]);
+    // SystemChrome.setEnabledSystemUIOverlays(
+    //     [SystemUiOverlay.top, SystemUiOverlay.bottom]);
     controller.removeListener(listener);
     controller.dispose();
     ForbidShotUtil.disposeForbid();
@@ -125,7 +126,7 @@ class _WindowVideoPageState extends State<WindowVideoPage> {
                         aspectRatio: controller.value.aspectRatio,
                         child: TencentPlayer(controller),
                       )
-                    : Image.asset('assets/images/place_nodata.png'),
+                    : SizedBox(),
 
                 /// 支撑全屏
                 Container(),
@@ -160,7 +161,7 @@ class _WindowVideoPageState extends State<WindowVideoPage> {
                             Navigator.pop(context);
                           },
                           child: Container(
-                            padding: EdgeInsets.only(top: 34, left: 10),
+                            padding: EdgeInsets.only(top: 14, left: 14),
                             child: Image.asset(
                               'assets/images/icon_back.png',
                               width: 20,
@@ -191,15 +192,20 @@ class _WindowVideoPageState extends State<WindowVideoPage> {
                               top: MediaQuery.of(context).padding.top,
                               right: 20,
                               bottom: 20,
-                              left: MediaQuery.of(context).padding.top,
+                              left: 12,
                             ),
-                            child: Image.asset(
-                              isLock
-                                  ? 'assets/images/player_lock.png'
-                                  : 'assets/images/player_unlock.png',
-                              width: 38,
-                              height: 38,
+                            child: Icon(
+                              isLock ? Icons.lock_outline : Icons.lock_open,
+                              color: Colors.white,
                             ),
+
+                            // Image.asset(
+                            //   isLock
+                            //       ? 'assets/images/player_lock.png'
+                            //       : 'assets/images/player_unlock.png',
+                            //   width: 38,
+                            //   height: 38,
+                            // ),
                           ),
                         ),
                       )
@@ -215,6 +221,7 @@ class _WindowVideoPageState extends State<WindowVideoPage> {
                     child: TencentPlayerBottomWidget(
                       isShow: !isLock && showCover,
                       showCover: showCover,
+                      currentUrl: widget.store.currentUrl,
                       controller: controller,
                       showClearBtn: widget.showClearBtn,
                       behavingCallBack: () {

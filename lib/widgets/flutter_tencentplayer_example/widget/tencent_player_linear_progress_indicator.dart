@@ -15,7 +15,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 const double _kTencentLinearProgressIndicatorHeight = 6.0;
-const double _kMinCircularProgressIndicatorSize = 36.0;
+const double _kMinCircularProgressIndicatorSize = 30.0;
 const int _kIndeterminateLinearDuration = 1800;
 
 // TODO(hansmuller): implement the support for buffer indicator
@@ -195,7 +195,7 @@ class _TencentLinearProgressIndicatorPainter extends CustomPainter {
             image,
             Offset(0.0, 0.0) &
                 Size(image.width.toDouble(), image.height.toDouble()),
-            Offset(value.clamp(0.0, 1.0) * size.width, -8.0) & Size(20, 20),
+            Offset(value.clamp(0.0, 1.0) * size.width, -7.0) & Size(16, 16),
             paint);
       }
     } else {

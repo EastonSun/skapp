@@ -130,7 +130,7 @@ class _FullVideoPageState extends State<FullVideoPage> {
                       aspectRatio: controller.value.aspectRatio,
                       child: TencentPlayer(controller),
                     )
-                  : Image.asset('assets/images/place_nodata.png'),
+                  : SizedBox(),
 
               /// 支撑全屏
               Container(),
@@ -165,7 +165,7 @@ class _FullVideoPageState extends State<FullVideoPage> {
                           Navigator.pop(context);
                         },
                         child: Container(
-                          padding: EdgeInsets.only(top: 34, left: 10),
+                          padding: EdgeInsets.only(top: 14, left: 10),
                           child: Image.asset(
                             'assets/images/icon_back.png',
                             width: 20,
@@ -211,15 +211,19 @@ class _FullVideoPageState extends State<FullVideoPage> {
                             top: MediaQuery.of(context).padding.top,
                             right: 20,
                             bottom: 20,
-                            left: MediaQuery.of(context).padding.top,
+                            left: 12,
                           ),
-                          child: Image.asset(
-                            isLock
-                                ? 'assets/images/player_lock.png'
-                                : 'assets/images/player_unlock.png',
-                            width: 38,
-                            height: 38,
+                          child: Icon(
+                            isLock ? Icons.lock_outline : Icons.lock_open,
+                            color: Colors.white,
                           ),
+                          // Image.asset(
+                          //   isLock
+                          //       ? 'assets/images/player_lock.png'
+                          //       : 'assets/images/player_unlock.png',
+                          //   width: 38,
+                          //   height: 38,
+                          // ),
                         ),
                       ),
                     )
@@ -234,8 +238,11 @@ class _FullVideoPageState extends State<FullVideoPage> {
                       right: MediaQuery.of(context).padding.bottom),
                   child: TencentPlayerBottomWidget(
                     isShow: !isLock && showCover,
+                    showCover: showCover,
+                    currentUrl: widget.dataSource,
                     controller: controller,
                     showClearBtn: widget.showClearBtn,
+                    showFullBtn: false,
                     behavingCallBack: () {
                       delayHideCover();
                     },

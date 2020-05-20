@@ -223,6 +223,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.4.0"
+  flutter_forbidshot:
+    dependency: "direct main"
+    description:
+      name: flutter_forbidshot
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.0.2"
   flutter_ijkplayer:
     dependency: "direct main"
     description:
@@ -251,18 +258,18 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.2.3"
+  flutter_tencentplayer:
+    dependency: "direct main"
+    description:
+      name: flutter_tencentplayer
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.5.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_umplus:
-    dependency: "direct main"
-    description:
-      name: flutter_umplus
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.0.1"
   flutter_web_plugins:
     dependency: transitive
     description: flutter
@@ -541,6 +548,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.23.1"
+  screen:
+    dependency: "direct main"
+    description:
+      name: screen
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.0.5"
   shared_preferences:
     dependency: "direct main"
     description:
@@ -791,6 +805,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.2.0"
+  yin_umeng:
+    dependency: "direct main"
+    description:
+      name: yin_umeng
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.0.4"
 sdks:
   dart: ">=2.7.0 <3.0.0"
   flutter: ">=1.12.13+hotfix.5 <1.13.0"

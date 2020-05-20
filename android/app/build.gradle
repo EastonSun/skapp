@@ -21,10 +21,12 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 // apply plugin: 'mtj-circle-plugin'
+apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+
 
 def keystorePropertiesFile = rootProject.file("key.properties")
 def keystoreProperties = new Properties()
@@ -61,6 +63,11 @@ android {
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        // 打release需要👇代码
+        ndk {
+            //设置支持的SO库架构
+            abiFilters 'armeabi-v7a'
+        }
     }
 
     signingConfigs {
@@ -81,6 +88,7 @@ android {
             signingConfig signingConfigs.release
         }
     }
+
 }
 
 flutter {

@@ -1,4 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.skapp">
 
     <!-- io.flutter.app.FlutterApplication is an android.app.Application that
@@ -10,6 +11,7 @@
         android:name="io.flutter.app.FlutterApplication"
         android:label="SK"
         android:icon="@mipmap/ic_launcher"
+        tools:replace="android:label"
         >
         <activity
             android:name=".MainActivity"
@@ -33,4 +35,11 @@
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!--点播播放器悬浮窗权限-->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <!--存储-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 </manifest>

@@ -2,6 +2,7 @@ name: skapp
 description: A new Flutter project.
 
 # flutter build apk --target-platform android-arm64 //打包命令
+# flutter build apk --release --no-shrink
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -46,7 +47,10 @@ dependencies:
   wakelock: ^0.1.4+1
   package_info: ^0.4.0+17
   upgrader: ^0.10.4
-  flutter_umplus: ^0.0.1
+  yin_umeng: ^0.0.4
+  flutter_tencentplayer: ^0.5.0
+  screen: 0.0.5
+  flutter_forbidshot: 0.0.2
 
 dev_dependencies:
   flutter_test:

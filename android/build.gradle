@@ -1,3 +1,5 @@
+
+
 buildscript {
     ext.kotlin_version = '1.2.71'
     repositories {
@@ -15,6 +17,12 @@ buildscript {
     }
 }
 
+def flutterProjectRoot = rootProject.projectDir.parentFile.toPath()
+def plugins = new Properties()
+def pluginsFile = new File(flutterProjectRoot.toFile(), '.flutter-plugins')
+if (pluginsFile.exists()) {
+    pluginsFile.withReader('UTF-8') { reader -> plugins.load(reader) }
+}
 allprojects {
     repositories {
         // google()
@@ -22,6 +30,9 @@ allprojects {
         maven { url 'https://maven.aliyun.com/repository/google' }
         maven { url 'https://maven.aliyun.com/repository/jcenter' }
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
+        flatDir {
+            dirs "${plugins.get("flutter_tencentplayer")}android/libs"
+        }
     }
 }
 
@@ -52,3 +63,4 @@ rootProject.allprojects {
         }
     }
 }
+

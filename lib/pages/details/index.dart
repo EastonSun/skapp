@@ -6,7 +6,7 @@ import 'package:skapp/store/root.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import './../../store/details/details.dart';
 import './../../store/classify/classify.dart';
-import './widgets/video_widget.dart';
+import './../../widgets/flutter_tencentplayer_example/window_video_page.dart';
 import './widgets/desc.dart';
 import './widgets/players.dart';
 import './widgets/webview_widget.dart';
@@ -68,7 +68,7 @@ class _DetailsState extends State<Details> {
                       child: Stack(
                         children: <Widget>[
                           store.currentUrl.indexOf('.m3u8') >= 0
-                              ? VideoWidget(
+                              ? WindowVideoPage(
                                   store: store,
                                 )
                               : WebViewPage(

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_umplus/flutter_umplus.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:package_info/package_info.dart';
 import 'package:skapp/widgets/restart_app.dart';
 import 'package:upgrader/upgrader.dart';
 import 'package:fluro/fluro.dart';
+import 'package:yin_umeng/yin_umeng.dart';
 import 'routers/routers.dart';
 import 'routers/application.dart';
 import './store/root.dart';
@@ -39,15 +39,16 @@ class MyApp extends StatelessWidget {
     final router = new Router();
     Routes.configureRoutes(router);
     Application.router = router;
-    FlutterUmplus.init(
+    //初始化友盟
+    YinUmeng.init(
       '5eb61d96167eddfc990001c9',
       channel: '',
-      reportCrash: false,
-      logEnable: true,
+      policy: Policy.BATCH,
       encrypt: true,
+      reportCrash: true,
     );
-    FlutterUmplus.beginPageView('/');
-    FlutterUmplus.endPageView('/');
+    // YinUmeng.beginPageView('/');
+    // YinUmeng.endPageView('/');
   }
 
   @override
@@ -106,14 +107,16 @@ class AppAnalysis extends NavigatorObserver {
   @override
   void didPush(Route<dynamic> route, Route<dynamic> previousRoute) {
     if (route.settings.name != null) {
-      FlutterUmplus.beginPageView(route.settings.name);
+      YinUmeng.beginPageView(route.settings.name);
+      YinUmeng.logEvent(route.settings.name);
     }
   }
 
   @override
   void didPop(Route<dynamic> route, Route<dynamic> previousRoute) {
     if (route.settings.name != null) {
-      FlutterUmplus.endPageView(route.settings.name);
+      YinUmeng.endPageView(route.settings.name);
+      YinUmeng.logEvent(route.settings.name);
     }
   }
 }

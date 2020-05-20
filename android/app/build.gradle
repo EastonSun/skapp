@@ -64,17 +64,17 @@ android {
         versionName flutterVersionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         // 打release需要👇代码
-        // ndk {
-        //     //设置支持的SO库架构
-        //     abiFilters 'armeabi-v7a'
-        // }
+        ndk {
+            //设置支持的SO库架构
+            abiFilters 'armeabi-v7a'
+        }
     }
 
     signingConfigs {
         release {
             keyAlias "key"
             keyPassword "19940111"
-            storeFile file("/User/ncer/code/key.jks")
+            storeFile file("/Users/ncer/code/key.jks")
             // storeFile file("E:/code/key.jks")
             storePassword "19940111"
         }

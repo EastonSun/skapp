@@ -93,7 +93,7 @@ class _TencentPlayerGestureCoverState extends State<TencentPlayerGestureCover> {
                     height: 100,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
+                      color: Color(0x7f000000),
                       borderRadius: BorderRadius.all(Radius.circular(10.0)),
                     ),
                     child: Column(

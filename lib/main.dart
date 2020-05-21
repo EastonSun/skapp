@@ -17,7 +17,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // 初始化信息
   SharedPreferences prefs = await SharedPreferences.getInstance();
-
   runApp(RestartWidget(
     child: MultiProvider(
       providers: [
@@ -47,6 +46,7 @@ class MyApp extends StatelessWidget {
       encrypt: true,
       reportCrash: true,
     );
+
     // YinUmeng.beginPageView('/');
     // YinUmeng.endPageView('/');
   }

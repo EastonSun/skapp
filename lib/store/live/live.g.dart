@@ -9,6 +9,23 @@ part of 'live.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$LiveStore on LiveStoreMobx, Store {
+  final _$isPassAtom = Atom(name: 'LiveStoreMobx.isPass');
+
+  @override
+  bool get isPass {
+    _$isPassAtom.context.enforceReadPolicy(_$isPassAtom);
+    _$isPassAtom.reportObserved();
+    return super.isPass;
+  }
+
+  @override
+  set isPass(bool value) {
+    _$isPassAtom.context.conditionallyRunInAction(() {
+      super.isPass = value;
+      _$isPassAtom.reportChanged();
+    }, _$isPassAtom, name: '${_$isPassAtom.name}_set');
+  }
+
   final _$isAllLoadingAtom = Atom(name: 'LiveStoreMobx.isAllLoading');
 
   @override
@@ -125,6 +142,13 @@ mixin _$LiveStore on LiveStoreMobx, Store {
     return _$fetchLiveDataAsyncAction.run(() => super.fetchLiveData(url));
   }
 
+  final _$fetchSecretLiveAsyncAction = AsyncAction('fetchSecretLive');
+
+  @override
+  Future<dynamic> fetchSecretLive(String key) {
+    return _$fetchSecretLiveAsyncAction.run(() => super.fetchSecretLive(key));
+  }
+
   final _$LiveStoreMobxActionController =
       ActionController(name: 'LiveStoreMobx');
 
@@ -141,7 +165,7 @@ mixin _$LiveStore on LiveStoreMobx, Store {
   @override
   String toString() {
     final string =
-        'isAllLoading: ${isAllLoading.toString()},isItemLoading: ${isItemLoading.toString()},livesObj: ${livesObj.toString()},lives: ${lives.toString()},liveItem: ${liveItem.toString()},live: ${live.toString()}';
+        'isPass: ${isPass.toString()},isAllLoading: ${isAllLoading.toString()},isItemLoading: ${isItemLoading.toString()},livesObj: ${livesObj.toString()},lives: ${lives.toString()},liveItem: ${liveItem.toString()},live: ${live.toString()}';
     return '{$string}';
   }
 }

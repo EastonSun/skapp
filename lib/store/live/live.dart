@@ -24,6 +24,9 @@ abstract class LiveStoreMobx with Store {
   String liveAllUrl = API.LIVE_ALL_URL; // 详情
 
   @observable
+  bool isPass = false; // 是否输入正确
+
+  @observable
   bool isAllLoading = true;
 
   @observable
@@ -59,6 +62,17 @@ abstract class LiveStoreMobx with Store {
     this.liveItem = LiveItemDao.fromJson(res);
     live.addAll(liveItem.zhubo);
     this.isItemLoading = false;
+  }
+
+  @action
+  Future<dynamic> fetchSecretLive(String key) async {
+    var req = HttpRequest(API.BASE_SK_URL);
+    final res = await req.get('/${API.APP_SECRET_LIVE_KEY}?key=$key');
+    if (res['result'] == true) {
+      isPass = true;
+    } else {
+      isPass = false;
+    }
   }
 
   @action

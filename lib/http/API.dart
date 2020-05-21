@@ -12,6 +12,7 @@ class API {
   static const SEARCH_URL = '/sk-api/search/list?keyword='; // 搜索
   // app配置
   static const APP_CONFIG = '/app/config';
+  static const APP_SECRET_LIVE_KEY = 'app/secretlivecheck';
   // app更新配置
   static const APP_UPDATE_URL = '/assets/app/appcast.xml';
 

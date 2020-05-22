@@ -12,6 +12,7 @@ import 'routers/application.dart';
 import './store/root.dart';
 import './pages/splash/index.dart';
 import './http/API.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -60,6 +61,7 @@ class MyApp extends StatelessWidget {
     final cfg =
         AppcastConfiguration(url: updataAppUrl, supportedOS: ['android']);
     _upgradeApp(_global);
+    requestPermiss();
 
     return Observer(
       builder: (_) => MaterialApp(
@@ -89,6 +91,15 @@ class MyApp extends StatelessWidget {
         navigatorObservers: [AppAnalysis()],
       ),
     );
+  }
+
+  requestPermiss() async {
+    // 各种权限访问
+    var status = await Permission.camera.request();
+    if (status.isUndetermined) {
+      // We didn't ask for permission yet.
+      print('none');
+    }
   }
 
   _upgradeApp(_global) async {

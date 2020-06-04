@@ -149,7 +149,7 @@ class _WindowVideoPageState extends State<WindowVideoPage> {
                   Container(),
 
                   /// 半透明浮层
-                  showCover ? Container(color: Color(0x7f000000)) : SizedBox(),
+                  showCover ? Container(color: Color(0x1f000000)) : SizedBox(),
 
                   /// 处理滑动手势
                   Offstage(

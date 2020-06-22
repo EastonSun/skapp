@@ -1,6 +1,6 @@
 class VodDao {
-  int vodId;
-  int typeId;
+  var vodId;
+  var typeId;
   int typeId1;
   int groupId;
   String vodName;

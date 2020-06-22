@@ -51,6 +51,7 @@ dependencies:
   flutter_tencentplayer: ^0.5.0
   screen: 0.0.5
   flutter_forbidshot: 0.0.2
+  audioplayers: ^0.15.1
 
 dev_dependencies:
   flutter_test:

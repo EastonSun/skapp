@@ -3,12 +3,12 @@
 buildscript {
     ext.kotlin_version = '1.2.71'
     repositories {
-        google()
-        mavenCentral()
-        jcenter()
-        // maven { url 'https://maven.aliyun.com/repository/google' }
-        // maven { url 'https://maven.aliyun.com/repository/jcenter' }
-        // maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
+        // google()
+        // mavenCentral()
+        // jcenter()
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/jcenter' }
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
     }
 
     dependencies {
@@ -26,12 +26,12 @@ if (pluginsFile.exists()) {
 }
 allprojects {
     repositories {
-        google()
-        mavenCentral()
-        jcenter()
-        // maven { url 'https://maven.aliyun.com/repository/google' }
-        // maven { url 'https://maven.aliyun.com/repository/jcenter' }
-        // maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
+        // google()
+        // mavenCentral()
+        // jcenter()
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/jcenter' }
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
         flatDir {
             dirs "${plugins.get("flutter_tencentplayer")}android/libs"
         }

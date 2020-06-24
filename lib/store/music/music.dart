@@ -32,6 +32,12 @@ abstract class MusicStoreMobx with Store {
   @observable
   String mp3Url = "";
 
+  // @observable
+  // ObservableList types = ObservableList();
+
+  @observable
+  int current = 0;
+
   @action
   Future<dynamic> fetchData(String song, String type) async {
     this.isLoading = true;
@@ -55,5 +61,15 @@ abstract class MusicStoreMobx with Store {
   void resetSongInfo() {
     songInfo = {};
     mp3Url = "";
+  }
+
+  // @action
+  // void changeTypes(type) {
+  //   types.addAll(type);
+  // }
+
+  @action
+  void changeCurrent(int c) {
+    current = c;
   }
 }

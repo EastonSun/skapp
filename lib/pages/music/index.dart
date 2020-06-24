@@ -8,8 +8,6 @@ import './anims/record_anim.dart';
 import './widget/player_page.dart';
 
 final GlobalKey<PlayerState> musicPlayerKey = new GlobalKey();
-const String coverArt =
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEKU9rkbdInt9fPTlJMjT_gbwlyBqbE60zELhHy_A2yMsJkBmDTw';
 
 class Music extends StatefulWidget {
   final String songInfo;
@@ -29,7 +27,9 @@ class _MusicState extends State<Music> with TickerProviderStateMixin {
 
   Future<dynamic> requestAPI() async {
     // type
-    String type = json.decode(widget.songInfo)['types'][0]['type'];
+    var types = json.decode(widget.songInfo)['types'];
+    // store.changeTypes(types);
+    String type = types[store.current]['type'];
     await store.fetchData(widget.songInfo, type);
   }
 
@@ -128,6 +128,13 @@ class _MusicState extends State<Music> with TickerProviderStateMixin {
                             onPrevious: () {},
                             onNext: () {},
                             onCompleted: () {},
+                            changeMusic: (i) {
+                              store.changeCurrent(i);
+                              requestAPI();
+                            },
+                            onDownload: () {
+                              print("下载");
+                            },
                             onPlaying: (isPlaying) {
                               if (isPlaying) {
                                 controller_record.forward();
@@ -140,6 +147,8 @@ class _MusicState extends State<Music> with TickerProviderStateMixin {
                             key: musicPlayerKey,
                             color: Colors.white,
                             audioUrl: store.mp3Url,
+                            types: json.decode(widget.songInfo)['types'],
+                            current: store.current,
                           ),
                         ),
                       ],
@@ -151,8 +160,8 @@ class _MusicState extends State<Music> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    // controller_record.dispose();
-    // controller_needle.dispose();
+    controller_record.dispose();
+    controller_needle.dispose();
     super.dispose();
   }
 }

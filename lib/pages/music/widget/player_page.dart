@@ -23,16 +23,24 @@ class Player extends StatefulWidget {
   ///下一首
   final Function() onNext;
 
+  /// 下载
+  final Function() onDownload;
+
   final Function(bool) onPlaying;
+
+  final Function(int) changeMusic;
 
   final Key key;
 
   final Color color;
 
+  final int current;
+
   /// 是否是本地资源
   final bool isLocal;
   final String lyric;
   final String interval;
+  final types;
 
   const Player(
       {@required this.audioUrl,
@@ -40,10 +48,14 @@ class Player extends StatefulWidget {
       @required this.onError,
       @required this.onNext,
       @required this.onPrevious,
+      @required this.changeMusic,
+      @required this.onDownload,
       this.lyric,
       this.interval,
       this.key,
       this.volume: 1.0,
+      this.types,
+      this.current,
       this.onPlaying,
       this.color: Colors.white,
       this.isLocal: false});
@@ -115,6 +127,22 @@ class PlayerState extends State<Player> {
     super.dispose();
   }
 
+  String getTypeName(String type) {
+    switch (type) {
+      case 'flac':
+      case 'ape':
+      case 'wav':
+        return '无损';
+      case '320k':
+        return '高品质';
+      case '192k':
+      case '128k':
+        return '普通';
+      default:
+        return '';
+    }
+  }
+
   String _formatDuration(Duration d) {
     int minute = d.inMinutes;
     int second = (d.inSeconds > 60) ? (d.inSeconds % 60) : d.inSeconds;
@@ -162,14 +190,42 @@ class PlayerState extends State<Player> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            new IconButton(
-              onPressed: () {
-                widget.onPrevious();
-              },
-              icon: new Icon(
-                Icons.skip_previous,
-                size: 24.0,
-                color: widget.color,
+            // new IconButton(
+            //   onPressed: () {
+            //     widget.onPrevious();
+            //   },
+            //   icon: new Icon(
+            //     Icons.skip_previous,
+            //     size: 24.0,
+            //     color: widget.color,
+            //   ),
+            // ),
+            DropdownButtonHideUnderline(
+              child: DropdownButton<String>(
+                value: widget.types[widget.current]['type'],
+                dropdownColor: Colors.black,
+                onChanged: (String newValue) {
+                  // int currentTabs = store.pTabs.indexOf(newValue);
+                  // store.changeCurrentTabs(currentTabs);
+                  int currentTabs = 0;
+                  for (int i = 0; i < widget.types.length; i++) {
+                    if (newValue == widget.types[i]['type']) {
+                      currentTabs = i;
+                    }
+                  }
+                  widget.changeMusic(currentTabs);
+                },
+                items: widget.types.map<DropdownMenuItem<String>>((value) {
+                  return DropdownMenuItem<String>(
+                    value: value['type'],
+                    child: Text(
+                      getTypeName(value['type']),
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  );
+                }).toList(),
               ),
             ),
             new IconButton(
@@ -195,10 +251,18 @@ class PlayerState extends State<Player> {
                 color: widget.color,
               ),
             ),
+            // new IconButton(
+            //   onPressed: widget.onNext,
+            //   icon: new Icon(
+            //     Icons.skip_next,
+            //     size: 24.0,
+            //     color: widget.color,
+            //   ),
+            // ),
             new IconButton(
-              onPressed: widget.onNext,
+              onPressed: widget.onDownload,
               icon: new Icon(
-                Icons.skip_next,
+                Icons.file_download,
                 size: 24.0,
                 color: widget.color,
               ),

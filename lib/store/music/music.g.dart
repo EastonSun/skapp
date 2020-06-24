@@ -60,6 +60,23 @@ mixin _$MusicStore on MusicStoreMobx, Store {
     }, _$mp3UrlAtom, name: '${_$mp3UrlAtom.name}_set');
   }
 
+  final _$currentAtom = Atom(name: 'MusicStoreMobx.current');
+
+  @override
+  int get current {
+    _$currentAtom.context.enforceReadPolicy(_$currentAtom);
+    _$currentAtom.reportObserved();
+    return super.current;
+  }
+
+  @override
+  set current(int value) {
+    _$currentAtom.context.conditionallyRunInAction(() {
+      super.current = value;
+      _$currentAtom.reportChanged();
+    }, _$currentAtom, name: '${_$currentAtom.name}_set');
+  }
+
   final _$fetchDataAsyncAction = AsyncAction('fetchData');
 
   @override
@@ -81,9 +98,19 @@ mixin _$MusicStore on MusicStoreMobx, Store {
   }
 
   @override
+  void changeCurrent(int c) {
+    final _$actionInfo = _$MusicStoreMobxActionController.startAction();
+    try {
+      return super.changeCurrent(c);
+    } finally {
+      _$MusicStoreMobxActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     final string =
-        'isLoading: ${isLoading.toString()},songInfo: ${songInfo.toString()},mp3Url: ${mp3Url.toString()}';
+        'isLoading: ${isLoading.toString()},songInfo: ${songInfo.toString()},mp3Url: ${mp3Url.toString()},current: ${current.toString()}';
     return '{$string}';
   }
 }

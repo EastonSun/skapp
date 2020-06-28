@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:pk_skeleton/pk_skeleton.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import './../../widgets/custom_gridview_widget.dart';
 import './../../store/root.dart';
 import './../../widgets/search_text_field_widget.dart';
@@ -23,6 +24,14 @@ class _SearchState extends State<Search> {
       store.fetchData(value);
       focus.unfocus();
     }
+  }
+
+  @override
+  void initState() async {
+    super.initState();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String appType = prefs.getString('appType') ?? 'movie';
+    print(appType);
   }
 
   renderAppBar() {
@@ -50,7 +59,7 @@ class _SearchState extends State<Search> {
                 padding: EdgeInsets.only(left: 10),
                 child: Text(
                   '搜索',
-                  style: Theme.of(context).textTheme.body2,
+                  style: Theme.of(context).textTheme.bodyText2,
                 ),
               ),
             )

@@ -75,7 +75,7 @@ android {
             keyAlias "key"
             keyPassword "19940111"
             // storeFile file("/Users/ncer/code/key.jks")
-            storeFile file("E:/code/key.jks")
+            storeFile file("D:/code/key.jks")
             storePassword "19940111"
         }
     }

@@ -103,8 +103,10 @@ abstract class DetailsStoreMobx with Store {
     this.isLoading = true;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String cIp = prefs.getString('ip') ?? API.BASE_SK_URL;
+    bool isMusic = prefs.getBool('isMusic') ?? false;
+    String preApiUrl = isMusic ? API.PRE_MUSIC_API_URL : API.PRE_API_URL;
     var req = HttpRequest(cIp);
-    final res = await req.get(detailsUrl + vodId);
+    final res = await req.get(preApiUrl + detailsUrl + vodId);
     this.vod = VodDao.fromJson(res['data']);
     this.isLoading = false;
   }

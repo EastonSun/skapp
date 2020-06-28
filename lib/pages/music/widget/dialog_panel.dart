@@ -101,7 +101,7 @@ class _DialogPanelState extends State<DialogPanel> {
                 if (store.downloadUrl != "") {
                   downloadFile(
                       store.downloadUrl,
-                      Utils.getTypeName(item['type']) +
+                      json.decode(widget.songInfo)['name'] +
                           ' - ' +
                           json.decode(widget.songInfo)['singer']);
                 }

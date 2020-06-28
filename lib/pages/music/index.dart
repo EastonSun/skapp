@@ -6,7 +6,6 @@ import './../../store/music/music.dart';
 import './anims/needle_anim.dart';
 import './anims/record_anim.dart';
 import './widget/player_page.dart';
-import './utils.dart';
 import './widget/dialog_panel.dart';
 
 final GlobalKey<PlayerState> musicPlayerKey = new GlobalKey();

@@ -49,7 +49,7 @@ class CustomGridView extends StatelessWidget {
                     child: Text(
                       vod.vodName,
                       maxLines: 2,
-                      style: Theme.of(context).textTheme.body2,
+                      style: Theme.of(context).textTheme.bodyText2,
                     ),
                   )
                 ],

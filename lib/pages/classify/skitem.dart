@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
+import 'package:skapp/store/root.dart';
 import './../../routers/application.dart';
 import './../../widgets/network_img_widget.dart';
 import './../../widgets/rating_bar.dart';
@@ -27,10 +29,11 @@ class _SKItemState extends State<SKItem> {
 
   @override
   Widget build(BuildContext context) {
+    Global _global = Provider.of<Global>(context);
     return GestureDetector(
       onTap: () {
         // 此处需要判断是音乐还是电影
-        if (vod.songInfo != null) {
+        if (_global.isMusic) {
           if (vod.songInfo['types'].length > 0) {
             Application.router.navigateTo(
               context,

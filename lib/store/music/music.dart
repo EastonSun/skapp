@@ -52,8 +52,10 @@ abstract class MusicStoreMobx with Store {
     this.isLoading = true;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String cIp = prefs.getString('ip') ?? API.BASE_SK_URL;
+    bool isMusic = prefs.getBool('isMusic') ?? false;
+    String preApiUrl = isMusic ? API.PRE_MUSIC_API_URL : API.PRE_API_URL;
     var req = HttpRequest(cIp);
-    final res = await req.get(musicUrl + song + '&type=' + type);
+    final res = await req.get(preApiUrl + musicUrl + song + '&type=' + type);
     if (res['code'] == 200) {
       this.songInfo = res;
       mp3Url = res['data']['typeUrl'][type]['url'];
@@ -70,8 +72,11 @@ abstract class MusicStoreMobx with Store {
   Future<dynamic> fetchDownloadData(String song, String type) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String cIp = prefs.getString('ip') ?? API.BASE_SK_URL;
+    bool isMusic = prefs.getBool('isMusic') ?? false;
+    String preApiUrl = isMusic ? API.PRE_MUSIC_API_URL : API.PRE_API_URL;
     var req = HttpRequest(cIp);
-    final res = await req.get(musicDownLoadUrl + song + '&type=' + type);
+    final res =
+        await req.get(preApiUrl + musicDownLoadUrl + song + '&type=' + type);
     if (res['code'] == 200) {
       downloadUrl = res['data']['url'];
     } else {

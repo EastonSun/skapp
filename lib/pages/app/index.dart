@@ -5,6 +5,7 @@ import 'package:flutter_material_color_picker/flutter_material_color_picker.dart
 import 'package:provider/provider.dart';
 import 'package:skapp/routers/application.dart';
 import 'package:skapp/utils/cache.dart';
+import 'package:skapp/widgets/restart_app.dart';
 import './../../store/type/type.dart';
 import './../../utils/map.dart';
 import './../classify/index.dart';
@@ -155,6 +156,17 @@ class _App extends State<App> {
                   },
                 )
               : Container(),
+          SwitchListTile(
+            value: _global.isMusic,
+            onChanged: (value) {
+              _global.changeAppMode(value);
+              RestartWidget.restartApp(context);
+            },
+            title: Text('一键切换'),
+            secondary:
+                Icon(_global.isMusic ? Icons.music_video : Icons.video_library),
+            selected: _global.isMusic,
+          ),
           ListTile(
             title: Text('自定义片源'),
             leading: Icon(Icons.extension),

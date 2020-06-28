@@ -84,10 +84,14 @@ abstract class GlobalMobx with Store {
   @observable
   bool isDark;
 
+  @observable
+  bool isMusic;
+
   GlobalMobx(this.prefs) {
     if (this.prefs != null) {
       theme = colorList[prefs.getInt('themeIndex') ?? 4];
       isDark = prefs.getBool('isDark') ?? false;
+      isMusic = prefs.getBool('isMusic') ?? false;
       FlutterStatusbarcolor.setStatusBarColor(theme);
     }
   }
@@ -110,6 +114,12 @@ abstract class GlobalMobx with Store {
   void changeThemeMode(bool value) {
     isDark = value;
     prefs.setBool('isDark', value);
+  }
+
+  @action
+  void changeAppMode(bool value) {
+    isMusic = value;
+    prefs.setBool('isMusic', value);
   }
 
   @action

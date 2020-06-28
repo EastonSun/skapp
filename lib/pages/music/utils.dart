@@ -23,4 +23,20 @@ class Utils {
     print(lyricSlice.in_second.toString() + "-----" + lyricSlice.slice);
     return lyricSlice;
   }
+
+  static String getTypeName(String type) {
+    switch (type) {
+      case 'flac':
+      case 'ape':
+      case 'wav':
+        return '无损';
+      case '320k':
+        return '高品质';
+      case '192k':
+      case '128k':
+        return '普通';
+      default:
+        return '';
+    }
+  }
 }

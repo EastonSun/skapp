@@ -22,9 +22,16 @@ class MusicStore = MusicStoreMobx with _$MusicStore;
 
 abstract class MusicStoreMobx with Store {
   String musicUrl = API.MUSIC_URL;
+  String musicDownLoadUrl = API.MUSIC_DOWNLOAD_URL;
 
   @observable
   bool isLoading = true;
+
+  @observable
+  bool downloading = false;
+
+  @observable
+  double progress = 0;
 
   @observable
   var songInfo = {};
@@ -32,6 +39,8 @@ abstract class MusicStoreMobx with Store {
   @observable
   String mp3Url = "";
 
+  @observable
+  String downloadUrl = "";
   // @observable
   // ObservableList types = ObservableList();
 
@@ -58,9 +67,38 @@ abstract class MusicStoreMobx with Store {
   }
 
   @action
+  Future<dynamic> fetchDownloadData(String song, String type) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String cIp = prefs.getString('ip') ?? API.BASE_SK_URL;
+    var req = HttpRequest(cIp);
+    final res = await req.get(musicDownLoadUrl + song + '&type=' + type);
+    if (res['code'] == 200) {
+      downloadUrl = res['data']['url'];
+    } else {
+      Fluttertoast.showToast(
+        msg: res['msg'],
+        toastLength: Toast.LENGTH_LONG,
+      );
+    }
+  }
+
+  @action
   void resetSongInfo() {
     songInfo = {};
     mp3Url = "";
+  }
+
+  @action
+  void changeProgress(double value) {
+    downloading = true;
+    progress = value;
+  }
+
+  @action
+  void resetProgress() {
+    downloading = false;
+    progress = 0;
+    downloadUrl = "";
   }
 
   // @action

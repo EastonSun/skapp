@@ -127,22 +127,6 @@ class PlayerState extends State<Player> {
     super.dispose();
   }
 
-  String getTypeName(String type) {
-    switch (type) {
-      case 'flac':
-      case 'ape':
-      case 'wav':
-        return '无损';
-      case '320k':
-        return '高品质';
-      case '192k':
-      case '128k':
-        return '普通';
-      default:
-        return '';
-    }
-  }
-
   String _formatDuration(Duration d) {
     int minute = d.inMinutes;
     int second = (d.inSeconds > 60) ? (d.inSeconds % 60) : d.inSeconds;
@@ -207,19 +191,21 @@ class PlayerState extends State<Player> {
                 onChanged: (String newValue) {
                   // int currentTabs = store.pTabs.indexOf(newValue);
                   // store.changeCurrentTabs(currentTabs);
-                  int currentTabs = 0;
-                  for (int i = 0; i < widget.types.length; i++) {
-                    if (newValue == widget.types[i]['type']) {
-                      currentTabs = i;
+                  if (newValue != widget.types[widget.current]['type']) {
+                    int currentTabs = 0;
+                    for (int i = 0; i < widget.types.length; i++) {
+                      if (newValue == widget.types[i]['type']) {
+                        currentTabs = i;
+                      }
                     }
+                    widget.changeMusic(currentTabs);
                   }
-                  widget.changeMusic(currentTabs);
                 },
                 items: widget.types.map<DropdownMenuItem<String>>((value) {
                   return DropdownMenuItem<String>(
                     value: value['type'],
                     child: Text(
-                      getTypeName(value['type']),
+                      Utils.getTypeName(value['type']),
                       style: TextStyle(
                         color: Colors.white,
                       ),

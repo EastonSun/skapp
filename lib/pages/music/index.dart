@@ -6,6 +6,8 @@ import './../../store/music/music.dart';
 import './anims/needle_anim.dart';
 import './anims/record_anim.dart';
 import './widget/player_page.dart';
+import './utils.dart';
+import './widget/dialog_panel.dart';
 
 final GlobalKey<PlayerState> musicPlayerKey = new GlobalKey();
 
@@ -132,8 +134,24 @@ class _MusicState extends State<Music> with TickerProviderStateMixin {
                               store.changeCurrent(i);
                               requestAPI();
                             },
+
                             onDownload: () {
-                              print("下载");
+                              var newType = List();
+                              newType.add({'type': 'progress', 'size': null});
+                              newType.addAll(json
+                                  .decode(widget.songInfo)['types']
+                                  .toList());
+                              showDialog<Null>(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return DialogPanel(
+                                    songInfo: widget.songInfo,
+                                    types: newType,
+                                  );
+                                },
+                              ).then((val) {
+                                print(val);
+                              });
                             },
                             onPlaying: (isPlaying) {
                               if (isPlaying) {
@@ -147,7 +165,9 @@ class _MusicState extends State<Music> with TickerProviderStateMixin {
                             key: musicPlayerKey,
                             color: Colors.white,
                             audioUrl: store.mp3Url,
-                            types: json.decode(widget.songInfo)['types'],
+                            types: [
+                              json.decode(widget.songInfo)['types'][0]
+                            ], //todo:目前只支持普通音质的音乐
                             current: store.current,
                           ),
                         ),

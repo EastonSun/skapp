@@ -13,6 +13,8 @@ class API {
   static const VOD_DETAILS_URL = '/$PRE_API_URL/vod/one?vodId='; // 详情页
   static const SEARCH_URL = '/$PRE_API_URL/search/list?keyword='; // 搜索
   static const MUSIC_URL = '/$PRE_API_URL/vod/one?songInfoStr='; // 音乐详情页
+  static const MUSIC_DOWNLOAD_URL =
+      '/$PRE_API_URL/vod/musicurl?songInfoStr='; // 音乐详情页
   // app配置
   static const APP_CONFIG = '/app/config';
   static const APP_SECRET_LIVE_KEY = 'app/secretlivecheck';

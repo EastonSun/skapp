@@ -26,6 +26,40 @@ mixin _$MusicStore on MusicStoreMobx, Store {
     }, _$isLoadingAtom, name: '${_$isLoadingAtom.name}_set');
   }
 
+  final _$downloadingAtom = Atom(name: 'MusicStoreMobx.downloading');
+
+  @override
+  bool get downloading {
+    _$downloadingAtom.context.enforceReadPolicy(_$downloadingAtom);
+    _$downloadingAtom.reportObserved();
+    return super.downloading;
+  }
+
+  @override
+  set downloading(bool value) {
+    _$downloadingAtom.context.conditionallyRunInAction(() {
+      super.downloading = value;
+      _$downloadingAtom.reportChanged();
+    }, _$downloadingAtom, name: '${_$downloadingAtom.name}_set');
+  }
+
+  final _$progressAtom = Atom(name: 'MusicStoreMobx.progress');
+
+  @override
+  double get progress {
+    _$progressAtom.context.enforceReadPolicy(_$progressAtom);
+    _$progressAtom.reportObserved();
+    return super.progress;
+  }
+
+  @override
+  set progress(double value) {
+    _$progressAtom.context.conditionallyRunInAction(() {
+      super.progress = value;
+      _$progressAtom.reportChanged();
+    }, _$progressAtom, name: '${_$progressAtom.name}_set');
+  }
+
   final _$songInfoAtom = Atom(name: 'MusicStoreMobx.songInfo');
 
   @override
@@ -60,6 +94,23 @@ mixin _$MusicStore on MusicStoreMobx, Store {
     }, _$mp3UrlAtom, name: '${_$mp3UrlAtom.name}_set');
   }
 
+  final _$downloadUrlAtom = Atom(name: 'MusicStoreMobx.downloadUrl');
+
+  @override
+  String get downloadUrl {
+    _$downloadUrlAtom.context.enforceReadPolicy(_$downloadUrlAtom);
+    _$downloadUrlAtom.reportObserved();
+    return super.downloadUrl;
+  }
+
+  @override
+  set downloadUrl(String value) {
+    _$downloadUrlAtom.context.conditionallyRunInAction(() {
+      super.downloadUrl = value;
+      _$downloadUrlAtom.reportChanged();
+    }, _$downloadUrlAtom, name: '${_$downloadUrlAtom.name}_set');
+  }
+
   final _$currentAtom = Atom(name: 'MusicStoreMobx.current');
 
   @override
@@ -84,6 +135,14 @@ mixin _$MusicStore on MusicStoreMobx, Store {
     return _$fetchDataAsyncAction.run(() => super.fetchData(song, type));
   }
 
+  final _$fetchDownloadDataAsyncAction = AsyncAction('fetchDownloadData');
+
+  @override
+  Future<dynamic> fetchDownloadData(String song, String type) {
+    return _$fetchDownloadDataAsyncAction
+        .run(() => super.fetchDownloadData(song, type));
+  }
+
   final _$MusicStoreMobxActionController =
       ActionController(name: 'MusicStoreMobx');
 
@@ -92,6 +151,26 @@ mixin _$MusicStore on MusicStoreMobx, Store {
     final _$actionInfo = _$MusicStoreMobxActionController.startAction();
     try {
       return super.resetSongInfo();
+    } finally {
+      _$MusicStoreMobxActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void changeProgress(double value) {
+    final _$actionInfo = _$MusicStoreMobxActionController.startAction();
+    try {
+      return super.changeProgress(value);
+    } finally {
+      _$MusicStoreMobxActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void resetProgress() {
+    final _$actionInfo = _$MusicStoreMobxActionController.startAction();
+    try {
+      return super.resetProgress();
     } finally {
       _$MusicStoreMobxActionController.endAction(_$actionInfo);
     }
@@ -110,7 +189,7 @@ mixin _$MusicStore on MusicStoreMobx, Store {
   @override
   String toString() {
     final string =
-        'isLoading: ${isLoading.toString()},songInfo: ${songInfo.toString()},mp3Url: ${mp3Url.toString()},current: ${current.toString()}';
+        'isLoading: ${isLoading.toString()},downloading: ${downloading.toString()},progress: ${progress.toString()},songInfo: ${songInfo.toString()},mp3Url: ${mp3Url.toString()},downloadUrl: ${downloadUrl.toString()},current: ${current.toString()}';
     return '{$string}';
   }
 }

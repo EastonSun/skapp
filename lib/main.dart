@@ -33,7 +33,6 @@ class MyApp extends StatelessWidget {
   final updataAppUrl = API.BASE_SK_URL + API.APP_UPDATE_URL;
 
   PackageInfo packageInfo;
-
   MyApp() {
     final router = new Router();
     Routes.configureRoutes(router);
@@ -69,22 +68,23 @@ class MyApp extends StatelessWidget {
           platform: TargetPlatform.iOS,
         ),
         home: Scaffold(
-            resizeToAvoidBottomPadding: false,
-            body: _global.updataApp
-                ? UpgradeAlert(
-                    appcastConfig: cfg,
-                    title: '发现新版本',
-                    prompt: '',
-                    showLater: false,
-                    showIgnore: false,
-                    buttonTitleUpdate: '立即更新',
-                    debugAlwaysUpgrade: true,
-                    child: Center(
-                      child: Container(),
-                    )
-                    // debugLogging: true,
-                    )
-                : SplashWidget()),
+          resizeToAvoidBottomPadding: false,
+          body: _global.updataApp
+              ? UpgradeAlert(
+                  appcastConfig: cfg,
+                  title: '发现新版本',
+                  prompt: '',
+                  showLater: false,
+                  showIgnore: false,
+                  buttonTitleUpdate: '立即更新',
+                  debugAlwaysUpgrade: true,
+                  child: Center(
+                    child: Container(),
+                  )
+                  // debugLogging: true,
+                  )
+              : SplashWidget(),
+        ),
         onGenerateRoute: Application.router.generator,
         navigatorObservers: [AppAnalysis()],
       ),

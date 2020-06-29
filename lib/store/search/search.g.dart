@@ -6,44 +6,40 @@ part of 'search.dart';
 // StoreGenerator
 // **************************************************************************
 
-// ignore_for_file: non_constant_identifier_names, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
+// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$SearchStore on SearchStoreMobx, Store {
   final _$isLoadingAtom = Atom(name: 'SearchStoreMobx.isLoading');
 
   @override
   bool get isLoading {
-    _$isLoadingAtom.context.enforceReadPolicy(_$isLoadingAtom);
-    _$isLoadingAtom.reportObserved();
+    _$isLoadingAtom.reportRead();
     return super.isLoading;
   }
 
   @override
   set isLoading(bool value) {
-    _$isLoadingAtom.context.conditionallyRunInAction(() {
+    _$isLoadingAtom.reportWrite(value, super.isLoading, () {
       super.isLoading = value;
-      _$isLoadingAtom.reportChanged();
-    }, _$isLoadingAtom, name: '${_$isLoadingAtom.name}_set');
+    });
   }
 
   final _$searchListsAtom = Atom(name: 'SearchStoreMobx.searchLists');
 
   @override
   ObservableList<dynamic> get searchLists {
-    _$searchListsAtom.context.enforceReadPolicy(_$searchListsAtom);
-    _$searchListsAtom.reportObserved();
+    _$searchListsAtom.reportRead();
     return super.searchLists;
   }
 
   @override
   set searchLists(ObservableList<dynamic> value) {
-    _$searchListsAtom.context.conditionallyRunInAction(() {
+    _$searchListsAtom.reportWrite(value, super.searchLists, () {
       super.searchLists = value;
-      _$searchListsAtom.reportChanged();
-    }, _$searchListsAtom, name: '${_$searchListsAtom.name}_set');
+    });
   }
 
-  final _$fetchDataAsyncAction = AsyncAction('fetchData');
+  final _$fetchDataAsyncAction = AsyncAction('SearchStoreMobx.fetchData');
 
   @override
   Future<dynamic> fetchData(String keyword) {
@@ -55,7 +51,8 @@ mixin _$SearchStore on SearchStoreMobx, Store {
 
   @override
   void resetSearchList() {
-    final _$actionInfo = _$SearchStoreMobxActionController.startAction();
+    final _$actionInfo = _$SearchStoreMobxActionController.startAction(
+        name: 'SearchStoreMobx.resetSearchList');
     try {
       return super.resetSearchList();
     } finally {
@@ -65,8 +62,9 @@ mixin _$SearchStore on SearchStoreMobx, Store {
 
   @override
   String toString() {
-    final string =
-        'isLoading: ${isLoading.toString()},searchLists: ${searchLists.toString()}';
-    return '{$string}';
+    return '''
+isLoading: ${isLoading},
+searchLists: ${searchLists}
+    ''';
   }
 }

@@ -129,7 +129,9 @@ class CustomIJKControllerWidgetState extends State<CustomIJKControllerWidget>
 
   set isShow(bool value) {
     _isShow = value;
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
     if (value == true) {
       controller.refreshVideoInfo();
     }
@@ -137,7 +139,9 @@ class CustomIJKControllerWidgetState extends State<CustomIJKControllerWidget>
 
   set isClock(bool value) {
     _isClock = value;
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
     if (value == true) {
       controller.refreshVideoInfo();
     }
@@ -145,7 +149,9 @@ class CustomIJKControllerWidgetState extends State<CustomIJKControllerWidget>
 
   set speed(String value) {
     _speed = value;
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   bool get isShow => _isShow;

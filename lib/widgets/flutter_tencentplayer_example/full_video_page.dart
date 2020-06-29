@@ -185,9 +185,11 @@ class _FullVideoPageState extends State<FullVideoPage> {
                       child: GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         onTap: () {
-                          setState(() {
-                            isLock = !isLock;
-                          });
+                          if (mounted) {
+                            setState(() {
+                              isLock = !isLock;
+                            });
+                          }
                           delayHideCover();
                           if (Platform.isAndroid) {
                             DeviceOrientation deviceOrientation =

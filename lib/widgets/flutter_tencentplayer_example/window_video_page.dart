@@ -198,9 +198,11 @@ class _WindowVideoPageState extends State<WindowVideoPage> {
                           child: GestureDetector(
                             behavior: HitTestBehavior.opaque,
                             onTap: () {
-                              setState(() {
-                                isLock = !isLock;
-                              });
+                              if (mounted) {
+                                setState(() {
+                                  isLock = !isLock;
+                                });
+                              }
                               delayHideCover();
                             },
                             child: Container(

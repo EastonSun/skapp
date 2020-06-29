@@ -5,6 +5,7 @@ import 'package:flutter_material_color_picker/flutter_material_color_picker.dart
 import 'package:provider/provider.dart';
 import 'package:skapp/routers/application.dart';
 import 'package:skapp/utils/cache.dart';
+import 'package:skapp/widgets/restart_app.dart';
 import './../../store/type/type.dart';
 import './../../utils/map.dart';
 import './../classify/index.dart';
@@ -79,9 +80,11 @@ class _App extends State<App> {
 
   Future getCacheInfo() async {
     String sizeStr = await loadCache();
-    setState(() {
-      size = sizeStr;
-    });
+    if (mounted) {
+      setState(() {
+        size = sizeStr;
+      });
+    }
   }
 
   // 左侧抽屉
@@ -132,6 +135,17 @@ class _App extends State<App> {
             secondary: Icon(
                 _global.isDark ? Icons.invert_colors : Icons.invert_colors_off),
             selected: _global.isDark,
+          ),
+          SwitchListTile(
+            value: _global.isMusic,
+            onChanged: (value) {
+              _global.changeAppMode(value);
+              RestartWidget.restartApp(context);
+            },
+            title: Text('音乐助手'),
+            secondary:
+                Icon(_global.isMusic ? Icons.music_video : Icons.video_library),
+            selected: _global.isMusic,
           ),
           ListTile(
             title: Text('清除缓存($size)'),
@@ -215,9 +229,11 @@ class _App extends State<App> {
     return BottomNavigationBar(
         items: itemList,
         onTap: (int index) {
-          setState(() {
-            _selectIndex = index;
-          });
+          if (mounted) {
+            setState(() {
+              _selectIndex = index;
+            });
+          }
           //点击下面tabbar的时候执行动画跳转方法
           _pageController.animateToPage(index,
               duration: new Duration(milliseconds: 500),

@@ -1,5 +1,10 @@
+import 'dart:convert';
+
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
+import 'package:skapp/store/root.dart';
 import './../../routers/application.dart';
 import './../../widgets/network_img_widget.dart';
 import './../../widgets/rating_bar.dart';
@@ -24,14 +29,32 @@ class _SKItemState extends State<SKItem> {
 
   @override
   Widget build(BuildContext context) {
+    Global _global = Provider.of<Global>(context);
     return GestureDetector(
       onTap: () {
-        Application.router.navigateTo(
-          context,
-          "/details?vodId=${vod.vodId}",
-          transition: TransitionType.native,
-          transitionDuration: Duration(milliseconds: 300),
-        );
+        // 此处需要判断是音乐还是电影
+        if (_global.isMusic) {
+          if (vod.songInfo['types'].length > 0) {
+            Application.router.navigateTo(
+              context,
+              "/music?songInfo=${Uri.encodeComponent(json.encode(vod.songInfo))}",
+              transition: TransitionType.native,
+              transitionDuration: Duration(milliseconds: 300),
+            );
+          } else {
+            Fluttertoast.showToast(
+              msg: '该歌曲暂无播放源',
+              toastLength: Toast.LENGTH_LONG,
+            );
+          }
+        } else {
+          Application.router.navigateTo(
+            context,
+            "/details?vodId=${vod.vodId}",
+            transition: TransitionType.native,
+            transitionDuration: Duration(milliseconds: 300),
+          );
+        }
       },
       child: Container(
         color: Theme.of(context).cardColor,

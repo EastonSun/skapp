@@ -6,6 +6,7 @@ import './../../widgets/custom_gridview_widget.dart';
 import './../../store/root.dart';
 import './../../widgets/search_text_field_widget.dart';
 import './../../store/search/search.dart';
+import './../../store/type/type.dart';
 
 class Search extends StatefulWidget {
   @override
@@ -14,49 +15,104 @@ class Search extends StatefulWidget {
 
 class _SearchState extends State<Search> {
   final SearchStore store = SearchStore();
+  final Type typeStore = Type();
   final FocusNode focus = FocusNode();
   TextEditingController searchController = TextEditingController();
 
-  search(value) {
+  search(value, _global) {
     if (value.trim() != '') {
       store.resetSearchList();
-      store.fetchData(value);
+      if (_global.isMusic) {
+        if (typeStore.type != null && typeStore.type.data.length > 0) {
+          store.fetchMusicData(value,
+              typeStore.type.data[typeStore.currentSearchTypeIndex].typeEn);
+        }
+      } else {
+        store.fetchData(value);
+      }
+
       focus.unfocus();
     }
   }
 
-  renderAppBar() {
+  Future<dynamic> requestAPI() async {
+    await typeStore.fetchData();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    requestAPI();
+  }
+
+  renderAppBar(_global) {
     return AppBar(
       elevation: 1,
-      title: Container(
-        child: Row(
-          children: <Widget>[
-            Expanded(
-              child: SearchTextFieldWidget(
-                controller: searchController,
-                focus: focus,
-                hintText: '输入影片名称',
-                margin: EdgeInsets.only(left: 0.0, right: 0.0),
-                onSubmitted: (value) {
-                  search(value);
-                },
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                search(searchController.text);
-              },
-              child: Padding(
-                padding: EdgeInsets.only(left: 10),
-                child: Text(
-                  '搜索',
-                  style: Theme.of(context).textTheme.body2,
+      title: Observer(
+        builder: (_) => Container(
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                child: SearchTextFieldWidget(
+                  controller: searchController,
+                  focus: focus,
+                  hintText: _global.isMusic ? '输入歌曲名称' : '输入电影名称',
+                  margin: EdgeInsets.only(left: 0.0, right: 0.0),
+                  onSubmitted: (value) {
+                    search(value, _global);
+                  },
                 ),
               ),
-            )
-          ],
+              _global.isMusic &&
+                      typeStore.type != null &&
+                      typeStore.type.data.length > 0
+                  ? Padding(
+                      padding: EdgeInsets.only(left: 12),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          value: typeStore.type
+                              .data[typeStore.currentSearchTypeIndex].typeEn,
+                          onChanged: (String newValue) {
+                            int cur = 0;
+                            for (int i = 0;
+                                i < typeStore.type.data.length;
+                                i++) {
+                              if (typeStore.type.data[i].typeEn == newValue) {
+                                cur = i;
+                              }
+                            }
+                            typeStore.changeCurrentSearchTypeIndex(cur);
+                          },
+                          items: typeStore.type.data
+                              .map<DropdownMenuItem<String>>((value) {
+                            return DropdownMenuItem<String>(
+                              value: value.typeEn,
+                              child: Text(
+                                value.typeName,
+                                style: TextStyle(fontSize: 14),
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    )
+                  : Container(),
+              GestureDetector(
+                onTap: () {
+                  search(searchController.text, _global);
+                },
+                child: Padding(
+                  padding: EdgeInsets.only(left: 10),
+                  child: Text(
+                    '搜索',
+                    style: Theme.of(context).textTheme.bodyText2,
+                  ),
+                ),
+              )
+            ],
+          ),
+          alignment: Alignment(0.0, 0.0),
         ),
-        alignment: Alignment(0.0, 0.0),
       ),
     );
   }
@@ -78,7 +134,7 @@ class _SearchState extends State<Search> {
                   SizedBox(
                     height: 20,
                   ),
-                  CustomGridView(store.searchLists),
+                  CustomGridView(store.searchLists, _global),
                 ],
               ));
   }
@@ -87,7 +143,7 @@ class _SearchState extends State<Search> {
   Widget build(BuildContext context) {
     final Global _global = Provider.of<Global>(context);
     return Scaffold(
-      appBar: renderAppBar(),
+      appBar: renderAppBar(_global),
       body: SafeArea(
         child: renderResult(_global),
       ), // https://www.jianshu.com/p/86d29a939624

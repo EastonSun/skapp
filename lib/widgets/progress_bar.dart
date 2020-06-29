@@ -136,9 +136,11 @@ class _ProgressBarState extends State<ProgressBar> {
 
   void _onHorizontalDragUpdate(DragUpdateDetails details) {
     var progress = getProgress(details.globalPosition);
-    setState(() {
-      tempLeft = progress;
-    });
+    if (mounted) {
+      setState(() {
+        tempLeft = progress;
+      });
+    }
     widget.tapProgressHandler(progress);
   }
 

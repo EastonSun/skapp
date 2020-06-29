@@ -26,9 +26,11 @@ class _CustomState extends State<Custom> {
     // 初始化信息
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String cIp = prefs.getString('ip') ?? API.BASE_SK_URL;
-    setState(() {
-      ip = cIp;
-    });
+    if (mounted) {
+      setState(() {
+        ip = cIp;
+      });
+    }
   }
 
   @override
@@ -60,15 +62,19 @@ class _CustomState extends State<Custom> {
             onChanged: (val) {
               isAvailableIp = false;
               if (isUrl(val)) {
-                setState(() {
-                  isIp = true;
-                  currentIp = val;
-                });
+                if (mounted) {
+                  setState(() {
+                    isIp = true;
+                    currentIp = val;
+                  });
+                }
               } else {
-                setState(() {
-                  isIp = false;
-                  currentIp = "";
-                });
+                if (mounted) {
+                  setState(() {
+                    isIp = false;
+                    currentIp = "";
+                  });
+                }
               }
             },
           ),
@@ -99,9 +105,11 @@ class _CustomState extends State<Custom> {
                                 Fluttertoast.showToast(
                                   msg: '连接成功',
                                 );
-                                setState(() {
-                                  isAvailableIp = true;
-                                });
+                                if (mounted) {
+                                  setState(() {
+                                    isAvailableIp = true;
+                                  });
+                                }
                               } else {
                                 Fluttertoast.showToast(msg: '连接失败，请确认地址是否可用');
                               }

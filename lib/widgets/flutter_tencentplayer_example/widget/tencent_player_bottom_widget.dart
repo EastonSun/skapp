@@ -51,10 +51,12 @@ class _TencentPlayerBottomWidgetState extends State<TencentPlayerBottomWidget> {
   @override
   void didUpdateWidget(TencentPlayerBottomWidget oldWidget) {
     if (oldWidget.isShow == true && widget.isShow == false) {
-      setState(() {
-        isShowClearList = false;
-        isShowRateList = false;
-      });
+      if (mounted) {
+        setState(() {
+          isShowClearList = false;
+          isShowRateList = false;
+        });
+      }
     }
   }
 
@@ -133,9 +135,11 @@ class _TencentPlayerBottomWidgetState extends State<TencentPlayerBottomWidget> {
                   GestureDetector(
                     behavior: HitTestBehavior.opaque,
                     onTap: () {
-                      setState(() {
-                        isShowRateList = !isShowRateList;
-                      });
+                      if (mounted) {
+                        setState(() {
+                          isShowRateList = !isShowRateList;
+                        });
+                      }
                       widget.behavingCallBack?.call();
                     },
                     child: Container(

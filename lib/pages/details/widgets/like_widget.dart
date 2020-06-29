@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
+import 'package:skapp/store/root.dart';
 import './../../../widgets/custom_gridview_widget.dart';
 
 class Like extends StatelessWidget {
   final ObservableList vodDataLists;
-  const Like({Key key, this.vodDataLists}) : super(key: key);
+  final Global global;
+  const Like({Key key, this.vodDataLists, this.global}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class Like extends StatelessWidget {
                 style: Theme.of(context).textTheme.subhead,
               ),
             ),
-            CustomGridView(vodDataLists),
+            CustomGridView(vodDataLists, global),
           ],
         ),
       ),

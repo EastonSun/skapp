@@ -25,4 +25,32 @@ var typeMap = {
     'activeIcon': Icon(Icons.hdr_strong),
     'normalIcon': Icon(Icons.hdr_weak),
   },
+  'kw': {
+    'activeIcon': Icon(Icons.music_note),
+    'normalIcon': Icon(Icons.music_video),
+  },
+  'kg': {
+    'activeIcon': Icon(Icons.music_note),
+    'normalIcon': Icon(Icons.music_video),
+  },
+  'tx': {
+    'activeIcon': Icon(Icons.music_note),
+    'normalIcon': Icon(Icons.music_video),
+  },
+  'wy': {
+    'activeIcon': Icon(Icons.music_note),
+    'normalIcon': Icon(Icons.music_video),
+  },
+  'mg': {
+    'activeIcon': Icon(Icons.music_note),
+    'normalIcon': Icon(Icons.music_video),
+  },
+  'xm': {
+    'activeIcon': Icon(Icons.music_note),
+    'normalIcon': Icon(Icons.music_video),
+  },
+  'bd': {
+    'activeIcon': Icon(Icons.queue_music),
+    'normalIcon': Icon(Icons.music_video),
+  },
 };

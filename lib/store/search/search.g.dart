@@ -46,6 +46,15 @@ mixin _$SearchStore on SearchStoreMobx, Store {
     return _$fetchDataAsyncAction.run(() => super.fetchData(keyword));
   }
 
+  final _$fetchMusicDataAsyncAction =
+      AsyncAction('SearchStoreMobx.fetchMusicData');
+
+  @override
+  Future<dynamic> fetchMusicData(String keyword, String type) {
+    return _$fetchMusicDataAsyncAction
+        .run(() => super.fetchMusicData(keyword, type));
+  }
+
   final _$SearchStoreMobxActionController =
       ActionController(name: 'SearchStoreMobx');
 

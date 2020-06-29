@@ -114,6 +114,21 @@ mixin _$Global on GlobalMobx, Store {
     });
   }
 
+  final _$isMusicAtom = Atom(name: 'GlobalMobx.isMusic');
+
+  @override
+  bool get isMusic {
+    _$isMusicAtom.reportRead();
+    return super.isMusic;
+  }
+
+  @override
+  set isMusic(bool value) {
+    _$isMusicAtom.reportWrite(value, super.isMusic, () {
+      super.isMusic = value;
+    });
+  }
+
   final _$getAppConfigAsyncAction = AsyncAction('GlobalMobx.getAppConfig');
 
   @override
@@ -157,6 +172,17 @@ mixin _$Global on GlobalMobx, Store {
   }
 
   @override
+  void changeAppMode(bool value) {
+    final _$actionInfo = _$GlobalMobxActionController.startAction(
+        name: 'GlobalMobx.changeAppMode');
+    try {
+      return super.changeAppMode(value);
+    } finally {
+      _$GlobalMobxActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void changeUpdataApp() {
     final _$actionInfo = _$GlobalMobxActionController.startAction(
         name: 'GlobalMobx.changeUpdataApp');
@@ -176,6 +202,7 @@ appConfig: ${appConfig},
 title: ${title},
 theme: ${theme},
 isDark: ${isDark},
+isMusic: ${isMusic},
 themeMode: ${themeMode},
 imageCasheSize: ${imageCasheSize}
     ''';

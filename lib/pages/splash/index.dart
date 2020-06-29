@@ -130,7 +130,9 @@ class _CountDownWidgetState extends State<CountDownWidget> {
   /// 启动倒计时的计时器。
   void _startTimer() {
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
       if (_seconds <= 1) {
         widget.onCountDownFinishCallBack(true);
         _cancelTimer();

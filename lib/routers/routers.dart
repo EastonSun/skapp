@@ -15,6 +15,8 @@ class Routes {
   static String showLives = "/showLives";
   // 自定义设置
   static String custom = "/custom";
+  // 音乐播放器页面
+  static String music = "/music";
 
   static void configureRoutes(Router router) {
     router.notFoundHandler = Handler(
@@ -27,6 +29,7 @@ class Routes {
     router.define(live, handler: liveRouteHandler);
     router.define(showLives, handler: showLivesRouteHandler);
     router.define(custom, handler: customRouteHandler);
+    router.define(music, handler: musicRouteHandler);
     // router.define(demoSimpleFixedTrans,
     //     handler: demoRouteHandler, transitionType: TransitionType.inFromLeft);
   }

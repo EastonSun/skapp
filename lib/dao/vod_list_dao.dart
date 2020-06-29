@@ -25,8 +25,9 @@ class VodListDao {
 }
 
 class Data {
-  int vodId;
-  int typeId;
+  var songInfo;
+  var vodId;
+  var typeId;
   int typeId1;
   int groupId;
   String vodName;
@@ -108,7 +109,8 @@ class Data {
   String vodPlotDetail;
 
   Data(
-      {this.vodId,
+      {this.songInfo,
+      this.vodId,
       this.typeId,
       this.typeId1,
       this.groupId,
@@ -191,6 +193,7 @@ class Data {
       this.vodPlotDetail});
 
   Data.fromJson(Map<String, dynamic> json) {
+    songInfo = json['song_info'];
     vodId = json['vod_id'];
     typeId = json['type_id'];
     typeId1 = json['type_id_1'];
@@ -276,6 +279,7 @@ class Data {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['song_info'] = this.songInfo;
     data['vod_id'] = this.vodId;
     data['type_id'] = this.typeId;
     data['type_id_1'] = this.typeId1;

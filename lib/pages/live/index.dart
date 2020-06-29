@@ -115,9 +115,11 @@ class _LiveState extends State<Live> with SingleTickerProviderStateMixin {
                       prefixIcon: Icon(Icons.near_me),
                     ),
                     onChanged: (val) {
-                      setState(() {
-                        currentVal = val;
-                      });
+                      if (mounted) {
+                        setState(() {
+                          currentVal = val;
+                        });
+                      }
                     },
                   ),
                   Row(

@@ -129,10 +129,12 @@ class _TencentPlayerGestureCoverState extends State<TencentPlayerGestureCover> {
         if (_controllerWasPlaying) {
           controller.pause();
         }
-        setState(() {
-          seekPos = controller.value.position;
-          showSeekText = true;
-        });
+        if (mounted) {
+          setState(() {
+            seekPos = controller.value.position;
+            showSeekText = true;
+          });
+        }
       },
       onHorizontalDragUpdate: (DragUpdateDetails details) {
         if (!controller.value.initialized || !widget.showBottomWidget) {
@@ -149,9 +151,11 @@ class _TencentPlayerGestureCoverState extends State<TencentPlayerGestureCover> {
         if (_controllerWasPlaying) {
           controller.play();
         }
-        setState(() {
-          showSeekText = false;
-        });
+        if (mounted) {
+          setState(() {
+            showSeekText = false;
+          });
+        }
       },
       onVerticalDragStart: _onVerticalDragStart,
       onVerticalDragUpdate: _onVerticalDragUpdate,

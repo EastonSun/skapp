@@ -26,7 +26,9 @@ class _DownloadPageState extends State<DownloadPage> {
       if (!mounted) {
         return;
       }
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
     };
   }
 
@@ -41,7 +43,9 @@ class _DownloadPageState extends State<DownloadPage> {
     String appDocPath = appDocDir.path;
     _downloadController = DownloadController(appDocPath);
     _downloadController.addListener(downloadListener);
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   @override

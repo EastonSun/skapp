@@ -39,6 +39,23 @@ mixin _$Type on TypeMobx, Store {
     });
   }
 
+  final _$currentSearchTypeIndexAtom =
+      Atom(name: 'TypeMobx.currentSearchTypeIndex');
+
+  @override
+  int get currentSearchTypeIndex {
+    _$currentSearchTypeIndexAtom.reportRead();
+    return super.currentSearchTypeIndex;
+  }
+
+  @override
+  set currentSearchTypeIndex(int value) {
+    _$currentSearchTypeIndexAtom
+        .reportWrite(value, super.currentSearchTypeIndex, () {
+      super.currentSearchTypeIndex = value;
+    });
+  }
+
   final _$fetchDataAsyncAction = AsyncAction('TypeMobx.fetchData');
 
   @override
@@ -60,10 +77,22 @@ mixin _$Type on TypeMobx, Store {
   }
 
   @override
+  void changeCurrentSearchTypeIndex(int index) {
+    final _$actionInfo = _$TypeMobxActionController.startAction(
+        name: 'TypeMobx.changeCurrentSearchTypeIndex');
+    try {
+      return super.changeCurrentSearchTypeIndex(index);
+    } finally {
+      _$TypeMobxActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 isLoading: ${isLoading},
-type: ${type}
+type: ${type},
+currentSearchTypeIndex: ${currentSearchTypeIndex}
     ''';
   }
 }

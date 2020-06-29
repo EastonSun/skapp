@@ -86,33 +86,39 @@ class PlayerState extends State<Player> {
       ..completionHandler = widget.onCompleted
       ..errorHandler = widget.onError
       ..durationHandler = ((duration) {
-        setState(() {
-          this.duration = duration;
+        if (mounted) {
+          setState(() {
+            this.duration = duration;
 
-          if (position != null) {
-            this.sliderValue = (position.inSeconds / duration.inSeconds);
-          }
-        });
+            if (position != null) {
+              this.sliderValue = (position.inSeconds / duration.inSeconds);
+            }
+          });
+        }
       })
       ..positionHandler = ((position) {
-        setState(() {
-          this.position = position;
+        if (mounted) {
+          setState(() {
+            this.position = position;
 
-          if (panel != null) {
-            panel.handler(position.inSeconds);
-          }
+            if (panel != null) {
+              panel.handler(position.inSeconds);
+            }
 
-          if (duration != null) {
-            this.sliderValue = (position.inSeconds / duration.inSeconds);
-          }
-        });
+            if (duration != null) {
+              this.sliderValue = (position.inSeconds / duration.inSeconds);
+            }
+          });
+        }
       });
 
     Lyric lyric = Utils.getLyricFromTxt(widget.lyric);
-    setState(() {
-      this.lyric = lyric;
-      panel = new LyricPanel(this.lyric);
-    });
+    if (mounted) {
+      setState(() {
+        this.lyric = lyric;
+        panel = new LyricPanel(this.lyric);
+      });
+    }
   }
 
   @override
@@ -225,10 +231,12 @@ class PlayerState extends State<Player> {
                     volume: widget.volume,
                   );
                 }
-                setState(() {
-                  isPlaying = !isPlaying;
-                  widget.onPlaying(isPlaying);
-                });
+                if (mounted) {
+                  setState(() {
+                    isPlaying = !isPlaying;
+                    widget.onPlaying(isPlaying);
+                  });
+                }
               },
               padding: const EdgeInsets.all(0.0),
               icon: new Icon(

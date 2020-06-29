@@ -43,6 +43,20 @@ abstract class SearchStoreMobx with Store {
   }
 
   @action
+  Future<dynamic> fetchMusicData(String keyword, String type) async {
+    this.isLoading = true;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String cIp = prefs.getString('ip') ?? API.BASE_SK_URL;
+    bool isMusic = prefs.getBool('isMusic') ?? false;
+    String preApiUrl = isMusic ? API.PRE_MUSIC_API_URL : API.PRE_API_URL;
+    var req = HttpRequest(cIp);
+    final res =
+        await req.get(preApiUrl + searchUrl + keyword + '&type=' + type);
+    searchLists.addAll(SearchDao.fromJson(res).data);
+    this.isLoading = false;
+  }
+
+  @action
   void resetSearchList() {
     searchLists.clear();
   }

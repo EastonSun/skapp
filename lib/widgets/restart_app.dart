@@ -18,9 +18,11 @@ class _RestartWidgetState extends State<RestartWidget> {
   Key key = UniqueKey();
 
   void restartApp() {
-    setState(() {
-      key = UniqueKey();
-    });
+    if (mounted) {
+      setState(() {
+        key = UniqueKey();
+      });
+    }
   }
 
   @override

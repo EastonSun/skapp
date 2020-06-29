@@ -25,10 +25,11 @@ class SearchDao {
 }
 
 class Data {
-  int vodId;
-  int typeId;
+  var vodId;
+  var typeId;
   String vodName;
   String vodPic;
+  var songInfo;
 
   Data({this.vodId, this.typeId, this.vodName, this.vodPic});
 
@@ -37,6 +38,7 @@ class Data {
     typeId = json['type_id'];
     vodName = json['vod_name'];
     vodPic = json['vod_pic'];
+    songInfo = json['song_info'];
   }
 
   Map<String, dynamic> toJson() {
@@ -45,6 +47,7 @@ class Data {
     data['type_id'] = this.typeId;
     data['vod_name'] = this.vodName;
     data['vod_pic'] = this.vodPic;
+    data['song_info'] = this.songInfo;
     return data;
   }
 }

@@ -80,9 +80,11 @@ class _App extends State<App> {
 
   Future getCacheInfo() async {
     String sizeStr = await loadCache();
-    setState(() {
-      size = sizeStr;
-    });
+    if (mounted) {
+      setState(() {
+        size = sizeStr;
+      });
+    }
   }
 
   // 左侧抽屉
@@ -134,6 +136,17 @@ class _App extends State<App> {
                 _global.isDark ? Icons.invert_colors : Icons.invert_colors_off),
             selected: _global.isDark,
           ),
+          SwitchListTile(
+            value: _global.isMusic,
+            onChanged: (value) {
+              _global.changeAppMode(value);
+              RestartWidget.restartApp(context);
+            },
+            title: Text('音乐助手'),
+            secondary:
+                Icon(_global.isMusic ? Icons.music_video : Icons.video_library),
+            selected: _global.isMusic,
+          ),
           ListTile(
             title: Text('清除缓存($size)'),
             leading: Icon(Icons.layers_clear),
@@ -156,17 +169,6 @@ class _App extends State<App> {
                   },
                 )
               : Container(),
-          SwitchListTile(
-            value: _global.isMusic,
-            onChanged: (value) {
-              _global.changeAppMode(value);
-              RestartWidget.restartApp(context);
-            },
-            title: Text('一键切换'),
-            secondary:
-                Icon(_global.isMusic ? Icons.music_video : Icons.video_library),
-            selected: _global.isMusic,
-          ),
           ListTile(
             title: Text('自定义片源'),
             leading: Icon(Icons.extension),
@@ -227,9 +229,11 @@ class _App extends State<App> {
     return BottomNavigationBar(
         items: itemList,
         onTap: (int index) {
-          setState(() {
-            _selectIndex = index;
-          });
+          if (mounted) {
+            setState(() {
+              _selectIndex = index;
+            });
+          }
           //点击下面tabbar的时候执行动画跳转方法
           _pageController.animateToPage(index,
               duration: new Duration(milliseconds: 500),

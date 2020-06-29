@@ -29,6 +29,9 @@ abstract class TypeMobx with Store {
   @observable
   SkType type; // 分类
 
+  @observable
+  int currentSearchTypeIndex = 0;
+
   @action
   Future<dynamic> fetchData() async {
     this.isLoading = true;
@@ -44,5 +47,10 @@ abstract class TypeMobx with Store {
   @action
   void changeLoading() {
     this.isLoading = false;
+  }
+
+  @action
+  void changeCurrentSearchTypeIndex(int index) {
+    this.currentSearchTypeIndex = index;
   }
 }

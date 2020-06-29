@@ -98,7 +98,9 @@ class _DetailsState extends State<Details> {
                                 return Players(store: store);
                               case 2:
                                 return Like(
-                                    vodDataLists: classifyStore.vodDataLists);
+                                  vodDataLists: classifyStore.vodDataLists,
+                                  global: _global,
+                                );
                               default:
                                 return Container();
                             }

@@ -28,9 +28,11 @@ class LyricState extends State<LyricPanel> {
         LyricSlice slice = widget.lyric.slices[index];
         if (position > slice.in_second) {
           index++;
-          setState(() {
-            currentSlice = slice;
-          });
+          if (mounted) {
+            setState(() {
+              currentSlice = slice;
+            });
+          }
         }
       });
   }

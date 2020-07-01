@@ -45,7 +45,19 @@ abstract class MusicStoreMobx with Store {
   // ObservableList types = ObservableList();
 
   @observable
+  ObservableList musicLists = ObservableList(); // 歌单
+
+  @observable
+  int currentPlayIndex = 0; // 当前索引
+
+  @observable
+  bool isFavorite = false; // 当前不是最爱
+
+  @observable
   int current = 0;
+
+  @observable
+  bool isTopic = true;
 
   @action
   Future<dynamic> fetchData(String song, String type) async {
@@ -114,5 +126,26 @@ abstract class MusicStoreMobx with Store {
   @action
   void changeCurrent(int c) {
     current = c;
+  }
+
+  @action
+  void changeTopic(bool c) {
+    isTopic = c;
+  }
+
+  @action
+  void changeMusicLists(list) {
+    musicLists.clear();
+    musicLists.addAll(list);
+  }
+
+  @action
+  void changeCurrentPlayIndex(int i) {
+    currentPlayIndex = i;
+  }
+
+  @action
+  void changeFavorite(bool b) {
+    isFavorite = b;
   }
 }

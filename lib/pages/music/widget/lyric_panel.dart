@@ -5,9 +5,10 @@ typedef void PositionChangeHandler(int second);
 
 class LyricPanel extends StatefulWidget {
   final Lyric lyric;
+  final int inSeconds;
   PositionChangeHandler handler;
 
-  LyricPanel(@required this.lyric);
+  LyricPanel(@required this.lyric, this.inSeconds);
 
   @override
   State<StatefulWidget> createState() {
@@ -16,29 +17,32 @@ class LyricPanel extends StatefulWidget {
 }
 
 class LyricState extends State<LyricPanel> {
-  int index = 0;
   LyricSlice currentSlice;
+  int num = 0;
+  _getCurrentIndex(inSeconds, allSeconds) {
+    for (int i = 0; i < allSeconds.length - 1; i++) {
+      if (inSeconds >= allSeconds[i].in_second &&
+          inSeconds <= allSeconds[i + 1].in_second) {
+        num = i;
+      }
+    }
+    if (inSeconds >= allSeconds[allSeconds.length - 1].in_second) {
+      num = allSeconds.length - 1;
+    }
+    return num;
+  }
 
   @override
   void initState() {
     super.initState();
-    widget
-      ..handler = ((position) {
-        print("..handler" + position.toString());
-        LyricSlice slice = widget.lyric.slices[index];
-        if (position > slice.in_second) {
-          index++;
-          if (mounted) {
-            setState(() {
-              currentSlice = slice;
-            });
-          }
-        }
-      });
   }
 
   @override
   Widget build(BuildContext context) {
+    int currentIndex = _getCurrentIndex(widget.inSeconds, widget.lyric.slices);
+    LyricSlice slice = widget.lyric.slices[currentIndex];
+
+    currentSlice = slice;
     return new Container(
       child: new Center(
         child: new Container(

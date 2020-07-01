@@ -99,6 +99,51 @@ mixin _$MusicStore on MusicStoreMobx, Store {
     });
   }
 
+  final _$musicListsAtom = Atom(name: 'MusicStoreMobx.musicLists');
+
+  @override
+  ObservableList<dynamic> get musicLists {
+    _$musicListsAtom.reportRead();
+    return super.musicLists;
+  }
+
+  @override
+  set musicLists(ObservableList<dynamic> value) {
+    _$musicListsAtom.reportWrite(value, super.musicLists, () {
+      super.musicLists = value;
+    });
+  }
+
+  final _$currentPlayIndexAtom = Atom(name: 'MusicStoreMobx.currentPlayIndex');
+
+  @override
+  int get currentPlayIndex {
+    _$currentPlayIndexAtom.reportRead();
+    return super.currentPlayIndex;
+  }
+
+  @override
+  set currentPlayIndex(int value) {
+    _$currentPlayIndexAtom.reportWrite(value, super.currentPlayIndex, () {
+      super.currentPlayIndex = value;
+    });
+  }
+
+  final _$isFavoriteAtom = Atom(name: 'MusicStoreMobx.isFavorite');
+
+  @override
+  bool get isFavorite {
+    _$isFavoriteAtom.reportRead();
+    return super.isFavorite;
+  }
+
+  @override
+  set isFavorite(bool value) {
+    _$isFavoriteAtom.reportWrite(value, super.isFavorite, () {
+      super.isFavorite = value;
+    });
+  }
+
   final _$currentAtom = Atom(name: 'MusicStoreMobx.current');
 
   @override
@@ -111,6 +156,21 @@ mixin _$MusicStore on MusicStoreMobx, Store {
   set current(int value) {
     _$currentAtom.reportWrite(value, super.current, () {
       super.current = value;
+    });
+  }
+
+  final _$isTopicAtom = Atom(name: 'MusicStoreMobx.isTopic');
+
+  @override
+  bool get isTopic {
+    _$isTopicAtom.reportRead();
+    return super.isTopic;
+  }
+
+  @override
+  set isTopic(bool value) {
+    _$isTopicAtom.reportWrite(value, super.isTopic, () {
+      super.isTopic = value;
     });
   }
 
@@ -178,6 +238,50 @@ mixin _$MusicStore on MusicStoreMobx, Store {
   }
 
   @override
+  void changeTopic(bool c) {
+    final _$actionInfo = _$MusicStoreMobxActionController.startAction(
+        name: 'MusicStoreMobx.changeTopic');
+    try {
+      return super.changeTopic(c);
+    } finally {
+      _$MusicStoreMobxActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void changeMusicLists(dynamic list) {
+    final _$actionInfo = _$MusicStoreMobxActionController.startAction(
+        name: 'MusicStoreMobx.changeMusicLists');
+    try {
+      return super.changeMusicLists(list);
+    } finally {
+      _$MusicStoreMobxActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void changeCurrentPlayIndex(int i) {
+    final _$actionInfo = _$MusicStoreMobxActionController.startAction(
+        name: 'MusicStoreMobx.changeCurrentPlayIndex');
+    try {
+      return super.changeCurrentPlayIndex(i);
+    } finally {
+      _$MusicStoreMobxActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void changeFavorite(bool b) {
+    final _$actionInfo = _$MusicStoreMobxActionController.startAction(
+        name: 'MusicStoreMobx.changeFavorite');
+    try {
+      return super.changeFavorite(b);
+    } finally {
+      _$MusicStoreMobxActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 isLoading: ${isLoading},
@@ -186,7 +290,11 @@ progress: ${progress},
 songInfo: ${songInfo},
 mp3Url: ${mp3Url},
 downloadUrl: ${downloadUrl},
-current: ${current}
+musicLists: ${musicLists},
+currentPlayIndex: ${currentPlayIndex},
+isFavorite: ${isFavorite},
+current: ${current},
+isTopic: ${isTopic}
     ''';
   }
 }

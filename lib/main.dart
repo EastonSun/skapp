@@ -17,6 +17,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // 初始化信息
   SharedPreferences prefs = await SharedPreferences.getInstance();
+  // 歌单处理
+  if (prefs.getStringList('songLists') == null) {
+    prefs.setStringList('songLists', []);
+  }
   runApp(RestartWidget(
     child: MultiProvider(
       providers: [

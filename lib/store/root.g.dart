@@ -54,6 +54,21 @@ mixin _$Global on GlobalMobx, Store {
     });
   }
 
+  final _$isAllowProtocolAtom = Atom(name: 'GlobalMobx.isAllowProtocol');
+
+  @override
+  bool get isAllowProtocol {
+    _$isAllowProtocolAtom.reportRead();
+    return super.isAllowProtocol;
+  }
+
+  @override
+  set isAllowProtocol(bool value) {
+    _$isAllowProtocolAtom.reportWrite(value, super.isAllowProtocol, () {
+      super.isAllowProtocol = value;
+    });
+  }
+
   final _$appConfigAtom = Atom(name: 'GlobalMobx.appConfig');
 
   @override
@@ -183,6 +198,17 @@ mixin _$Global on GlobalMobx, Store {
   }
 
   @override
+  void changeProtocol(bool value) {
+    final _$actionInfo = _$GlobalMobxActionController.startAction(
+        name: 'GlobalMobx.changeProtocol');
+    try {
+      return super.changeProtocol(value);
+    } finally {
+      _$GlobalMobxActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void changeUpdataApp() {
     final _$actionInfo = _$GlobalMobxActionController.startAction(
         name: 'GlobalMobx.changeUpdataApp');
@@ -198,6 +224,7 @@ mixin _$Global on GlobalMobx, Store {
     return '''
 showAd: ${showAd},
 updataApp: ${updataApp},
+isAllowProtocol: ${isAllowProtocol},
 appConfig: ${appConfig},
 title: ${title},
 theme: ${theme},

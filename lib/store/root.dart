@@ -61,6 +61,9 @@ abstract class GlobalMobx with Store {
   bool updataApp = false; // 是否更新app
 
   @observable
+  bool isAllowProtocol = false; // 是否同意协议
+
+  @observable
   AppConfigDao appConfig;
 
   @observable
@@ -92,6 +95,7 @@ abstract class GlobalMobx with Store {
       theme = colorList[prefs.getInt('themeIndex') ?? 4];
       isDark = prefs.getBool('isDark') ?? false;
       isMusic = prefs.getBool('isMusic') ?? false;
+      isAllowProtocol = prefs.getBool('isAllowProtocol') ?? false;
       FlutterStatusbarcolor.setStatusBarColor(theme);
     }
   }
@@ -120,6 +124,12 @@ abstract class GlobalMobx with Store {
   void changeAppMode(bool value) {
     isMusic = value;
     prefs.setBool('isMusic', value);
+  }
+
+  @action
+  void changeProtocol(bool value) {
+    isMusic = value;
+    prefs.setBool('isAllowProtocol', value);
   }
 
   @action

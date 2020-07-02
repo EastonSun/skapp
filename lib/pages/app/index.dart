@@ -137,7 +137,7 @@ class _App extends State<App> {
             selected: _global.isDark,
           ),
           SwitchListTile(
-            value: _global.isMusic,
+            value: _global.isMusic ?? false,
             onChanged: (value) {
               _global.changeAppMode(value);
               RestartWidget.restartApp(context);

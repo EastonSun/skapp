@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 
 class RotateRecord extends AnimatedWidget {
   final String imgUrl;
-  RotateRecord({
-    Key key,
-    Animation<double> animation,
-    this.imgUrl,
-  }) : super(
+  final Function() onCusTap;
+  RotateRecord(
+      {Key key,
+      Animation<double> animation,
+      this.imgUrl,
+      @required this.onCusTap})
+      : super(
           key: key,
           listenable: animation,
         );
@@ -20,11 +22,16 @@ class RotateRecord extends AnimatedWidget {
       width: 250.0,
       child: new RotationTransition(
           turns: animation,
-          child: new Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              image: DecorationImage(
-                image: NetworkImage(imgUrl),
+          child: GestureDetector(
+            onTap: () {
+              this.onCusTap();
+            },
+            child: new Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  image: NetworkImage(imgUrl),
+                ),
               ),
             ),
           )),

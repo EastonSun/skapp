@@ -1,19 +1,22 @@
-# skapp
+## SKAPP
 
-A new Flutter project.
+<hr />
 
-## Getting Started
+### 项目介绍
 
-This project is a starting point for a Flutter application.
+此项目是一个基于[MACCMS](http://www.maccmsv10.com/)和lx-music-desktop(https://github.com/lyswhut/lx-music-desktop)实现的影视播放及音乐助手的软件。
 
-A few resources to get you started if this is your first Flutter project:
+web端访问地址：[sk.ncer.top](http://sk.ncer.top)
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+### 源码使用方法
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+使用本源码需要具有flutter的完整环境
+
+### UI界面
+
+![movie](./images/movie.png)
+
+![music](./images/music.png)
 
 ### 项目协议
 
@@ -24,9 +27,10 @@ samples, guidance on mobile development, and a full API reference.
 3. 本项目内的音乐助手平台别名为本项目内对官方音乐平台的一个称呼，不包含恶意，如果官方音乐平台觉得不妥，可联系本项目更改或移除。
 4. 本项目内使用的部分包括但不限于字体、图片等资源来源于互联网，如果出现侵权可联系本项目移除。
 5. 由于使用本项目产生的包括由于本协议或由于使用或无法使用本项目而引起的任何性质的任何直接、间接、特殊、偶然或结果性损害（包括但不限于因商誉损失、停工、计算机故障或故障引起的损害赔偿，或任何及所有其他商业损害或损失）由使用者负责。
-6. 本项目完全免费，且开源发布于 GitHub 面向全世界人用作对技术的学习交流，本项目不对项目内的技术可能存在违反当地法律法规的行为作保证，**禁止在违反当地法律法规的情况下使用本项目**，对于使用者在明知或不知当地法律法规不允许的情况下使用本项目所造成的任何违法违规行为由使用者承担，本项目不承担由此造成的任何直接、间接、特殊、偶然或结果性责任。
+6. 本项目完全免费，且开源发布于 GitHub 或者 gitee 面向全世界人用作对技术的学习交流，本项目不对项目内的技术可能存在违反当地法律法规的行为作保证，**禁止在违反当地法律法规的情况下使用本项目**，对于使用者在明知或不知当地法律法规不允许的情况下使用本项目所造成的任何违法违规行为由使用者承担，本项目不承担由此造成的任何直接、间接、特殊、偶然或结果性责任。
 
 若你使用了本项目，将代表你接收以上协议。
 
 请尊重版权，支持正版。<br>
-若对此有疑问请 mail to: 1768385508+qq.com (请将`+`替换成`@`)
+
+若对此有疑问请 mail to: 1768385508+qq.com (请将`+`替换成`@`)。

@@ -34,3 +34,8 @@ web端访问地址：[sk.ncer.top](http://sk.ncer.top)
 请尊重版权，支持正版。<br>
 
 若对此有疑问请 mail to: 1768385508+qq.com (请将`+`替换成`@`)。
+
+
+### 支持平台
+
+目前暂时只支持android平台，暂时没有支持ios的打算。

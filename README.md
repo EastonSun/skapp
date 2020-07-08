@@ -4,7 +4,7 @@
 
 ### 项目介绍
 
-此项目是一个基于[MACCMS](http://www.maccmsv10.com/)和[lx-music-desktop](https://github.com/lyswhut/lx-music-desktop)实现的影视播放及音乐助手的软件。
+此项目是一个基于[MACCMS](https://github.com/magicblack/maccms10/)和[lx-music-desktop](https://github.com/lyswhut/lx-music-desktop)实现的影视播放及音乐助手的软件。
 
 web端访问地址：[sk.ncer.top](http://sk.ncer.top)
 
